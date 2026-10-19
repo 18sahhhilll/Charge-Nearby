@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Zap, Check, ChevronLeft, MapPin, Lock, AlertCircle } from 'lucide-react';
+import { Zap, Check, ChevronLeft, MapPin, Lock, AlertCircle, Navigation, RotateCw, CheckCircle2 } from 'lucide-react';
 import { chargerService } from '../services';
 import { Charger } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -32,6 +32,79 @@ export const HostChargerFormPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Auto-detection state
+  const [detectingLocation, setDetectingLocation] = useState(false);
+  const [locationSuccessMsg, setLocationSuccessMsg] = useState<string | null>(null);
+  const [locationErrorMsg, setLocationErrorMsg] = useState<string | null>(null);
+
+  const handleAutoDetectLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationErrorMsg('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    setDetectingLocation(true);
+    setLocationErrorMsg(null);
+    setLocationSuccessMsg(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const lat = Number(pos.coords.latitude.toFixed(6));
+        const lng = Number(pos.coords.longitude.toFixed(6));
+        setLatitude(String(lat));
+        setLongitude(String(lng));
+
+        let detectedLocality = '';
+        try {
+          // Attempt reverse geocoding via OpenStreetMap Nominatim for convenience
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`,
+            { headers: { 'Accept': 'application/json' } }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            const addr = data.address || {};
+            const neighborhood = addr.suburb || addr.neighbourhood || addr.residential || addr.city_district || addr.quarter;
+            const city = addr.city || addr.town || addr.state_district || 'Pune';
+            if (neighborhood) {
+              detectedLocality = `${neighborhood}, ${city}`;
+              setLocality(detectedLocality);
+            } else if (data.display_name) {
+              const parts = data.display_name.split(',');
+              detectedLocality = parts.slice(0, 2).join(',').trim();
+              setLocality(detectedLocality);
+            }
+
+            // If exact street address is empty, suggest the street name if found
+            if (!exactAddress) {
+              const road = [addr.house_number, addr.road].filter(Boolean).join(', ');
+              if (road) {
+                setExactAddress(road);
+              }
+            }
+          }
+        } catch {
+          // Reverse geocode is best-effort; coordinates are already set
+        }
+
+        const accuracyText = pos.coords.accuracy ? ` (Accuracy: ±${Math.round(pos.coords.accuracy)}m)` : '';
+        setLocationSuccessMsg(
+          `Location coordinates detected: ${lat}, ${lng}${detectedLocality ? ` (${detectedLocality})` : ''}${accuracyText}`
+        );
+        setDetectingLocation(false);
+      },
+      (geoErr) => {
+        setDetectingLocation(false);
+        setLocationErrorMsg(`Unable to fetch location: ${geoErr.message}. You can enter coordinates manually.`);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 12000,
+        maximumAge: 0,
+      }
+    );
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -331,10 +404,46 @@ export const HostChargerFormPage: React.FC = () => {
 
           {/* Location & Privacy Fields */}
           <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-4">
-            <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-1.5">
-              <MapPin className="w-4 h-4 text-emerald-600" />
-              <span>Location & Secure Access Instructions</span>
-            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-1.5">
+                  <MapPin className="w-4 h-4 text-emerald-600" />
+                  <span>Location & Secure Access Instructions</span>
+                </h3>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  Use your device GPS to fetch coordinates automatically or enter them manually.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleAutoDetectLocation}
+                disabled={detectingLocation}
+                className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-sm transition disabled:opacity-60 cursor-pointer"
+              >
+                {detectingLocation ? (
+                  <RotateCw className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Navigation className="w-3.5 h-3.5" />
+                )}
+                <span>{detectingLocation ? 'Detecting Location...' : 'Auto-detect My Location'}</span>
+              </button>
+            </div>
+
+            {/* Auto-detect Location Alerts */}
+            {locationSuccessMsg && (
+              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-start space-x-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <span className="font-medium">{locationSuccessMsg}</span>
+              </div>
+            )}
+
+            {locationErrorMsg && (
+              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-start space-x-2">
+                <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                <span className="font-medium">{locationErrorMsg}</span>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="sm:col-span-1">
