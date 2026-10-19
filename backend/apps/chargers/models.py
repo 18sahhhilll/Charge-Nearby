@@ -202,3 +202,48 @@ class AvailabilityWindow(models.Model):
 
     def __str__(self):
         return f"{self.charger.title}: {self.start_at} - {self.end_at} ({'Available' if self.is_available else 'Blocked'})"
+
+def validate_photo_file(image):
+    max_size_bytes = 5 * 1024 * 1024  # 5MB
+    if image.size > max_size_bytes:
+        raise ValidationError(f"Image file too large ({image.size / (1024*1024):.1f}MB). Maximum allowed size is 5MB.")
+    
+    valid_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+    import os
+    ext = os.path.splitext(image.name)[1].lower()
+    if ext not in valid_extensions:
+        raise ValidationError(f"Unsupported image format '{ext}'. Allowed formats: JPG, PNG, WEBP.")
+
+class ChargerPhoto(models.Model):
+    PHOTO_TYPE_CHOICES = [
+        ("CHARGER", "Charging Equipment / Wallbox"),
+        ("PARKING_BAY", "Parking Bay / Driveway Access"),
+        ("CIRCUIT_BREAKER", "Electrical MCB / Switchboard"),
+        ("OTHER", "Other Detail"),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    charger = models.ForeignKey(
+        Charger,
+        on_delete=models.CASCADE,
+        related_name="photos"
+    )
+    image = models.ImageField(
+        upload_to="chargers/%Y/%m/",
+        validators=[validate_photo_file]
+    )
+    caption = models.CharField(max_length=200, blank=True, default="")
+    photo_type = models.CharField(
+        max_length=30,
+        choices=PHOTO_TYPE_CHOICES,
+        default="CHARGER"
+    )
+    is_primary = models.BooleanField(default=False)
+    uploaded_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = "charger_photos"
+        ordering = ["-is_primary", "-uploaded_at"]
+
+    def __str__(self):
+        return f"Photo for {self.charger.title} [{self.photo_type}]"

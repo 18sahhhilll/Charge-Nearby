@@ -1,5 +1,30 @@
 from rest_framework import serializers
-from .models import Charger, AvailabilityWindow
+from .models import Charger, AvailabilityWindow, ChargerPhoto
+
+class ChargerPhotoSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ChargerPhoto
+        fields = [
+            "id",
+            "charger",
+            "image",
+            "image_url",
+            "caption",
+            "photo_type",
+            "is_primary",
+            "uploaded_at",
+        ]
+        read_only_fields = ["id", "charger", "image_url", "uploaded_at"]
+
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        if obj.image:
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
 
 class PublicChargerSerializer(serializers.ModelSerializer):
     """
@@ -8,6 +33,7 @@ class PublicChargerSerializer(serializers.ModelSerializer):
     Only approved, non-suspended chargers are returned publicly.
     """
     host_display_name = serializers.SerializerMethodField()
+    photos = ChargerPhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Charger
@@ -31,6 +57,7 @@ class PublicChargerSerializer(serializers.ModelSerializer):
             "verification_status",
             "last_confirmed_available_at",
             "host_display_name",
+            "photos",
             "created_at",
         ]
         read_only_fields = fields
@@ -49,6 +76,8 @@ class HostChargerSerializer(serializers.ModelSerializer):
     Full charger representation for the host who owns the listing.
     Includes exact address and private access instructions.
     """
+    photos = ChargerPhotoSerializer(many=True, read_only=True)
+
     class Meta:
         model = Charger
         fields = [
@@ -74,6 +103,7 @@ class HostChargerSerializer(serializers.ModelSerializer):
             "verification_status",
             "last_confirmed_available_at",
             "admin_review_notes",
+            "photos",
             "created_at",
             "updated_at",
         ]
@@ -84,6 +114,7 @@ class HostChargerSerializer(serializers.ModelSerializer):
             "verification_status",
             "last_confirmed_available_at",
             "admin_review_notes",
+            "photos",
             "created_at",
             "updated_at",
         ]

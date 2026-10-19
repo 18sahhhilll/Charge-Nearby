@@ -1,14 +1,15 @@
 from django.utils import timezone
-from rest_framework import generics, status, permissions
+from rest_framework import generics, status, permissions, parsers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
 from apps.core.permissions import IsHostUser, IsAdminRole, IsOwnerOrAdmin
-from .models import Charger, AvailabilityWindow
+from .models import Charger, AvailabilityWindow, ChargerPhoto
 from .serializers import (
     PublicChargerSerializer,
     HostChargerSerializer,
-    AvailabilityWindowSerializer
+    AvailabilityWindowSerializer,
+    ChargerPhotoSerializer,
 )
 
 # ----------------- PUBLIC VIEWS -----------------
@@ -135,6 +136,51 @@ class HostChargerAvailabilityView(APIView):
             "availability_status": charger.availability_status,
             "last_confirmed_available_at": charger.last_confirmed_available_at
         })
+
+class HostChargerPhotoUploadView(APIView):
+    """Uploads a verification photo for a charger owned by the authenticated host."""
+    permission_classes = [permissions.IsAuthenticated, IsHostUser]
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+
+    def post(self, request, pk):
+        try:
+            charger = Charger.objects.get(pk=pk)
+        except Charger.DoesNotExist:
+            raise NotFound("Charger not found.")
+
+        if charger.host != request.user and request.user.role != "ADMIN" and not request.user.is_staff:
+            raise PermissionDenied("You do not have permission to upload photos for this charger.")
+
+        serializer = ChargerPhotoSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+
+        if serializer.validated_data.get("is_primary"):
+            ChargerPhoto.objects.filter(charger=charger, is_primary=True).update(is_primary=False)
+
+        photo = serializer.save(charger=charger)
+        return Response(ChargerPhotoSerializer(photo, context={"request": request}).data, status=status.HTTP_201_CREATED)
+
+class HostChargerPhotoDeleteView(APIView):
+    """Deletes a photo from a charger owned by the authenticated host."""
+    permission_classes = [permissions.IsAuthenticated, IsHostUser]
+
+    def delete(self, request, pk, photo_id):
+        try:
+            charger = Charger.objects.get(pk=pk)
+        except Charger.DoesNotExist:
+            raise NotFound("Charger not found.")
+
+        if charger.host != request.user and request.user.role != "ADMIN" and not request.user.is_staff:
+            raise PermissionDenied("You do not have permission to delete photos for this charger.")
+
+        try:
+            photo = ChargerPhoto.objects.get(pk=photo_id, charger=charger)
+        except ChargerPhoto.DoesNotExist:
+            raise NotFound("Photo not found for this charger.")
+
+        photo.image.delete(save=False)
+        photo.delete()
+        return Response({"message": "Photo deleted successfully."}, status=status.HTTP_200_OK)
 
 
 # ----------------- ADMIN MODERATION VIEWS -----------------

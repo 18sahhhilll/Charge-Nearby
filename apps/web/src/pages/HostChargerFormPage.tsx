@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Zap, Check, ChevronLeft, MapPin, Lock, AlertCircle, Navigation, RotateCw, CheckCircle2 } from 'lucide-react';
+import {
+  Zap,
+  Check,
+  ChevronLeft,
+  MapPin,
+  Lock,
+  AlertCircle,
+  Navigation,
+  RotateCw,
+  CheckCircle2,
+  Camera,
+  Upload,
+  Trash2,
+  Image as ImageIcon,
+  Star
+} from 'lucide-react';
 import { chargerService } from '../services';
-import { Charger } from '../types';
+import { Charger, ChargerPhoto, PhotoType } from '../types';
 import { useAuth } from '../context/AuthContext';
 
 export const HostChargerFormPage: React.FC = () => {
@@ -32,6 +47,16 @@ export const HostChargerFormPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Photo states
+  const [photos, setPhotos] = useState<ChargerPhoto[]>([]);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoCaption, setPhotoCaption] = useState('');
+  const [photoType, setPhotoType] = useState<PhotoType>('CHARGER');
+  const [isPrimaryPhoto, setIsPrimaryPhoto] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const [photoSuccess, setPhotoSuccess] = useState<string | null>(null);
 
   // Auto-detection state
   const [detectingLocation, setDetectingLocation] = useState(false);
@@ -129,6 +154,7 @@ export const HostChargerFormPage: React.FC = () => {
         setExactAddress(ch.exact_address || '');
         setAccessInstructions(ch.access_instructions || '');
         setParkingAccess(ch.parking_access);
+        setPhotos(ch.photos || []);
       }).catch((err) => {
         setError(err.message || 'Failed to load listing.');
       }).finally(() => {
@@ -144,6 +170,51 @@ export const HostChargerFormPage: React.FC = () => {
       }
     } else {
       setConnectorTypes([...connectorTypes, conn]);
+    }
+  };
+
+  const handlePhotoUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!id || !photoFile) return;
+
+    setUploadingPhoto(true);
+    setPhotoError(null);
+    setPhotoSuccess(null);
+
+    try {
+      const newPhoto = await chargerService.uploadPhoto(
+        id,
+        photoFile,
+        photoCaption,
+        photoType,
+        isPrimaryPhoto
+      );
+      setPhotos((prev) => {
+        if (newPhoto.is_primary) {
+          return [...prev.map((p) => ({ ...p, is_primary: false })), newPhoto];
+        }
+        return [...prev, newPhoto];
+      });
+      setPhotoFile(null);
+      setPhotoCaption('');
+      setIsPrimaryPhoto(false);
+      setPhotoSuccess('Photo uploaded successfully! It is now part of your verification submission.');
+    } catch (err: any) {
+      setPhotoError(err.message || 'Failed to upload photo. Ensure file is JPG/PNG/WEBP under 5MB.');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  const handlePhotoDelete = async (photoId: string) => {
+    if (!id) return;
+    if (!window.confirm('Delete this photo?')) return;
+
+    try {
+      await chargerService.deletePhoto(id, photoId);
+      setPhotos((prev) => prev.filter((p) => p.id !== photoId));
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete photo.');
     }
   };
 
@@ -173,10 +244,11 @@ export const HostChargerFormPage: React.FC = () => {
     try {
       if (isEdit && id) {
         await chargerService.updateHostCharger(id, payload);
+        navigate('/host/dashboard');
       } else {
-        await chargerService.createHostCharger(payload);
+        const created = await chargerService.createHostCharger(payload);
+        navigate(`/host/chargers/${created.id}/edit`, { state: { justCreated: true } });
       }
-      navigate('/host/dashboard');
     } catch (err: any) {
       setError(err.message || 'Failed to save charger listing.');
     } finally {
@@ -525,6 +597,178 @@ export const HostChargerFormPage: React.FC = () => {
           </button>
         </form>
       </div>
+
+      {/* Photo Verification & Equipment Management */}
+      {isEdit && id ? (
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
+                <Camera className="w-5 h-5 text-emerald-600" />
+                <span>Charger & Installation Photos</span>
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Upload clear photos of your charging wallbox/socket, parking spot clearance, and MCB circuit breaker to expedite admin approval.
+              </p>
+            </div>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+              {photos.length} {photos.length === 1 ? 'Photo' : 'Photos'}
+            </span>
+          </div>
+
+          {photoSuccess && (
+            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center space-x-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>{photoSuccess}</span>
+            </div>
+          )}
+
+          {photoError && (
+            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-center space-x-2">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{photoError}</span>
+            </div>
+          )}
+
+          {/* Photo Gallery Grid */}
+          {photos.length === 0 ? (
+            <div className="text-center py-8 px-4 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+              <ImageIcon className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+              <p className="text-xs font-semibold text-slate-600">No verification photos uploaded yet</p>
+              <p className="text-[11px] text-slate-400 mt-1 max-w-sm mx-auto">
+                Listings with photos are prioritized by admins and receive 3x more bookings from emergency EV drivers.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {photos.map((p) => {
+                const typeLabels: Record<string, string> = {
+                  CHARGER: 'Wallbox / Equipment',
+                  PARKING_BAY: 'Parking Bay Clearance',
+                  CIRCUIT_BREAKER: 'MCB / Earthing',
+                  OTHER: 'Other',
+                };
+                return (
+                  <div
+                    key={p.id}
+                    className="group relative border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 flex flex-col shadow-xs"
+                  >
+                    <div className="aspect-4/3 relative overflow-hidden bg-slate-100">
+                      <img
+                        src={p.image_url || p.image}
+                        alt={p.caption || 'Charger photo'}
+                        className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
+                      />
+                      {p.is_primary && (
+                        <div className="absolute top-2 left-2 px-2 py-0.5 bg-emerald-500 text-slate-950 font-bold text-[10px] rounded-full shadow-sm flex items-center space-x-1">
+                          <Star className="w-3 h-3 fill-current" />
+                          <span>Primary Cover</span>
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => handlePhotoDelete(p.id)}
+                        className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-rose-50 text-slate-500 hover:text-rose-600 rounded-full shadow-sm transition"
+                        title="Delete photo"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div className="p-3 text-xs space-y-1 bg-white flex-1">
+                      <span className="inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                        {typeLabels[p.photo_type] || p.photo_type}
+                      </span>
+                      {p.caption ? (
+                        <p className="font-medium text-slate-800 line-clamp-1">{p.caption}</p>
+                      ) : (
+                        <p className="text-slate-400 italic text-[11px]">No caption provided</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Upload Form */}
+          <form onSubmit={handlePhotoUpload} className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+            <h3 className="font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center space-x-1.5">
+              <Upload className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Upload New Photo</span>
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label className="block font-medium text-slate-700 mb-1">Select Photo File (JPG, PNG, WEBP &lt; 5MB)</label>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  required
+                  onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
+                  className="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium text-slate-700 mb-1">Photo Category</label>
+                <select
+                  value={photoType}
+                  onChange={(e) => setPhotoType(e.target.value as PhotoType)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-xl text-slate-900 bg-white"
+                >
+                  <option value="CHARGER">Charging Equipment / Wallbox Plug</option>
+                  <option value="PARKING_BAY">Parking Bay / Driveway Access</option>
+                  <option value="CIRCUIT_BREAKER">MCB / Electrical Switchboard</option>
+                  <option value="OTHER">Other Installation Detail</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-medium text-slate-700 mb-1">Caption (Optional)</label>
+                <input
+                  type="text"
+                  value={photoCaption}
+                  onChange={(e) => setPhotoCaption(e.target.value)}
+                  placeholder="e.g. 7.4 kW Wallbox on driveway wall"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-xl text-slate-900"
+                />
+              </div>
+
+              <div className="flex items-center space-x-2 pt-6">
+                <input
+                  type="checkbox"
+                  id="primary_checkbox"
+                  checked={isPrimaryPhoto}
+                  onChange={(e) => setIsPrimaryPhoto(e.target.checked)}
+                  className="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
+                />
+                <label htmlFor="primary_checkbox" className="font-medium text-slate-700 text-xs cursor-pointer">
+                  Set as primary cover photo for listing
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={uploadingPhoto || !photoFile}
+              className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 text-white font-bold rounded-xl text-xs transition flex items-center space-x-2"
+            >
+              <Upload className="w-3.5 h-3.5" />
+              <span>{uploadingPhoto ? 'Uploading Photo...' : 'Upload Photo'}</span>
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div className="p-4 bg-emerald-50/60 border border-emerald-200/60 rounded-2xl text-xs text-emerald-900 flex items-start space-x-2.5">
+          <Camera className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+          <div>
+            <span className="font-bold">Next Step: Verification Photos</span>
+            <p className="text-emerald-800 mt-0.5 leading-relaxed">
+              Once you submit this listing, you will be able to upload photos of your wallbox, parking clearance, and switchboard to verify your charger.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -35,6 +35,19 @@ export type PricingModel = 'PER_KWH' | 'PER_MINUTE' | 'FIXED_SESSION';
 export type AvailabilityStatus = 'AVAILABLE' | 'UNCONFIRMED' | 'UNAVAILABLE';
 export type VerificationStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'SUSPENDED';
 
+export type PhotoType = 'CHARGER' | 'PARKING_BAY' | 'CIRCUIT_BREAKER' | 'OTHER';
+
+export interface ChargerPhoto {
+  id: string;
+  charger: string;
+  image: string;
+  image_url: string;
+  caption: string;
+  photo_type: PhotoType;
+  is_primary: boolean;
+  uploaded_at: string;
+}
+
 export interface Charger {
   id: string;
   title: string;
@@ -55,6 +68,7 @@ export interface Charger {
   verification_status: VerificationStatus;
   last_confirmed_available_at?: string | null;
   host_display_name?: string;
+  photos?: ChargerPhoto[];
   
   // Computed in discovery results
   distance_km?: number;

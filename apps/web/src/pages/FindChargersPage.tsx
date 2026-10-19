@@ -290,23 +290,34 @@ export const FindChargersPage: React.FC = () => {
                         selectedCharger?.id === c.id ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-slate-200'
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-2 mb-1.5">
-                        <div className="space-y-0.5">
-                          <div className="flex items-center space-x-2">
-                            <span
-                              className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                                c.availability_status === 'AVAILABLE'
-                                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                  : 'bg-amber-50 text-amber-700 border border-amber-200'
-                              }`}
-                            >
-                              {c.availability_status}
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">
-                              Host: {c.host_display_name}
-                            </span>
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <div className="flex items-start space-x-3">
+                          {c.photos && c.photos.length > 0 && (
+                            <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-slate-100 border border-slate-200">
+                              <img
+                                src={c.photos[0].image_url || c.photos[0].image}
+                                alt={c.photos[0].caption || c.title}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          )}
+                          <div className="space-y-0.5">
+                            <div className="flex items-center space-x-2">
+                              <span
+                                className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                                  c.availability_status === 'AVAILABLE'
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                    : 'bg-amber-50 text-amber-700 border border-amber-200'
+                                }`}
+                              >
+                                {c.availability_status}
+                              </span>
+                              <span className="text-[11px] font-semibold text-slate-500">
+                                Host: {c.host_display_name}
+                              </span>
+                            </div>
+                            <h3 className="font-bold text-slate-900 text-sm">{c.title}</h3>
                           </div>
-                          <h3 className="font-bold text-slate-900 text-sm">{c.title}</h3>
                         </div>
 
                         {/* Pricing */}

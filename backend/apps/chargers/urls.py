@@ -6,6 +6,8 @@ from .views import (
     HostChargerDetailView,
     HostChargerSubmitView,
     HostChargerAvailabilityView,
+    HostChargerPhotoUploadView,
+    HostChargerPhotoDeleteView,
     AdminVerificationQueueView,
     AdminApproveChargerView,
     AdminRejectChargerView,
@@ -24,6 +26,8 @@ host_urlpatterns = [
     path("<uuid:pk>/", HostChargerDetailView.as_view(), name="host-charger-detail"),
     path("<uuid:pk>/submit/", HostChargerSubmitView.as_view(), name="host-charger-submit"),
     path("<uuid:pk>/availability/", HostChargerAvailabilityView.as_view(), name="host-charger-availability"),
+    path("<uuid:pk>/photos/", HostChargerPhotoUploadView.as_view(), name="host-charger-photos-upload"),
+    path("<uuid:pk>/photos/<uuid:photo_id>/", HostChargerPhotoDeleteView.as_view(), name="host-charger-photos-delete"),
 ]
 
 # Admin moderation routes: /api/v1/admin/

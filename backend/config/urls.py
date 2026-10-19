@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from apps.core.views import HealthCheckView
 from apps.chargers.urls import public_urlpatterns as charger_public_urls
@@ -24,3 +26,6 @@ urlpatterns = [
     path("api/v1/discovery/", include("apps.discovery.urls")),
     path("api/v1/bookings/", include("apps.bookings.urls")),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

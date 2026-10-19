@@ -4,6 +4,7 @@ import {
   AuthResponse,
   Vehicle,
   Charger,
+  ChargerPhoto,
   DiscoveryResponse,
   Booking,
   PublicHub
@@ -186,6 +187,31 @@ export const chargerService = {
     return request<any>(`/host/chargers/${id}/availability/`, {
       method: 'POST',
       body: JSON.stringify({ availability_status: status }),
+    });
+  },
+
+  async uploadPhoto(
+    chargerId: string,
+    file: File,
+    caption?: string,
+    photoType: string = 'CHARGER',
+    isPrimary: boolean = false
+  ): Promise<ChargerPhoto> {
+    const formData = new FormData();
+    formData.append('image', file);
+    if (caption) formData.append('caption', caption);
+    formData.append('photo_type', photoType);
+    if (isPrimary) formData.append('is_primary', 'true');
+
+    return request<ChargerPhoto>(`/host/chargers/${chargerId}/photos/`, {
+      method: 'POST',
+      body: formData,
+    });
+  },
+
+  async deletePhoto(chargerId: string, photoId: string): Promise<void> {
+    return request<void>(`/host/chargers/${chargerId}/photos/${photoId}/`, {
+      method: 'DELETE',
     });
   }
 };

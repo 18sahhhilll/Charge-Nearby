@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Charger, AvailabilityWindow
+from .models import Charger, AvailabilityWindow, ChargerPhoto
+
+class ChargerPhotoInline(admin.TabularInline):
+    model = ChargerPhoto
+    extra = 1
+    fields = ("image", "caption", "photo_type", "is_primary", "uploaded_at")
+    readonly_fields = ("uploaded_at",)
 
 @admin.action(description="Approve selected charger listings")
 def approve_chargers(modeladmin, request, queryset):
@@ -29,8 +35,15 @@ class ChargerAdmin(admin.ModelAdmin):
     list_filter = ("verification_status", "availability_status", "charger_type", "pricing_model")
     search_fields = ("title", "locality", "exact_address", "host__email", "host__full_name")
     actions = [approve_chargers, reject_chargers, suspend_chargers]
+    inlines = [ChargerPhotoInline]
 
 @admin.register(AvailabilityWindow)
 class AvailabilityWindowAdmin(admin.ModelAdmin):
     list_display = ("charger", "start_at", "end_at", "is_available", "created_by")
     list_filter = ("is_available",)
+
+@admin.register(ChargerPhoto)
+class ChargerPhotoAdmin(admin.ModelAdmin):
+    list_display = ("charger", "photo_type", "caption", "is_primary", "uploaded_at")
+    list_filter = ("photo_type", "is_primary")
+    search_fields = ("charger__title", "caption")

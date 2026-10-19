@@ -111,3 +111,75 @@ class ChargerAndPrivacyTests(TestCase):
         pub_response = self.client.get(pub_url)
         ids = [item["id"] for item in (pub_response.data.get("results") or pub_response.data)]
         self.assertIn(str(self.pending_charger.id), ids)
+
+    def _create_test_image(self, name="test.jpg", format="JPEG"):
+        import io
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        file = io.BytesIO()
+        image = Image.new("RGB", (100, 100), color="blue")
+        image.save(file, format)
+        file.seek(0)
+        return SimpleUploadedFile(name, file.read(), content_type=f"image/{format.lower()}")
+
+    def test_host_can_upload_photo(self):
+        upload_url = reverse("chargers-host:host-charger-photos-upload", kwargs={"pk": self.approved_charger.id})
+        self.client.force_authenticate(user=self.host)
+        
+        img = self._create_test_image("wallbox.jpg")
+        response = self.client.post(
+            upload_url,
+            {"image": img, "caption": "ABB Terra AC Wallbox", "photo_type": "CHARGER", "is_primary": True},
+            format="multipart"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["caption"], "ABB Terra AC Wallbox")
+        self.assertEqual(response.data["photo_type"], "CHARGER")
+        self.assertTrue(response.data["is_primary"])
+        self.assertIn("image_url", response.data)
+
+        # Confirm photo appears in public charger detail
+        detail_url = reverse("chargers-public:public-charger-detail", kwargs={"pk": self.approved_charger.id})
+        detail_response = self.client.get(detail_url)
+        self.assertEqual(len(detail_response.data["photos"]), 1)
+        self.assertEqual(detail_response.data["photos"][0]["caption"], "ABB Terra AC Wallbox")
+
+    def test_invalid_photo_extension_rejected(self):
+        upload_url = reverse("chargers-host:host-charger-photos-upload", kwargs={"pk": self.approved_charger.id})
+        self.client.force_authenticate(user=self.host)
+        
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        fake_file = SimpleUploadedFile("script.py", b"print('malicious')", content_type="text/x-python")
+        response = self.client.post(
+            upload_url,
+            {"image": fake_file, "caption": "Bad file", "photo_type": "OTHER"},
+            format="multipart"
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_non_owner_cannot_upload_or_delete_photo(self):
+        upload_url = reverse("chargers-host:host-charger-photos-upload", kwargs={"pk": self.approved_charger.id})
+        # Try as driver
+        self.client.force_authenticate(user=self.driver)
+        img = self._create_test_image("intruder.jpg")
+        response = self.client.post(upload_url, {"image": img}, format="multipart")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_host_can_delete_photo(self):
+        # First upload
+        upload_url = reverse("chargers-host:host-charger-photos-upload", kwargs={"pk": self.approved_charger.id})
+        self.client.force_authenticate(user=self.host)
+        img = self._create_test_image("delete_me.jpg")
+        upload_res = self.client.post(upload_url, {"image": img, "caption": "Temp"}, format="multipart")
+        self.assertEqual(upload_res.status_code, status.HTTP_201_CREATED)
+        photo_id = upload_res.data["id"]
+
+        # Delete
+        delete_url = reverse("chargers-host:host-charger-photos-delete", kwargs={"pk": self.approved_charger.id, "photo_id": photo_id})
+        del_res = self.client.delete(delete_url)
+        self.assertEqual(del_res.status_code, status.HTTP_200_OK)
+
+        # Check detail has 0 photos
+        detail_url = reverse("chargers-public:public-charger-detail", kwargs={"pk": self.approved_charger.id})
+        detail_res = self.client.get(detail_url)
+        self.assertEqual(len(detail_res.data["photos"]), 0)

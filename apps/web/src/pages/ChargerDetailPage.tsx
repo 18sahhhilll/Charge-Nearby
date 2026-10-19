@@ -10,7 +10,10 @@ import {
   AlertCircle,
   CheckCircle,
   Lock,
-  ChevronLeft
+  ChevronLeft,
+  Camera,
+  Image as ImageIcon,
+  Star
 } from 'lucide-react';
 import { chargerService, vehicleService, bookingService } from '../services';
 import { Charger, Vehicle } from '../types';
@@ -25,6 +28,7 @@ export const ChargerDetailPage: React.FC = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>('');
   const [bookingType, setBookingType] = useState<'EMERGENCY' | 'SCHEDULED'>('EMERGENCY');
+  const [activePhotoIndex, setActivePhotoIndex] = useState<number>(0);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [bookingLoading, setBookingLoading] = useState<boolean>(false);
@@ -160,6 +164,65 @@ export const ChargerDetailPage: React.FC = () => {
               <MapPin className="w-4 h-4 text-emerald-500 mr-1.5 shrink-0" />
               <span className="font-medium text-slate-700">{charger.locality}</span>
             </div>
+
+            {/* Verification Photos Showcase */}
+            {charger.photos && charger.photos.length > 0 && (
+              <div className="space-y-3 pt-2">
+                <div className="relative aspect-16/9 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
+                  <img
+                    src={charger.photos[activePhotoIndex]?.image_url || charger.photos[activePhotoIndex]?.image}
+                    alt={charger.photos[activePhotoIndex]?.caption || charger.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-3 left-3 flex flex-wrap gap-2">
+                    <span className="px-2.5 py-1 bg-slate-900/80 backdrop-blur-xs text-white text-[11px] font-bold rounded-lg shadow-sm">
+                      {charger.photos[activePhotoIndex]?.photo_type === 'CHARGER'
+                        ? 'Wallbox / Charging Equipment'
+                        : charger.photos[activePhotoIndex]?.photo_type === 'PARKING_BAY'
+                        ? 'Parking Bay Clearance'
+                        : charger.photos[activePhotoIndex]?.photo_type === 'CIRCUIT_BREAKER'
+                        ? 'MCB / Earthing Verification'
+                        : 'Installation Detail'}
+                    </span>
+                    {charger.photos[activePhotoIndex]?.is_primary && (
+                      <span className="px-2.5 py-1 bg-emerald-500 text-slate-950 text-[11px] font-bold rounded-lg shadow-sm flex items-center space-x-1">
+                        <Star className="w-3 h-3 fill-current" />
+                        <span>Primary Cover</span>
+                      </span>
+                    )}
+                  </div>
+                  {charger.photos[activePhotoIndex]?.caption && (
+                    <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-slate-950/80 via-slate-950/40 to-transparent text-white text-xs">
+                      {charger.photos[activePhotoIndex]?.caption}
+                    </div>
+                  )}
+                </div>
+
+                {/* Thumbnails Row */}
+                {charger.photos.length > 1 && (
+                  <div className="flex items-center space-x-2 overflow-x-auto pb-1">
+                    {charger.photos.map((p, idx) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => setActivePhotoIndex(idx)}
+                        className={`relative w-20 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition ${
+                          idx === activePhotoIndex
+                            ? 'border-emerald-500 ring-2 ring-emerald-200'
+                            : 'border-transparent opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        <img
+                          src={p.image_url || p.image}
+                          alt={p.caption || ''}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <p className="text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
               {charger.description || 'Verified private charger sharing point hosted by a Pune EV enthusiast.'}
