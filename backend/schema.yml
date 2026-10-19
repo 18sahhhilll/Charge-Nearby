@@ -1,0 +1,1952 @@
+openapi: 3.0.3
+info:
+  title: ChargeNearby API
+  version: 1.0.0
+  description: 'Community-powered emergency EV charging discovery & private charger
+    sharing platform. Source of truth: ChargeNearby Project Specification.'
+paths:
+  /api/v1/admin/chargers/{id}/approve/:
+    post:
+      operationId: v1_admin_chargers_approve_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/admin/chargers/{id}/reject/:
+    post:
+      operationId: v1_admin_chargers_reject_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/admin/chargers/{id}/suspend/:
+    post:
+      operationId: v1_admin_chargers_suspend_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/admin/verification-queue/:
+    get:
+      operationId: v1_admin_verification_queue_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHostChargerList'
+          description: ''
+  /api/v1/auth/login/:
+    post:
+      operationId: v1_auth_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/auth/logout/:
+    post:
+      operationId: v1_auth_logout_create
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/auth/me/:
+    get:
+      operationId: v1_auth_me_retrieve
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: v1_auth_me_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProfile'
+          description: ''
+    patch:
+      operationId: v1_auth_me_partial_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateProfileRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProfile'
+          description: ''
+  /api/v1/auth/register/:
+    post:
+      operationId: v1_auth_register_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+  /api/v1/auth/token/refresh/:
+    post:
+      operationId: v1_auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/bookings/:
+    get:
+      operationId: v1_bookings_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookingList'
+          description: ''
+    post:
+      operationId: v1_bookings_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookingCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookingCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingCreate'
+          description: ''
+  /api/v1/bookings/{id}/:
+    get:
+      operationId: v1_bookings_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+          description: ''
+  /api/v1/bookings/{id}/accept/:
+    post:
+      operationId: v1_bookings_accept_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/bookings/{id}/arrive/:
+    post:
+      operationId: v1_bookings_arrive_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/bookings/{id}/cancel/:
+    post:
+      operationId: v1_bookings_cancel_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/bookings/{id}/complete/:
+    post:
+      operationId: v1_bookings_complete_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/bookings/{id}/decline/:
+    post:
+      operationId: v1_bookings_decline_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/bookings/{id}/report-issue/:
+    post:
+      operationId: v1_bookings_report_issue_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/bookings/{id}/start-session/:
+    post:
+      operationId: v1_bookings_start_session_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/chargers/:
+    get:
+      operationId: v1_chargers_list
+      description: |-
+        Public listing: returns ONLY approved, non-suspended chargers.
+        Never exposes exact residential address or access instructions.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPublicChargerList'
+          description: ''
+  /api/v1/chargers/{id}/:
+    get:
+      operationId: v1_chargers_retrieve
+      description: 'Public detail: returns public information for an approved charger.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicCharger'
+          description: ''
+  /api/v1/discovery/alternatives/:
+    get:
+      operationId: v1_discovery_alternatives_retrieve
+      description: Returns fallback public charging options in Pune.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/discovery/chargers/{id}/route/:
+    get:
+      operationId: v1_discovery_chargers_route_retrieve
+      description: |-
+        Road route estimation to an approved charger.
+        GET /api/v1/discovery/chargers/{id}/route/?origin_lat=18.52&origin_lng=73.85
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/discovery/estimate-reachability/:
+    post:
+      operationId: v1_discovery_estimate_reachability_create
+      description: POST /api/v1/discovery/estimate-reachability/
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/discovery/nearby/:
+    get:
+      operationId: v1_discovery_nearby_retrieve
+      description: |-
+        Emergency nearby charger discovery endpoint.
+        Example: GET /api/v1/discovery/nearby/?lat=18.5204&lng=73.8567&radius_km=5&connector=TYPE2
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/health/:
+    get:
+      operationId: v1_health_retrieve
+      description: |-
+        Health check endpoint returning system status without leaking secrets.
+        Specification Section 17 & 18.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/host/chargers/:
+    get:
+      operationId: v1_host_chargers_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHostChargerList'
+          description: ''
+    post:
+      operationId: v1_host_chargers_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostChargerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HostChargerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HostChargerRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostCharger'
+          description: ''
+  /api/v1/host/chargers/{id}/:
+    get:
+      operationId: v1_host_chargers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostCharger'
+          description: ''
+    put:
+      operationId: v1_host_chargers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostChargerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HostChargerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HostChargerRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostCharger'
+          description: ''
+    patch:
+      operationId: v1_host_chargers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedHostChargerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedHostChargerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedHostChargerRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostCharger'
+          description: ''
+  /api/v1/host/chargers/{id}/availability/:
+    post:
+      operationId: v1_host_chargers_availability_create
+      description: Host confirms immediate availability status.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/host/chargers/{id}/submit/:
+    post:
+      operationId: v1_host_chargers_submit_create
+      description: Submits a charger listing for verification review.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/vehicles/:
+    get:
+      operationId: v1_vehicles_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVehicleList'
+          description: ''
+    post:
+      operationId: v1_vehicles_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VehicleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VehicleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+  /api/v1/vehicles/{id}/:
+    get:
+      operationId: v1_vehicles_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    put:
+      operationId: v1_vehicles_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VehicleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VehicleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    patch:
+      operationId: v1_vehicles_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicleRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    delete:
+      operationId: v1_vehicles_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    AvailabilityStatusEnum:
+      enum:
+      - AVAILABLE
+      - UNCONFIRMED
+      - UNAVAILABLE
+      type: string
+      description: |-
+        * `AVAILABLE` - Available (Confirmed)
+        * `UNCONFIRMED` - Unconfirmed Availability
+        * `UNAVAILABLE` - Unavailable
+    Booking:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        driver:
+          type: string
+          format: uuid
+          readOnly: true
+        driver_name:
+          type: string
+          readOnly: true
+        driver_phone:
+          type: string
+          readOnly: true
+        host_name:
+          type: string
+          readOnly: true
+        host_phone:
+          type: string
+          readOnly: true
+        charger:
+          type: string
+          format: uuid
+        charger_title:
+          type: string
+          readOnly: true
+        charger_locality:
+          type: string
+          readOnly: true
+        vehicle:
+          type: string
+          format: uuid
+        vehicle_details:
+          allOf:
+          - $ref: '#/components/schemas/Vehicle'
+          readOnly: true
+        booking_type:
+          $ref: '#/components/schemas/BookingTypeEnum'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+        requested_start_at:
+          type: string
+          format: date-time
+        requested_end_at:
+          type: string
+          format: date-time
+          nullable: true
+        accepted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        arrival_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        quoted_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+        exact_address:
+          type: string
+          readOnly: true
+        access_instructions:
+          type: string
+          readOnly: true
+        cancellation_reason:
+          type: string
+        dispute_reason:
+          type: string
+        session:
+          allOf:
+          - $ref: '#/components/schemas/ChargingSession'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - accepted_at
+      - access_instructions
+      - arrival_at
+      - charger
+      - charger_locality
+      - charger_title
+      - completed_at
+      - created_at
+      - currency
+      - driver
+      - driver_name
+      - driver_phone
+      - exact_address
+      - host_name
+      - host_phone
+      - id
+      - quoted_amount
+      - session
+      - status
+      - updated_at
+      - vehicle
+      - vehicle_details
+    BookingCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        charger:
+          type: string
+          format: uuid
+        vehicle:
+          type: string
+          format: uuid
+        booking_type:
+          $ref: '#/components/schemas/BookingTypeEnum'
+        requested_start_at:
+          type: string
+          format: date-time
+        requested_end_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - charger
+      - id
+      - vehicle
+    BookingCreateRequest:
+      type: object
+      properties:
+        charger:
+          type: string
+          format: uuid
+        vehicle:
+          type: string
+          format: uuid
+        booking_type:
+          $ref: '#/components/schemas/BookingTypeEnum'
+        requested_start_at:
+          type: string
+          format: date-time
+        requested_end_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - charger
+      - vehicle
+    BookingTypeEnum:
+      enum:
+      - EMERGENCY
+      - SCHEDULED
+      type: string
+      description: |-
+        * `EMERGENCY` - Emergency Discovery Booking
+        * `SCHEDULED` - Scheduled Booking
+    ChargerTypeEnum:
+      enum:
+      - AC
+      - DC
+      type: string
+      description: |-
+        * `AC` - AC Charger
+        * `DC` - DC Fast Charger
+    ChargingSession:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        energy_delivered_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+          description: Manually reported or metered energy delivered
+        start_battery_percent:
+          type: integer
+          maximum: 100
+          minimum: 0
+          nullable: true
+        end_battery_percent:
+          type: integer
+          maximum: 100
+          minimum: 0
+          nullable: true
+        completion_method:
+          $ref: '#/components/schemas/CompletionMethodEnum'
+        notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+    CompletionMethodEnum:
+      enum:
+      - HOST
+      - DRIVER
+      - ADMIN
+      type: string
+      description: |-
+        * `HOST` - Host Confirmed
+        * `DRIVER` - Driver Confirmed
+        * `ADMIN` - Admin Resolved
+    CustomTokenObtainPairRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password
+    HostCharger:
+      type: object
+      description: |-
+        Full charger representation for the host who owns the listing.
+        Includes exact address and private access instructions.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        host:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        charger_type:
+          $ref: '#/components/schemas/ChargerTypeEnum'
+        connector_types:
+          description: List of supported connectors, e.g. ['TYPE2', '15A_3PIN']
+        max_power_kw:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          description: Maximum output power in kW
+        pricing_model:
+          $ref: '#/components/schemas/PricingModelEnum'
+        price_per_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        price_per_minute:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        session_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        currency:
+          type: string
+          readOnly: true
+        latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+        longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+        locality:
+          type: string
+          description: Public neighbourhood/locality
+          maxLength: 150
+        exact_address:
+          type: string
+          description: Private full street/flat address - never exposed publicly
+          maxLength: 255
+        access_instructions:
+          type: string
+          description: Private gate/parking/socket instructions - never exposed publicly
+        parking_access:
+          $ref: '#/components/schemas/ParkingAccessEnum'
+        availability_status:
+          $ref: '#/components/schemas/AvailabilityStatusEnum'
+        verification_status:
+          allOf:
+          - $ref: '#/components/schemas/VerificationStatusEnum'
+          readOnly: true
+        last_confirmed_available_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        admin_review_notes:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - admin_review_notes
+      - created_at
+      - currency
+      - exact_address
+      - host
+      - id
+      - last_confirmed_available_at
+      - latitude
+      - locality
+      - longitude
+      - max_power_kw
+      - title
+      - updated_at
+      - verification_status
+    HostChargerRequest:
+      type: object
+      description: |-
+        Full charger representation for the host who owns the listing.
+        Includes exact address and private access instructions.
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+        charger_type:
+          $ref: '#/components/schemas/ChargerTypeEnum'
+        connector_types:
+          description: List of supported connectors, e.g. ['TYPE2', '15A_3PIN']
+        max_power_kw:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          description: Maximum output power in kW
+        pricing_model:
+          $ref: '#/components/schemas/PricingModelEnum'
+        price_per_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        price_per_minute:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        session_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+        longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+        locality:
+          type: string
+          minLength: 1
+          description: Public neighbourhood/locality
+          maxLength: 150
+        exact_address:
+          type: string
+          minLength: 1
+          description: Private full street/flat address - never exposed publicly
+          maxLength: 255
+        access_instructions:
+          type: string
+          description: Private gate/parking/socket instructions - never exposed publicly
+        parking_access:
+          $ref: '#/components/schemas/ParkingAccessEnum'
+        availability_status:
+          $ref: '#/components/schemas/AvailabilityStatusEnum'
+      required:
+      - exact_address
+      - latitude
+      - locality
+      - longitude
+      - max_power_kw
+      - title
+    PaginatedBookingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Booking'
+    PaginatedHostChargerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HostCharger'
+    PaginatedPublicChargerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicCharger'
+    PaginatedVehicleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+    ParkingAccessEnum:
+      enum:
+      - DEDICATED_DRIVEWAY
+      - GARAGE
+      - STREET_FRONT
+      - SOCIETY_PARKING
+      - COMMERCIAL_LOT
+      type: string
+      description: |-
+        * `DEDICATED_DRIVEWAY` - Private Dedicated Driveway
+        * `GARAGE` - Enclosed Private Garage
+        * `STREET_FRONT` - Street-facing Bungalow Gate
+        * `SOCIETY_PARKING` - Apartment Society Visitor Bay
+        * `COMMERCIAL_LOT` - Commercial Office / Business Lot
+    PatchedHostChargerRequest:
+      type: object
+      description: |-
+        Full charger representation for the host who owns the listing.
+        Includes exact address and private access instructions.
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+        charger_type:
+          $ref: '#/components/schemas/ChargerTypeEnum'
+        connector_types:
+          description: List of supported connectors, e.g. ['TYPE2', '15A_3PIN']
+        max_power_kw:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          description: Maximum output power in kW
+        pricing_model:
+          $ref: '#/components/schemas/PricingModelEnum'
+        price_per_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        price_per_minute:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        session_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+        longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+        locality:
+          type: string
+          minLength: 1
+          description: Public neighbourhood/locality
+          maxLength: 150
+        exact_address:
+          type: string
+          minLength: 1
+          description: Private full street/flat address - never exposed publicly
+          maxLength: 255
+        access_instructions:
+          type: string
+          description: Private gate/parking/socket instructions - never exposed publicly
+        parking_access:
+          $ref: '#/components/schemas/ParkingAccessEnum'
+        availability_status:
+          $ref: '#/components/schemas/AvailabilityStatusEnum'
+    PatchedUpdateProfileRequest:
+      type: object
+      properties:
+        full_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+    PatchedVehicleRequest:
+      type: object
+      properties:
+        nickname:
+          type: string
+          nullable: true
+          maxLength: 100
+        make:
+          type: string
+          minLength: 1
+          maxLength: 100
+        model:
+          type: string
+          minLength: 1
+          maxLength: 100
+        vehicle_type:
+          $ref: '#/components/schemas/VehicleTypeEnum'
+        connector_types:
+          description: Supported connector types, e.g. ['TYPE2', 'CCS2']
+        battery_capacity_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        estimated_battery_percent:
+          type: integer
+          maximum: 100
+          minimum: 0
+          nullable: true
+          description: User-reported current battery percentage (0-100)
+    PricingModelEnum:
+      enum:
+      - PER_KWH
+      - PER_MINUTE
+      - FIXED_SESSION
+      type: string
+      description: |-
+        * `PER_KWH` - Per kWh Delivered
+        * `PER_MINUTE` - Per Minute Connected
+        * `FIXED_SESSION` - Fixed Session Price
+    PublicCharger:
+      type: object
+      description: |-
+        Public listing representation.
+        CRITICAL: Never exposes exact_address or access_instructions.
+        Only approved, non-suspended chargers are returned publicly.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        charger_type:
+          allOf:
+          - $ref: '#/components/schemas/ChargerTypeEnum'
+          readOnly: true
+        connector_types:
+          readOnly: true
+          description: List of supported connectors, e.g. ['TYPE2', '15A_3PIN']
+        max_power_kw:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          readOnly: true
+          description: Maximum output power in kW
+        pricing_model:
+          allOf:
+          - $ref: '#/components/schemas/PricingModelEnum'
+          readOnly: true
+        price_per_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        price_per_minute:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        session_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        currency:
+          type: string
+          readOnly: true
+        latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+          readOnly: true
+        longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+          readOnly: true
+        locality:
+          type: string
+          readOnly: true
+          description: Public neighbourhood/locality
+        parking_access:
+          allOf:
+          - $ref: '#/components/schemas/ParkingAccessEnum'
+          readOnly: true
+        availability_status:
+          allOf:
+          - $ref: '#/components/schemas/AvailabilityStatusEnum'
+          readOnly: true
+        verification_status:
+          allOf:
+          - $ref: '#/components/schemas/VerificationStatusEnum'
+          readOnly: true
+        last_confirmed_available_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        host_display_name:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - availability_status
+      - charger_type
+      - connector_types
+      - created_at
+      - currency
+      - description
+      - host_display_name
+      - id
+      - last_confirmed_available_at
+      - latitude
+      - locality
+      - longitude
+      - max_power_kw
+      - parking_access
+      - price_per_kwh
+      - price_per_minute
+      - pricing_model
+      - session_price
+      - title
+      - verification_status
+    Register:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        full_name:
+          type: string
+          maxLength: 255
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - email
+      - full_name
+      - id
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        full_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password_confirm:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - full_name
+      - password
+      - password_confirm
+    RoleEnum:
+      enum:
+      - DRIVER
+      - HOST
+      - BOTH
+      - ADMIN
+      type: string
+      description: |-
+        * `DRIVER` - EV Driver
+        * `HOST` - Charger Host
+        * `BOTH` - Driver and Host
+        * `ADMIN` - Platform Administrator
+    StatusEnum:
+      enum:
+      - REQUESTED
+      - ACCEPTED
+      - DECLINED
+      - CANCELLED
+      - ARRIVED
+      - CHARGING
+      - COMPLETED
+      - DISPUTED
+      type: string
+      description: |-
+        * `REQUESTED` - Requested (Awaiting Host)
+        * `ACCEPTED` - Accepted (Active)
+        * `DECLINED` - Declined by Host
+        * `CANCELLED` - Cancelled
+        * `ARRIVED` - Driver Arrived
+        * `CHARGING` - Charging Session Active
+        * `COMPLETED` - Completed
+        * `DISPUTED` - Disputed
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
+    UpdateProfile:
+      type: object
+      properties:
+        full_name:
+          type: string
+          maxLength: 255
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - full_name
+    UpdateProfileRequest:
+      type: object
+      properties:
+        full_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - full_name
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        full_name:
+          type: string
+          maxLength: 255
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        is_active:
+          type: boolean
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - email
+      - full_name
+      - id
+      - is_active
+      - updated_at
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        owner:
+          type: string
+          format: uuid
+          readOnly: true
+        nickname:
+          type: string
+          nullable: true
+          maxLength: 100
+        make:
+          type: string
+          maxLength: 100
+        model:
+          type: string
+          maxLength: 100
+        vehicle_type:
+          $ref: '#/components/schemas/VehicleTypeEnum'
+        connector_types:
+          description: Supported connector types, e.g. ['TYPE2', 'CCS2']
+        battery_capacity_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        estimated_battery_percent:
+          type: integer
+          maximum: 100
+          minimum: 0
+          nullable: true
+          description: User-reported current battery percentage (0-100)
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - make
+      - model
+      - owner
+      - updated_at
+    VehicleRequest:
+      type: object
+      properties:
+        nickname:
+          type: string
+          nullable: true
+          maxLength: 100
+        make:
+          type: string
+          minLength: 1
+          maxLength: 100
+        model:
+          type: string
+          minLength: 1
+          maxLength: 100
+        vehicle_type:
+          $ref: '#/components/schemas/VehicleTypeEnum'
+        connector_types:
+          description: Supported connector types, e.g. ['TYPE2', 'CCS2']
+        battery_capacity_kwh:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        estimated_battery_percent:
+          type: integer
+          maximum: 100
+          minimum: 0
+          nullable: true
+          description: User-reported current battery percentage (0-100)
+      required:
+      - make
+      - model
+    VehicleTypeEnum:
+      enum:
+      - CAR
+      - TWO_WHEELER
+      - THREE_WHEELER
+      - OTHER
+      type: string
+      description: |-
+        * `CAR` - 4-Wheeler Car
+        * `TWO_WHEELER` - 2-Wheeler (Scooter/Bike)
+        * `THREE_WHEELER` - 3-Wheeler (Auto/Cargo)
+        * `OTHER` - Other Electric Vehicle
+    VerificationStatusEnum:
+      enum:
+      - PENDING
+      - APPROVED
+      - REJECTED
+      - SUSPENDED
+      type: string
+      description: |-
+        * `PENDING` - Pending Verification
+        * `APPROVED` - Approved
+        * `REJECTED` - Rejected
+        * `SUSPENDED` - Suspended
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
