@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   THEME TOKENS: CHARGENEARBY DUAL-CONTEXT ARCHITECTURE
+   THEME TOKENS: CHARGENEARBY SINGLE ELECTRIC NIGHT ARCHITECTURE
    ========================================================================== */
 @theme {
-  --color-ws-canvas: var(--ws-canvas);
-  --color-ws-surface: var(--ws-surface);
-  --color-ws-surface-2: var(--ws-surface-2);
-  --color-ws-border: var(--ws-border);
-  --color-ws-text: var(--ws-text);
-  --color-ws-text-body: var(--ws-text-body);
-  --color-ws-text-muted: var(--ws-text-muted);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-body: var(--text-body);
+  --color-text-muted: var(--text-muted);
   --color-brand: var(--brand);
   --color-brand-hover: var(--brand-hover);
   --color-brand-on: var(--brand-on);
@@ -19,25 +19,37 @@
   --color-info: var(--info);
   --color-info-muted: var(--info-muted);
 
-  --color-pub-canvas: var(--pub-canvas);
-  --color-pub-surface: var(--pub-surface);
-  --color-pub-border: var(--pub-border);
-  --color-pub-text: var(--pub-text);
-  --color-pub-body: var(--pub-body);
-  --color-brand-light: var(--brand-light);
+  /* Workspace aliases */
+  --color-ws-canvas: var(--canvas);
+  --color-ws-surface: var(--surface);
+  --color-ws-surface-2: var(--surface-2);
+  --color-ws-border: var(--border);
+  --color-ws-text: var(--text);
+  --color-ws-text-body: var(--text-body);
+  --color-ws-text-muted: var(--text-muted);
 }
 
 :root {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* Public (Light) context: green-tinted neutrals */
-  --pub-canvas:  #F3F8F6;
-  --pub-surface: #FFFFFF;
-  --pub-border:  #DDE9E4;
-  --pub-text:    #0E1F1A;
-  --pub-body:    #3F5A51;
-  --brand-light: #0FA968;
+  /* Global Electric Night Dark Tokens */
+  --canvas:           #0A1210;   /* deep green-black */
+  --surface:          #111C19;   /* cards, modals, HUD */
+  --surface-2:        #16241F;   /* nested panels, inputs, address blocks */
+  --border:           #1E2F2A;   /* 1px hairline borders, dividers */
+  --text:             #E8F1EE;   /* headings and primary text */
+  --text-body:        #C5D5CF;   /* body copy */
+  --text-muted:       #8DA39B;   /* labels, captions */
+
+  /* Aliases for workspace components */
+  --ws-canvas:        var(--canvas);
+  --ws-surface:       var(--surface);
+  --ws-surface-2:     var(--surface-2);
+  --ws-border:        var(--border);
+  --ws-text:          var(--text);
+  --ws-text-body:     var(--text-body);
+  --ws-text-muted:    var(--text-muted);
 
   /* Shared Brand Tokens */
   --brand:            #22E58B;   /* primary brand, buttons, active nav, online */
@@ -48,7 +60,7 @@
   --info:             #38BDF8;   /* connector chips, DC fast charging */
   --info-muted:       rgba(56, 189, 248, 0.12);
 
-  /* Semantic status colors (dark surface variants) */
+  /* Semantic status colors */
   --status-reachable:       #34D399;
   --status-reachable-bg:    rgba(52, 211, 153, 0.12);
   --status-caution:         #FCD34D;
@@ -60,53 +72,37 @@
   --status-offline:         #8DA39B;
   --status-offline-bg:      rgba(141, 163, 155, 0.12);
 
-  /* Workspace (Dark, "Electric Night") Tokens */
-  --ws-canvas:        #0A1210;   /* deep green-black */
-  --ws-surface:       #111C19;   /* cards, modals, HUD */
-  --ws-surface-2:     #16241F;   /* nested panels, inputs, address blocks */
-  --ws-border:        #1E2F2A;   /* 1px hairline borders, dividers */
-  --ws-text:          #E8F1EE;   /* headings and primary text */
-  --ws-text-body:     #C5D5CF;   /* body copy */
-  --ws-text-muted:    #8DA39B;   /* labels, captions */
-
-  /* Legacy mappings */
-  --surface-bg: var(--pub-canvas);
-  --surface-card: var(--pub-surface);
-  --surface-border: var(--pub-border);
-  --text-heading: var(--pub-text);
-  --text-primary: var(--pub-text);
-  --text-secondary: var(--pub-body);
-  --text-muted: #52756A;
-  --text-subtle: #7A9B90;
-  --text-inverse: #FFFFFF;
-  --border-muted: var(--pub-border);
+  /* Legacy semantic mappings */
+  --surface-bg: var(--canvas);
+  --surface-card: var(--surface);
+  --surface-border: var(--border);
+  --text-heading: var(--text);
+  --text-primary: var(--text);
+  --text-secondary: var(--text-body);
+  --text-muted: var(--text-muted);
+  --text-subtle: #5B736A;
+  --text-inverse: var(--canvas);
+  --border-muted: var(--border);
 }
 
-/* Dark Surface Context (Workspace canvas, dark sidebars, dark heroes, modals) */
+/* Surface Contexts */
 .surface-dark,
 [data-surface="dark"],
 .workspace-canvas,
-.ws-canvas {
+.ws-canvas,
+.app-canvas {
   color-scheme: dark;
-  background-color: var(--ws-canvas);
-  color: var(--ws-text);
-  --surface-bg: var(--ws-canvas);
-  --surface-card: var(--ws-surface);
-  --surface-border: var(--ws-border);
-  --text-heading: var(--ws-text);
-  --text-primary: var(--ws-text);
-  --text-secondary: var(--ws-text-body);
-  --text-muted: var(--ws-text-muted);
-  --text-subtle: #5B736A;
-  --text-inverse: var(--ws-canvas);
-  --border-muted: var(--ws-border);
+  background-color: var(--canvas);
+  color: var(--text);
 }
 
+/* Global Safety Net: No page can fall back to white */
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--pub-canvas);
-  color: var(--pub-text);
+  background-color: var(--canvas);
+  background: var(--canvas);
+  color: var(--text-body);
 }
 
 /* ==========================================================================

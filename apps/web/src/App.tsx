@@ -55,7 +55,7 @@ function AppContent() {
   const showGlobalFooter = !isAuthPage && !isWorkspacePage;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--pub-canvas)] text-[var(--pub-text)] selection:bg-[var(--brand)]/20 selection:text-emerald-950">
+    <div className="min-h-screen flex flex-col bg-[#0A1210] text-[#C5D5CF] selection:bg-[#22E58B]/20 selection:text-[#22E58B]">
       <ScrollToTop />
       {showGlobalHeader && <Header />}
       <main

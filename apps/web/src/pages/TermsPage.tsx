@@ -12,7 +12,7 @@ export const TermsPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 text-[#E8F1EE]">
+      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 text-[#C5D5CF]">
         {/* Navigation Breadcrumb */}
         <Link
           to="/"
@@ -37,10 +37,10 @@ export const TermsPage: React.FC = () => {
         </div>
 
         {/* Legal Disclaimer Box */}
-        <div className="p-4 bg-[#FCD34D]/10 border border-[#FCD34D]/30 rounded-2xl flex items-start space-x-3 text-xs text-[#FCD34D]">
+        <div className="p-4 bg-[rgba(252,211,77,0.08)] border border-[rgba(252,211,77,0.3)] rounded-2xl flex items-start space-x-3 text-xs">
           <AlertTriangle className="w-4 h-4 text-[#FCD34D] shrink-0 mt-0.5" />
           <div>
-            <span className="font-bold text-[#E8F1EE]">Pilot Stage Notice and Legal Review Requirement</span>
+            <span className="font-bold text-[#FCD34D] block">Pilot Stage Notice and Legal Review Requirement</span>
             <p className="text-[#C5D5CF] mt-0.5 leading-relaxed">
               ChargeNearby is currently an EV emergency charging discovery prototype operating in Pune, Maharashtra. These terms
               define the operational rules governing community equipment sharing. Formal review by qualified legal counsel is
@@ -60,7 +60,7 @@ export const TermsPage: React.FC = () => {
               ChargeNearby operates solely as a community technology platform connecting electric vehicle (EV) drivers requiring
               emergency charging with independent private hosts and public commercial charging facilities.
             </p>
-            <p className="text-xs text-[#8DA39B]">
+            <p className="text-xs text-[#C5D5CF]">
               ChargeNearby is not an electrical utility, energy distributor, or charging equipment manufacturer. All charging transactions,
               parking bay access, and equipment usage take place directly between drivers and independent hosts.
             </p>
@@ -72,7 +72,7 @@ export const TermsPage: React.FC = () => {
               <FileText className="w-5 h-5 text-[#22E58B]" />
               <span>2. User Eligibility & Registration</span>
             </h2>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>Drivers must hold a valid Indian motor vehicle driving license and operate roadworthy, insured electric vehicles.</li>
               <li>Hosts must have legal authorization to permit temporary parking and vehicle charging on the designated residential driveway or commercial property.</li>
               <li>Users are responsible for safeguarding their account credentials and session access tokens.</li>
@@ -88,7 +88,7 @@ export const TermsPage: React.FC = () => {
             <p>
               Hosts listing charging wallboxes or 15A industrial sockets agree to:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>
                 <strong className="text-[#E8F1EE]">Dedicated Circuit Protection:</strong> Ensure charging equipment is connected to a dedicated miniature circuit breaker (MCB) or residual current circuit breaker (RCCB) with proper earthing.
               </li>
@@ -113,7 +113,7 @@ export const TermsPage: React.FC = () => {
             <p>
               Drivers requesting emergency community charging agree to:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>
                 <strong className="text-[#E8F1EE]">Confidentiality:</strong> Use host residential addresses, bungalow numbers, and gate security codes solely for the accepted emergency session. Drivers may not record, publish, or disclose host addresses to any third party.
               </li>
@@ -132,7 +132,7 @@ export const TermsPage: React.FC = () => {
               <Zap className="w-5 h-5 text-[#22E58B]" />
               <span>5. Pricing, Quoted Rates & Cancellations</span>
             </h2>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>
                 <strong className="text-[#E8F1EE]">Quoted Snapshot:</strong> The price per kWh, price per minute, or fixed flat session fee is locked at the moment an emergency request is submitted.
               </li>
@@ -156,7 +156,7 @@ export const TermsPage: React.FC = () => {
                 To the fullest extent permitted by applicable Indian law, ChargeNearby disclaims liability for any direct, indirect,
                 or consequential damages arising from:
               </p>
-              <ul className="list-disc pl-5 space-y-1 text-[#8DA39B]">
+              <ul className="list-disc pl-5 space-y-1 text-[#C5D5CF]">
                 <li>Electrical grid fluctuations, power cuts, or voltage surges originating from local distribution infrastructure.</li>
                 <li>Faults, degradation, or tripping of vehicle onboard chargers or battery management systems.</li>
                 <li>Host electrical panel failures or domestic wiring defects.</li>
@@ -174,10 +174,10 @@ export const TermsPage: React.FC = () => {
               <Phone className="w-5 h-5 text-[#22E58B]" />
               <span>7. Emergency Support & Contact</span>
             </h2>
-            <p className="text-xs text-[#8DA39B]">
+            <p className="text-xs text-[#C5D5CF]">
               For questions regarding these pilot terms, email legal@chargenearby.in. For emergency vehicle flatbed towing
               and roadside assistance across Pune, call{' '}
-              <a href="tel:18002097979" className="text-[#22E58B] font-bold underline">
+              <a href="tel:18002097979" className="text-[#22E58B] font-bold underline hover:text-[#1BC878]">
                 1800-209-7979
               </a>
               .

@@ -12,7 +12,7 @@ export const PrivacyPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 text-[#E8F1EE]">
+      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 text-[#C5D5CF]">
         {/* Navigation Breadcrumb */}
         <Link
           to="/"
@@ -37,10 +37,10 @@ export const PrivacyPage: React.FC = () => {
         </div>
 
         {/* Legal Pilot Notice Box */}
-        <div className="p-4 bg-[#FCD34D]/10 border border-[#FCD34D]/30 rounded-2xl flex items-start space-x-3 text-xs text-[#FCD34D]">
+        <div className="p-4 bg-[rgba(252,211,77,0.08)] border border-[rgba(252,211,77,0.3)] rounded-2xl flex items-start space-x-3 text-xs">
           <AlertTriangle className="w-4 h-4 text-[#FCD34D] shrink-0 mt-0.5" />
           <div>
-            <span className="font-bold text-[#E8F1EE]">Pilot Program Transparency Notice</span>
+            <span className="font-bold text-[#FCD34D] block">Pilot Program Transparency Notice</span>
             <p className="text-[#C5D5CF] mt-0.5 leading-relaxed">
               ChargeNearby is currently operating as an emergency EV charging technology pilot in Pune, Maharashtra. This policy
               details our actual technical data practices, including location handling, address encryption, and session storage.
@@ -58,7 +58,7 @@ export const PrivacyPage: React.FC = () => {
             <p>
               We collect only the technical and operational information necessary to facilitate safe community EV emergency charging:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>
                 <strong className="text-[#E8F1EE]">Account Credentials:</strong> Full name, email address, hashed passwords (stored securely via Django authentication with PBKDF2/Argon2 one-way hashing), and optional mobile phone number for session coordination.
               </li>
@@ -103,7 +103,7 @@ export const PrivacyPage: React.FC = () => {
               <span>3. How We Use Your Information</span>
             </h2>
             <p>Your data is used solely to provide platform services:</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>To compute realistic driving distance using our Pune 1.35x road-detour algorithm.</li>
               <li>To evaluate vehicle connector compatibility and classify battery status (Reachable, Uncertain, or Critical).</li>
               <li>To notify hosts of incoming emergency charging requests.</li>
@@ -121,7 +121,7 @@ export const PrivacyPage: React.FC = () => {
             <p>
               ChargeNearby uses JSON Web Tokens (JWT) to maintain authenticated sessions:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>Authentication tokens are stored locally in your browser's localStorage.</li>
               <li>Tokens are transmitted over encrypted HTTPS connections in the authorization header.</li>
               <li>Logging out purges authentication tokens from your local browser storage immediately.</li>
@@ -137,7 +137,7 @@ export const PrivacyPage: React.FC = () => {
             <p>
               Our application interacts with selected external infrastructure services:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>
                 <strong className="text-[#E8F1EE]">OpenStreetMap Nominatim:</strong> Used for reverse geocoding to suggest neighborhood names from GPS coordinates.
               </li>
@@ -159,7 +159,7 @@ export const PrivacyPage: React.FC = () => {
             <p>
               You maintain control over your personal data on ChargeNearby:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#8DA39B]">
+            <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#C5D5CF]">
               <li>You can edit or delete vehicle profiles at any time in your Garage settings.</li>
               <li>Hosts can toggle charger availability offline or remove equipment listings from their dashboard.</li>
               <li>To request complete account deletion or data removal, contact our pilot team at privacy@chargenearby.in.</li>
@@ -172,13 +172,13 @@ export const PrivacyPage: React.FC = () => {
               <Phone className="w-5 h-5 text-[#22E58B]" />
               <span>7. Contact & Privacy Inquiries</span>
             </h2>
-            <p className="text-xs text-[#8DA39B]">
+            <p className="text-xs text-[#C5D5CF]">
               For privacy inquiries regarding our Pune pilot operations, email us at{' '}
-              <a href="mailto:privacy@chargenearby.in" className="text-[#22E58B] font-bold underline">
+              <a href="mailto:privacy@chargenearby.in" className="text-[#22E58B] font-bold underline hover:text-[#1BC878]">
                 privacy@chargenearby.in
               </a>
               . For immediate 24/7 EV roadside emergency towing in Pune, call{' '}
-              <a href="tel:18002097979" className="text-[#22E58B] font-bold underline">
+              <a href="tel:18002097979" className="text-[#22E58B] font-bold underline hover:text-[#1BC878]">
                 1800-209-7979
               </a>
               .
