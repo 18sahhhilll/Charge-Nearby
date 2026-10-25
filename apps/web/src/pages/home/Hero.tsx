@@ -188,9 +188,9 @@ export const Hero: React.FC = () => {
                   <div className="mt-3 flex items-center justify-between text-[11px] text-slate-400">
                     <span className="flex items-center space-x-1">
                       <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Pune East Zone</span>
+                      <span>Pune East Zone (Koregaon Park)</span>
                     </span>
-                    <span className="text-emerald-400 font-semibold">12 Available Nearby</span>
+                    <span className="text-emerald-400 font-semibold">Active Pilot Radar</span>
                   </div>
                 </div>
 

@@ -20,7 +20,7 @@ export const HowItWorks: React.FC = () => {
       number: '02',
       title: 'Host Acceptance',
       icon: <Send className="w-6 h-6 text-emerald-600" />,
-      tagline: 'Median response under 4 mins',
+      tagline: 'Direct mobile dispatch',
       description:
         'The host receives your request with estimated arrival time. To protect host privacy, exact bungalow numbers and access codes are revealed only after the host approves your session.',
       badge: 'Step 2: ACCEPTED',

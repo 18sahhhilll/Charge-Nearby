@@ -293,15 +293,15 @@ export const BookingDetailPage: React.FC = () => {
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-white p-3 rounded-2xl border border-emerald-100">
                   <span className="text-slate-500 text-[11px] block">Energy Delivered</span>
-                  <span className="font-extrabold text-base text-slate-900">{booking.session.energy_delivered_kwh || '—'} kWh</span>
+                  <span className="font-extrabold text-base text-slate-900">{booking.session.energy_delivered_kwh || 'N/A'} kWh</span>
                 </div>
                 <div className="bg-white p-3 rounded-2xl border border-emerald-100">
                   <span className="text-slate-500 text-[11px] block">Start Battery</span>
-                  <span className="font-extrabold text-base text-slate-900">{booking.session.start_battery_percent ?? '—'}%</span>
+                  <span className="font-extrabold text-base text-slate-900">{booking.session.start_battery_percent != null ? `${booking.session.start_battery_percent}%` : 'N/A'}</span>
                 </div>
                 <div className="bg-white p-3 rounded-2xl border border-emerald-100">
                   <span className="text-slate-500 text-[11px] block">End Battery</span>
-                  <span className="font-extrabold text-base text-emerald-600">{booking.session.end_battery_percent ?? '—'}%</span>
+                  <span className="font-extrabold text-base text-emerald-600">{booking.session.end_battery_percent != null ? `${booking.session.end_battery_percent}%` : 'N/A'}</span>
                 </div>
               </div>
             </div>

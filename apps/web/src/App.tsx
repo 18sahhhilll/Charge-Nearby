@@ -20,6 +20,8 @@ import { DriverBookingsPage } from './pages/DriverBookingsPage';
 import { BookingDetailPage } from './pages/BookingDetailPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { HelpPage } from './pages/HelpPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { TermsPage } from './pages/TermsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 function ScrollToTop() {
@@ -70,6 +72,8 @@ function AppContent() {
             <Route path="/find" element={<FindChargersPage />} />
             <Route path="/chargers/:id" element={<ChargerDetailPage />} />
             <Route path="/help" element={<HelpPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
 
             {/* Auth Routes */}
             <Route path="/login" element={<LoginPage />} />

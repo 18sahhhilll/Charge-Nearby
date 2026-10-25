@@ -35,7 +35,7 @@ export const Faq: React.FC = () => {
       id: 'faq-host-declines',
       question: 'What happens if a host is unavailable or declines my request?',
       answer:
-        'If a host does not respond within 4 minutes or declines due to personal driveway use, our algorithm instantly highlights alternate reachable private chargers and routes you to the nearest verified 24/7 public DC fast hub (like Amanora Mall or Phoenix Marketcity) to ensure you are never stranded.',
+        'If a host is temporarily occupied or declines your request, our system immediately highlights alternate reachable community wallboxes in your zone and provides turn-by-turn routes to the nearest verified 24/7 public DC fast hub (such as Amanora Mall or Phoenix Marketcity) so you are never left without options.',
     },
     {
       id: 'faq-reachability',

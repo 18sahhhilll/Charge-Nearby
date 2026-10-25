@@ -532,7 +532,16 @@ export const LoginPage: React.FC = () => {
           <div className="pt-6 border-t border-slate-800/80 text-center space-y-2">
             <div className="flex items-center justify-center space-x-1.5 text-[11px] text-slate-400">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span>256-bit encrypted authentication • Protected by ChargeNearby Trust Guard</span>
+              <span>
+                Encrypted authentication •{' '}
+                <Link to="/privacy" className="text-slate-300 hover:text-emerald-400 underline">
+                  Privacy Policy
+                </Link>{' '}
+                •{' '}
+                <Link to="/terms" className="text-slate-300 hover:text-emerald-400 underline">
+                  Terms of Service
+                </Link>
+              </span>
             </div>
             <div className="lg:hidden text-xs text-slate-400">
               Don't have an account yet?{' '}

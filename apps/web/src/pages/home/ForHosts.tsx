@@ -18,7 +18,7 @@ export const ForHosts: React.FC = () => {
       icon: <DollarSign className="w-5 h-5 text-emerald-400" />,
       title: 'Flexible Pricing Models',
       description:
-        'Choose whether to charge per kWh (e.g. ₹15–₹18), per minute for quick top-ups, or a flat fixed session fee (e.g. ₹150) for hassle-free billing.',
+        'Choose whether to charge per kWh (e.g. ₹15 - ₹18), per minute for quick top-ups, or a flat fixed session fee (e.g. ₹150) for hassle-free billing.',
     },
     {
       icon: <Sliders className="w-5 h-5 text-emerald-400" />,

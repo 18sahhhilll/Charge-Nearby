@@ -8,7 +8,7 @@ export const PricingCards: React.FC = () => {
     {
       title: 'Per kWh Energy',
       tagline: 'Most Popular for Wallboxes',
-      rate: '₹14 – ₹18',
+      rate: '₹14 - ₹18',
       unit: '/ kWh',
       description: 'Pay solely for the actual electrical energy your EV pulls into its battery pack.',
       features: [
@@ -23,7 +23,7 @@ export const PricingCards: React.FC = () => {
     {
       title: 'Per Minute Duration',
       tagline: 'Great for Fast Commercial Bays',
-      rate: '₹2.50 – ₹4.00',
+      rate: '₹2.50 - ₹4.00',
       unit: '/ minute',
       description: 'Time-metered billing for high-speed top-ups where high power is delivered quickly.',
       features: [
@@ -38,7 +38,7 @@ export const PricingCards: React.FC = () => {
     {
       title: 'Fixed Flat Session',
       tagline: 'Predictable Emergency Rescue',
-      rate: '₹150 – ₹250',
+      rate: '₹150 - ₹250',
       unit: '/ flat session',
       description: 'One lump sum for an emergency parking and charging slot without monitoring meters.',
       features: [

@@ -45,9 +45,10 @@ export const Footer: React.FC = () => {
                 <Link to="/login" className="hover:text-emerald-400 transition">Host a Charger</Link>
               </li>
               <li>
-                <a href="http://127.0.0.1:8000/api/docs/" target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition">
-                  OpenAPI Specs (DRF)
-                </a>
+                <Link to="/privacy" className="hover:text-emerald-400 transition">Privacy Policy</Link>
+              </li>
+              <li>
+                <Link to="/terms" className="hover:text-emerald-400 transition">Terms & Conditions</Link>
               </li>
             </ul>
           </div>
@@ -78,11 +79,13 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-          <p>© 2026 ChargeNearby. Built for Pune EV Community. Not affiliated with governmental distribution entities.</p>
-          <div className="flex space-x-4 mt-4 sm:mt-0">
-            <span>Pilot Stage Prototype</span>
+          <p>© 2026 ChargeNearby. Pune EV Community Pilot.</p>
+          <div className="flex items-center space-x-4 mt-4 sm:mt-0">
+            <Link to="/privacy" className="hover:text-slate-300 transition">Privacy Policy</Link>
             <span>•</span>
-            <span>UTC Clock</span>
+            <Link to="/terms" className="hover:text-slate-300 transition">Terms of Service</Link>
+            <span>•</span>
+            <Link to="/help" className="hover:text-slate-300 transition">Safety Help</Link>
           </div>
         </div>
       </div>

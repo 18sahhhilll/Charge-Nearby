@@ -87,8 +87,9 @@ export const PuneMapView: React.FC<PuneMapViewProps> = ({
       </div>
 
       {/* Manual Pin Pointer Hint */}
-      <div className="absolute bottom-4 left-4 z-20 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[11px] text-slate-400">
-        💡 Click anywhere on the map to set your current location manually.
+      <div className="absolute bottom-4 left-4 z-20 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[11px] text-slate-400 flex items-center space-x-1.5">
+        <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+        <span>Click anywhere on the map to set your search location manually.</span>
       </div>
 
       {/* SVG Map Canvas */}

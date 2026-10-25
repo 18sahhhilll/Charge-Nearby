@@ -245,12 +245,12 @@ export const HelpPage: React.FC = () => {
           <Card variant="glass" className="space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center space-x-2.5">
-                <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center border border-purple-500/30">
+                <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
                   <LifeBuoy className="w-4 h-4" />
                 </div>
                 <h3 className="font-bold text-base text-white">Public Hub Fallback Lifeline</h3>
               </div>
-              <Badge variant="purple" size="sm">
+              <Badge variant="blue" size="sm">
                 24/7 Available
               </Badge>
             </div>

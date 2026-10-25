@@ -509,9 +509,16 @@ export const RegisterPage: React.FC = () => {
 
           {/* Bottom Security Note */}
           <div className="pt-6 border-t border-slate-800/80 text-center space-y-2">
-            <div className="flex items-center justify-center space-x-1.5 text-[11px] text-slate-400">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span>By registering, you agree to Pune Pilot Safety & Address Privacy Protocols</span>
+            <div className="flex flex-wrap items-center justify-center gap-1 text-[11px] text-slate-400">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0 mr-0.5" />
+              <span>By registering, you agree to the</span>
+              <Link to="/terms" className="text-emerald-400 font-bold hover:underline">
+                Terms of Service
+              </Link>
+              <span>and</span>
+              <Link to="/privacy" className="text-emerald-400 font-bold hover:underline">
+                Privacy Policy
+              </Link>
             </div>
             <div className="lg:hidden text-xs text-slate-400">
               Already have an account?{' '}
