@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FileText, ShieldAlert, Zap, AlertTriangle, ChevronLeft, CheckCircle2, Phone } from 'lucide-react';
+import { motion } from 'motion/react';
 import { PageTransition } from '../components/motion';
 import { Badge } from '../components/ui/Badge';
+import { fadeUp, staggerContainer, viewportSettings } from '../lib/motion';
 
 export const TermsPage: React.FC = () => {
   useEffect(() => {
@@ -13,31 +15,47 @@ export const TermsPage: React.FC = () => {
   return (
     <PageTransition>
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 text-[#C5D5CF]">
-        {/* Navigation Breadcrumb */}
-        <Link
-          to="/"
-          className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#8DA39B] hover:text-[#22E58B] transition"
+        {/* Header Block with Staggered Entrance */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="space-y-6"
         >
-          <ChevronLeft className="w-4 h-4" />
-          <span>Back to Home</span>
-        </Link>
+          {/* Navigation Breadcrumb */}
+          <motion.div variants={fadeUp}>
+            <Link
+              to="/"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#8DA39B] hover:text-[#22E58B] transition"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Back to Home</span>
+            </Link>
+          </motion.div>
 
-        {/* Header */}
-        <div className="space-y-2 border-b border-[#1E2F2A] pb-6">
-          <div className="flex items-center space-x-2">
-            <Badge variant="emerald">TERMS OF SERVICE</Badge>
-            <span className="text-xs text-[#8DA39B] font-semibold">Pune Pilot Operating Rules</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#E8F1EE] tracking-tight">
-            Terms and Conditions
-          </h1>
-          <p className="text-sm text-[#8DA39B]">
-            Effective Date: October 25, 2026 • Status: Pilot Prototype Phase
-          </p>
-        </div>
+          {/* Header */}
+          <motion.div variants={fadeUp} className="space-y-2 border-b border-[#1E2F2A] pb-6">
+            <div className="flex items-center space-x-2">
+              <Badge variant="emerald">TERMS OF SERVICE</Badge>
+              <span className="text-xs text-[#8DA39B] font-semibold">Pune Pilot Operating Rules</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#E8F1EE] tracking-tight">
+              Terms and Conditions
+            </h1>
+            <p className="text-sm text-[#8DA39B]">
+              Effective Date: October 25, 2026 • Status: Pilot Prototype Phase
+            </p>
+          </motion.div>
+        </motion.div>
 
         {/* Legal Disclaimer Box */}
-        <div className="p-4 bg-[rgba(252,211,77,0.08)] border border-[rgba(252,211,77,0.3)] rounded-2xl flex items-start space-x-3 text-xs">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportSettings}
+          className="p-4 bg-[rgba(252,211,77,0.08)] border border-[rgba(252,211,77,0.3)] rounded-2xl flex items-start space-x-3 text-xs"
+        >
           <AlertTriangle className="w-4 h-4 text-[#FCD34D] shrink-0 mt-0.5" />
           <div>
             <span className="font-bold text-[#FCD34D] block">Pilot Stage Notice and Legal Review Requirement</span>
@@ -47,11 +65,17 @@ export const TermsPage: React.FC = () => {
               required prior to commercial public rollout.
             </p>
           </div>
-        </div>
+        </motion.div>
 
         <div className="space-y-8 text-sm text-[#C5D5CF] leading-relaxed">
           {/* 1. Platform Intermediary Role */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Zap className="w-5 h-5 text-[#22E58B]" />
               <span>1. Nature of the ChargeNearby Platform</span>
@@ -64,10 +88,16 @@ export const TermsPage: React.FC = () => {
               ChargeNearby is not an electrical utility, energy distributor, or charging equipment manufacturer. All charging transactions,
               parking bay access, and equipment usage take place directly between drivers and independent hosts.
             </p>
-          </section>
+          </motion.section>
 
           {/* 2. User Eligibility & Accounts */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <FileText className="w-5 h-5 text-[#22E58B]" />
               <span>2. User Eligibility & Registration</span>
@@ -77,10 +107,16 @@ export const TermsPage: React.FC = () => {
               <li>Hosts must have legal authorization to permit temporary parking and vehicle charging on the designated residential driveway or commercial property.</li>
               <li>Users are responsible for safeguarding their account credentials and session access tokens.</li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 3. Host Safety & Equipment Obligations */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <CheckCircle2 className="w-5 h-5 text-[#22E58B]" />
               <span>3. Host Obligations and Electrical Safety</span>
@@ -102,10 +138,16 @@ export const TermsPage: React.FC = () => {
                 <strong className="text-[#E8F1EE]">Availability Control:</strong> Maintain accurate online/offline availability status in the host dashboard to prevent driver diversion to unavailable bays.
               </li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 4. Driver Responsibilities & Confidential Address Use */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <ShieldAlert className="w-5 h-5 text-[#22E58B]" />
               <span>4. Driver Conduct and Residential Access Rules</span>
@@ -124,10 +166,16 @@ export const TermsPage: React.FC = () => {
                 <strong className="text-[#E8F1EE]">Prompt Departure:</strong> Promptly unplug and vacate the host's parking bay once the emergency charge is completed to respect host property and community guidelines.
               </li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 5. Pricing, Quoted Snapshots & Cancellations */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Zap className="w-5 h-5 text-[#22E58B]" />
               <span>5. Pricing, Quoted Rates & Cancellations</span>
@@ -143,10 +191,16 @@ export const TermsPage: React.FC = () => {
                 <strong className="text-[#E8F1EE]">Disputes:</strong> Any metering or billing discrepancies must be reported to support@chargenearby.in within 24 hours of session completion.
               </li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 6. Electrical Liability & Limitation */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <AlertTriangle className="w-5 h-5 text-[#22E58B]" />
               <span>6. Electrical Liability Disclaimer</span>
@@ -166,10 +220,16 @@ export const TermsPage: React.FC = () => {
                 Drivers must always observe vehicle manufacturer charging instructions and verify charger compatibility before connecting.
               </p>
             </div>
-          </section>
+          </motion.section>
 
           {/* 7. Emergency Support & Contact */}
-          <section className="space-y-3 border-t border-[#1E2F2A] pt-6">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3 border-t border-[#1E2F2A] pt-6"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Phone className="w-5 h-5 text-[#22E58B]" />
               <span>7. Emergency Support & Contact</span>
@@ -182,7 +242,7 @@ export const TermsPage: React.FC = () => {
               </a>
               .
             </p>
-          </section>
+          </motion.section>
         </div>
       </div>
     </PageTransition>

@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Lock, MapPin, Database, Eye, Server, Phone, ChevronLeft, AlertTriangle } from 'lucide-react';
+import { motion } from 'motion/react';
 import { PageTransition } from '../components/motion';
 import { Badge } from '../components/ui/Badge';
+import { fadeUp, staggerContainer, viewportSettings } from '../lib/motion';
 
 export const PrivacyPage: React.FC = () => {
   useEffect(() => {
@@ -13,31 +15,47 @@ export const PrivacyPage: React.FC = () => {
   return (
     <PageTransition>
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 text-[#C5D5CF]">
-        {/* Navigation Breadcrumb */}
-        <Link
-          to="/"
-          className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#8DA39B] hover:text-[#22E58B] transition"
+        {/* Header Block with Staggered Entrance */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="space-y-6"
         >
-          <ChevronLeft className="w-4 h-4" />
-          <span>Back to Home</span>
-        </Link>
+          {/* Navigation Breadcrumb */}
+          <motion.div variants={fadeUp}>
+            <Link
+              to="/"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#8DA39B] hover:text-[#22E58B] transition"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Back to Home</span>
+            </Link>
+          </motion.div>
 
-        {/* Header */}
-        <div className="space-y-2 border-b border-[#1E2F2A] pb-6">
-          <div className="flex items-center space-x-2">
-            <Badge variant="emerald">LEGAL & DATA PRACTICES</Badge>
-            <span className="text-xs text-[#8DA39B] font-semibold">Pune Pilot Program</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#E8F1EE] tracking-tight">
-            Privacy Policy
-          </h1>
-          <p className="text-sm text-[#8DA39B]">
-            Effective Date: October 25, 2026 • Last Updated: October 25, 2026
-          </p>
-        </div>
+          {/* Header */}
+          <motion.div variants={fadeUp} className="space-y-2 border-b border-[#1E2F2A] pb-6">
+            <div className="flex items-center space-x-2">
+              <Badge variant="emerald">LEGAL & DATA PRACTICES</Badge>
+              <span className="text-xs text-[#8DA39B] font-semibold">Pune Pilot Program</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#E8F1EE] tracking-tight">
+              Privacy Policy
+            </h1>
+            <p className="text-sm text-[#8DA39B]">
+              Effective Date: October 25, 2026 • Last Updated: October 25, 2026
+            </p>
+          </motion.div>
+        </motion.div>
 
         {/* Legal Pilot Notice Box */}
-        <div className="p-4 bg-[rgba(252,211,77,0.08)] border border-[rgba(252,211,77,0.3)] rounded-2xl flex items-start space-x-3 text-xs">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportSettings}
+          className="p-4 bg-[rgba(252,211,77,0.08)] border border-[rgba(252,211,77,0.3)] rounded-2xl flex items-start space-x-3 text-xs"
+        >
           <AlertTriangle className="w-4 h-4 text-[#FCD34D] shrink-0 mt-0.5" />
           <div>
             <span className="font-bold text-[#FCD34D] block">Pilot Program Transparency Notice</span>
@@ -46,11 +64,17 @@ export const PrivacyPage: React.FC = () => {
               details our actual technical data practices, including location handling, address encryption, and session storage.
             </p>
           </div>
-        </div>
+        </motion.div>
 
         <div className="space-y-8 text-sm text-[#C5D5CF] leading-relaxed">
           {/* 1. Information Collected */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Database className="w-5 h-5 text-[#22E58B]" />
               <span>1. Information We Collect</span>
@@ -72,10 +96,16 @@ export const PrivacyPage: React.FC = () => {
                 <strong className="text-[#E8F1EE]">Location Data:</strong> Latitude and longitude coordinates acquired via the browser Geolocation API (only with your explicit permission) or selected manually on the Pune interactive map.
               </li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 2. Address Encryption & Host Privacy */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Lock className="w-5 h-5 text-[#22E58B]" />
               <span>2. Address Confidentiality and Two-Party Disclosure</span>
@@ -94,10 +124,16 @@ export const PrivacyPage: React.FC = () => {
                 <strong className="text-[#E8F1EE]">Unlocking Mechanism:</strong> The exact residential address is revealed solely to a driver after the host explicitly reviews the request and clicks "Accept Emergency Access".
               </p>
             </div>
-          </section>
+          </motion.section>
 
           {/* 3. How We Use Information */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Eye className="w-5 h-5 text-[#22E58B]" />
               <span>3. How We Use Your Information</span>
@@ -110,10 +146,16 @@ export const PrivacyPage: React.FC = () => {
               <li>To record session telemetry (starting battery %, delivered kWh, and end battery %) for transparent receipts.</li>
               <li>We do not sell, rent, or monetize personal user data to third-party advertising networks.</li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 4. Session Storage & Tokens */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Server className="w-5 h-5 text-[#22E58B]" />
               <span>4. Authentication and Local Storage</span>
@@ -126,10 +168,16 @@ export const PrivacyPage: React.FC = () => {
               <li>Tokens are transmitted over encrypted HTTPS connections in the authorization header.</li>
               <li>Logging out purges authentication tokens from your local browser storage immediately.</li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 5. Third-Party Integrations */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <MapPin className="w-5 h-5 text-[#22E58B]" />
               <span>5. Third-Party Services</span>
@@ -148,10 +196,16 @@ export const PrivacyPage: React.FC = () => {
                 <strong className="text-[#E8F1EE]">Commercial Fast Hubs:</strong> Public fast charging stations (Tata Power, Jio-bp, ChargeZone) are indexed from verified public records as emergency fallbacks.
               </li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 6. User Rights & Account Management */}
-          <section className="space-y-3">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <ShieldCheck className="w-5 h-5 text-[#22E58B]" />
               <span>6. User Rights and Data Deletion</span>
@@ -164,10 +218,16 @@ export const PrivacyPage: React.FC = () => {
               <li>Hosts can toggle charger availability offline or remove equipment listings from their dashboard.</li>
               <li>To request complete account deletion or data removal, contact our pilot team at privacy@chargenearby.in.</li>
             </ul>
-          </section>
+          </motion.section>
 
           {/* 7. Contact Details */}
-          <section className="space-y-3 border-t border-[#1E2F2A] pt-6">
+          <motion.section
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+            className="space-y-3 border-t border-[#1E2F2A] pt-6"
+          >
             <h2 className="text-lg font-extrabold text-[#E8F1EE] flex items-center space-x-2">
               <Phone className="w-5 h-5 text-[#22E58B]" />
               <span>7. Contact & Privacy Inquiries</span>
@@ -183,7 +243,7 @@ export const PrivacyPage: React.FC = () => {
               </a>
               .
             </p>
-          </section>
+          </motion.section>
         </div>
       </div>
     </PageTransition>

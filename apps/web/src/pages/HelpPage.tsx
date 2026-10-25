@@ -17,6 +17,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PageTransition } from '../components/motion';
 import { Badge } from '../components/ui/Badge';
 import { Card } from '../components/ui/Card';
+import { fadeUp, staggerContainer, viewportSettings } from '../lib/motion';
 
 interface HelpFaq {
   q: string;
@@ -51,7 +52,12 @@ export const HelpPage: React.FC = () => {
         {/* ========================================================= */}
         {/* HERO BANNER & EMERGENCY SOS STRIP                         */}
         {/* ========================================================= */}
-        <div className="relative rounded-3xl overflow-hidden bg-[#111C19] border border-[#1E2F2A] p-6 sm:p-10 shadow-xl text-[#E8F1EE]">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="relative rounded-3xl overflow-hidden bg-[#111C19] border border-[#1E2F2A] p-6 sm:p-10 shadow-xl text-[#E8F1EE]"
+        >
           <div
             aria-hidden="true"
             className="absolute inset-0 pointer-events-none opacity-20"
@@ -61,26 +67,28 @@ export const HelpPage: React.FC = () => {
           />
 
           <div className="relative z-10 space-y-4 max-w-2xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#22E58B]/10 border border-[#22E58B]/30 text-[#22E58B] text-xs font-semibold backdrop-blur-sm">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#22E58B]" />
-              <span>Pune Pilot Safety & Compliance Hub</span>
-            </div>
+            <motion.div variants={fadeUp}>
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#22E58B]/10 border border-[#22E58B]/30 text-[#22E58B] text-xs font-semibold backdrop-blur-sm">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#22E58B]" />
+                <span>Pune Pilot Safety & Compliance Hub</span>
+              </div>
+            </motion.div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#E8F1EE] tracking-tight">
+            <motion.h1 variants={fadeUp} className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#E8F1EE] tracking-tight">
               Safety, Standards &{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#22E58B] via-emerald-300 to-[#38BDF8]">
                 Emergency Support
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="text-sm sm:text-base text-[#C5D5CF] leading-relaxed">
+            <motion.p variants={fadeUp} className="text-sm sm:text-base text-[#C5D5CF] leading-relaxed">
               Essential guidelines, electrical verification protocols, and real-time assistance procedures for EV
               drivers and private hosts participating in the Pune pilot.
-            </p>
+            </motion.p>
           </div>
 
           {/* Emergency Helpline Urgent Callout Bar */}
-          <div className="mt-8 pt-6 border-t border-[#1E2F2A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#FF5A5F]/10 border border-[#FF5A5F]/30">
+          <motion.div variants={fadeUp} className="mt-8 pt-6 border-t border-[#1E2F2A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#FF5A5F]/10 border border-[#FF5A5F]/30">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-xl bg-[#FF5A5F]/20 text-[#FF5A5F] flex items-center justify-center shrink-0 border border-[#FF5A5F]/30">
                 <Phone className="w-5 h-5" />
@@ -101,15 +109,22 @@ export const HelpPage: React.FC = () => {
             >
               <span>Call 1800-209-7979</span>
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* ========================================================= */}
         {/* CORE PILLARS: 4 STRUCTURED SAFETY SECTIONS                */}
         {/* ========================================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportSettings}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           {/* 1. Reachability Transparency */}
-          <Card className="space-y-4">
+          <motion.div variants={fadeUp} className="h-full">
+            <Card className="space-y-4 h-full">
             <div className="flex items-center justify-between border-b border-[#1E2F2A] pb-3">
               <div className="flex items-center space-x-2.5">
                 <div className="w-9 h-9 rounded-xl bg-[#16241F] text-[#FCD34D] flex items-center justify-center border border-[#1E2F2A]">
@@ -156,9 +171,11 @@ export const HelpPage: React.FC = () => {
               </span>
             </div>
           </Card>
+          </motion.div>
 
           {/* 2. Host Equipment Suitability */}
-          <Card className="space-y-4">
+          <motion.div variants={fadeUp} className="h-full">
+            <Card className="space-y-4 h-full">
             <div className="flex items-center justify-between border-b border-[#1E2F2A] pb-3">
               <div className="flex items-center space-x-2.5">
                 <div className="w-9 h-9 rounded-xl bg-[#16241F] text-[#22E58B] flex items-center justify-center border border-[#1E2F2A]">
@@ -200,9 +217,11 @@ export const HelpPage: React.FC = () => {
               Photographic proof of the wallbox and switchboard is required before listings are activated.
             </div>
           </Card>
+          </motion.div>
 
           {/* 3. Address Privacy Protocols */}
-          <Card className="space-y-4">
+          <motion.div variants={fadeUp} className="h-full">
+            <Card className="space-y-4 h-full">
             <div className="flex items-center justify-between border-b border-[#1E2F2A] pb-3">
               <div className="flex items-center space-x-2.5">
                 <div className="w-9 h-9 rounded-xl bg-[#16241F] text-[#38BDF8] flex items-center justify-center border border-[#1E2F2A]">
@@ -240,9 +259,11 @@ export const HelpPage: React.FC = () => {
               </li>
             </ul>
           </Card>
+          </motion.div>
 
           {/* 4. Public Fast Hubs Backup */}
-          <Card className="space-y-4">
+          <motion.div variants={fadeUp} className="h-full">
+            <Card className="space-y-4 h-full">
             <div className="flex items-center justify-between border-b border-[#1E2F2A] pb-3">
               <div className="flex items-center space-x-2.5">
                 <div className="w-9 h-9 rounded-xl bg-[#16241F] text-[#38BDF8] flex items-center justify-center border border-[#1E2F2A]">
@@ -278,13 +299,19 @@ export const HelpPage: React.FC = () => {
               </div>
             </div>
           </Card>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* ========================================================= */}
         {/* FREQUENTLY ASKED SAFETY & SUPPORT QUESTIONS                */}
         {/* ========================================================= */}
         <div className="space-y-4 pt-2">
-          <div>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportSettings}
+          >
             <span className="text-xs font-bold uppercase tracking-wider text-[#22E58B] bg-[#22E58B]/10 px-3 py-1 rounded-full border border-[#22E58B]/30 inline-block mb-2">
               Safety Protocols
             </span>
@@ -294,7 +321,7 @@ export const HelpPage: React.FC = () => {
             <p className="text-xs sm:text-sm text-[#8DA39B] mt-1">
               Clear answers regarding electrical safeguards, billing, and cancellations.
             </p>
-          </div>
+          </motion.div>
 
           <div className="space-y-3">
             {FAQS.map((faq, index) => {
@@ -340,7 +367,13 @@ export const HelpPage: React.FC = () => {
         </div>
 
         {/* Support Desk Footer Card */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#111C19] border border-[#1E2F2A] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-5">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportSettings}
+          className="p-6 sm:p-8 rounded-3xl bg-[#111C19] border border-[#1E2F2A] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-5"
+        >
           <div className="space-y-1 text-center sm:text-left">
             <span className="font-extrabold text-[#E8F1EE] text-base sm:text-lg block">ChargeNearby Pilot Support Desk</span>
             <span className="text-xs sm:text-sm text-[#8DA39B]">Managed locally by our Pune mobility engineering team.</span>
@@ -359,7 +392,7 @@ export const HelpPage: React.FC = () => {
               1800-209-7979
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </PageTransition>
   );

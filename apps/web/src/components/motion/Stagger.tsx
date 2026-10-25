@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion, type HTMLMotionProps, type Variants } from 'motion/react';
+import { MOTION_DURATION, MOTION_EASE, MOTION_Y_OFFSET, viewportSettings } from '../../lib/motion';
 
 interface StaggerProps extends HTMLMotionProps<'div'> {
   children: React.ReactNode;
@@ -32,7 +33,7 @@ export const Stagger: React.FC<StaggerProps> = ({
       variants={containerVariants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: '-20px' }}
+      viewport={viewportSettings}
       className={className}
       {...props}
     >
@@ -48,7 +49,7 @@ interface StaggerItemProps extends HTMLMotionProps<'div'> {
 
 export const StaggerItem: React.FC<StaggerItemProps> = ({
   children,
-  yOffset = 14,
+  yOffset = MOTION_Y_OFFSET,
   className = '',
   ...props
 }) => {
@@ -60,8 +61,8 @@ export const StaggerItem: React.FC<StaggerItemProps> = ({
       opacity: 1,
       y: 0,
       transition: {
-        duration: shouldReduceMotion ? 0.01 : 0.38,
-        ease: [0.16, 1, 0.3, 1],
+        duration: shouldReduceMotion ? 0.01 : MOTION_DURATION,
+        ease: MOTION_EASE,
       },
     },
   };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion, type HTMLMotionProps } from 'motion/react';
+import { MOTION_DURATION, MOTION_EASE, MOTION_Y_OFFSET, viewportSettings } from '../../lib/motion';
 
 interface FadeInProps extends HTMLMotionProps<'div'> {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ export const FadeIn: React.FC<FadeInProps> = ({
   children,
   delay = 0,
   direction = 'up',
-  distance = 16,
+  distance = MOTION_Y_OFFSET,
   className = '',
   ...props
 }) => {
@@ -40,11 +41,11 @@ export const FadeIn: React.FC<FadeInProps> = ({
     <motion.div
       initial={{ opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={viewportSettings}
       transition={{
-        duration: shouldReduceMotion ? 0.01 : 0.45,
+        duration: shouldReduceMotion ? 0.01 : MOTION_DURATION,
         delay: shouldReduceMotion ? 0 : delay,
-        ease: [0.16, 1, 0.3, 1],
+        ease: MOTION_EASE,
       }}
       className={className}
       {...props}
