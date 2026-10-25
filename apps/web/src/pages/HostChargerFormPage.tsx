@@ -14,11 +14,17 @@ import {
   Upload,
   Trash2,
   Image as ImageIcon,
-  Star
+  Star,
+  ShieldCheck,
+  Info,
+  DollarSign
 } from 'lucide-react';
 import { chargerService } from '../services';
 import { Charger, ChargerPhoto, PhotoType } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { PageTransition } from '../components/motion';
+import { Badge } from '../components/ui/Badge';
+import { Button } from '../components/ui/Button';
 
 export const HostChargerFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -82,7 +88,6 @@ export const HostChargerFormPage: React.FC = () => {
 
         let detectedLocality = '';
         try {
-          // Attempt reverse geocoding via OpenStreetMap Nominatim for convenience
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`,
             { headers: { 'Accept': 'application/json' } }
@@ -101,7 +106,6 @@ export const HostChargerFormPage: React.FC = () => {
               setLocality(detectedLocality);
             }
 
-            // If exact street address is empty, suggest the street name if found
             if (!exactAddress) {
               const road = [addr.house_number, addr.road].filter(Boolean).join(', ');
               if (road) {
@@ -110,12 +114,12 @@ export const HostChargerFormPage: React.FC = () => {
             }
           }
         } catch {
-          // Reverse geocode is best-effort; coordinates are already set
+          // Best-effort reverse geocode
         }
 
-        const accuracyText = pos.coords.accuracy ? ` (Accuracy: ±${Math.round(pos.coords.accuracy)}m)` : '';
+        const accuracyText = pos.coords.accuracy ? ` (±${Math.round(pos.coords.accuracy)}m)` : '';
         setLocationSuccessMsg(
-          `Location coordinates detected: ${lat}, ${lng}${detectedLocality ? ` (${detectedLocality})` : ''}${accuracyText}`
+          `Coordinates locked: ${lat}, ${lng}${detectedLocality ? ` (${detectedLocality})` : ''}${accuracyText}`
         );
         setDetectingLocation(false);
       },
@@ -198,7 +202,7 @@ export const HostChargerFormPage: React.FC = () => {
       setPhotoFile(null);
       setPhotoCaption('');
       setIsPrimaryPhoto(false);
-      setPhotoSuccess('Photo uploaded successfully! It is now part of your verification submission.');
+      setPhotoSuccess('Verification photo uploaded successfully.');
     } catch (err: any) {
       setPhotoError(err.message || 'Failed to upload photo. Ensure file is JPG/PNG/WEBP under 5MB.');
     } finally {
@@ -257,518 +261,515 @@ export const HostChargerFormPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="py-16 text-center text-slate-500">Loading charger details...</div>;
+    return <div className="py-20 text-center text-slate-400 font-semibold">Loading charger listing configuration...</div>;
   }
 
   return (
-    <div className="max-w-3xl mx-auto py-8 space-y-6">
-      <Link
-        to="/host/dashboard"
-        className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition"
-      >
-        <ChevronLeft className="w-4 h-4" />
-        <span>Back to Dashboard</span>
-      </Link>
+    <PageTransition>
+      <div className="max-w-4xl mx-auto py-6 space-y-6">
+        {/* Navigation Breadcrumb */}
+        <Link
+          to="/host/dashboard"
+          className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span>Back to Host Console</span>
+        </Link>
 
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
-        <div>
-          <h1 className="text-2xl font-extrabold text-slate-900">
-            {isEdit ? 'Edit Charger Listing' : 'List a New Private Charger'}
-          </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Fill in accurate equipment specs and parking access for Pune EV drivers.
-          </p>
-        </div>
-
-        {error && (
-          <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-start space-x-2">
-            <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5 text-xs">
-          {/* Title & Description */}
-          <div className="space-y-3">
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Listing Title</label>
-              <input
-                type="text"
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Lane 7 Bungalow 7.4 kW Wallbox"
-                className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
-              />
+        {/* Main Header */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2">
+              <Badge variant="emerald">
+                {isEdit ? 'EDITING LISTING' : 'NEW HOST LISTING'}
+              </Badge>
+              <span className="text-xs text-slate-400 font-semibold">Pune Community Mesh</span>
             </div>
-
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Description & Hours</label>
-              <textarea
-                rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Mention access details, gate hours, or visitor protocols..."
-                className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500"
-              />
-            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              {isEdit ? 'Edit Charger Specifications' : 'List a Private Charger in Pune'}
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500">
+              Provide hardware specs, transparent pricing, and parking directions to help stranded EV drivers.
+            </p>
           </div>
 
-          {/* Equipment Specifications */}
-          <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-4">
-            <h3 className="font-bold text-slate-900 text-sm">Equipment Specifications</h3>
+          {error && (
+            <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-2xl flex items-start space-x-2.5">
+              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
 
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-6 text-xs">
+            {/* Section 1: Title & Description */}
+            <div className="space-y-4">
+              <h3 className="font-extrabold text-slate-900 text-sm flex items-center space-x-2">
+                <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">1</span>
+                <span>Listing Overview</span>
+              </h3>
+
               <div>
-                <label className="block font-medium text-slate-700 mb-1">Charger Current</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setChargerType('AC')}
-                    className={`py-2 px-3 rounded-xl border text-center transition ${
-                      chargerType === 'AC'
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold'
-                        : 'border-slate-200 text-slate-600'
-                    }`}
-                  >
-                    AC Slow/Fast
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setChargerType('DC')}
-                    className={`py-2 px-3 rounded-xl border text-center transition ${
-                      chargerType === 'DC'
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold'
-                        : 'border-slate-200 text-slate-600'
-                    }`}
-                  >
-                    DC Rapid
-                  </button>
+                <label className="block font-bold text-slate-700 mb-1">Listing Title</label>
+                <input
+                  type="text"
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="e.g. Lane 7 Bungalow 7.4 kW Wallbox (Koregaon Park)"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl text-slate-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Description & Hours</label>
+                <textarea
+                  rows={3}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Mention access details, gate hours, or visitor protocols..."
+                  className="w-full px-4 py-3 border border-slate-300 rounded-2xl text-slate-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition"
+                />
+              </div>
+            </div>
+
+            {/* Section 2: Equipment Specs */}
+            <div className="p-5 bg-slate-50 border border-slate-100 rounded-3xl space-y-4">
+              <h3 className="font-extrabold text-slate-900 text-sm flex items-center space-x-2">
+                <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">2</span>
+                <span>Equipment & Hardware Specs</span>
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1.5">Current Output</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setChargerType('AC')}
+                      className={`py-2.5 px-3 rounded-xl border text-center transition ${
+                        chargerType === 'AC'
+                          ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-extrabold shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                      }`}
+                    >
+                      AC (Wallbox / Socket)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setChargerType('DC')}
+                      className={`py-2.5 px-3 rounded-xl border text-center transition ${
+                        chargerType === 'DC'
+                          ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-extrabold shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                      }`}
+                    >
+                      DC Fast
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1.5">Max Power (kW)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    required
+                    value={maxPower}
+                    onChange={(e) => setMaxPower(e.target.value)}
+                    placeholder="7.4"
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-bold focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  />
                 </div>
               </div>
 
               <div>
-                <label className="block font-medium text-slate-700 mb-1">Max Power (kW)</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  required
-                  value={maxPower}
-                  onChange={(e) => setMaxPower(e.target.value)}
-                  placeholder="7.4"
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-                />
+                <label className="block font-bold text-slate-700 mb-1.5">Connector Types Supported</label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {[
+                    { id: 'TYPE2', label: 'Type 2 AC' },
+                    { id: 'CCS2', label: 'CCS 2 DC' },
+                    { id: '15A_3PIN', label: '15A 3-Pin Socket' },
+                    { id: 'CHADEMO', label: 'CHAdeMO DC' },
+                  ].map((c) => {
+                    const active = connectorTypes.includes(c.id);
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => toggleConnector(c.id)}
+                        className={`p-3 rounded-xl border text-left flex items-center justify-between transition ${
+                          active
+                            ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-extrabold shadow-xs'
+                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                        }`}
+                      >
+                        <span className="text-xs">{c.label}</span>
+                        {active && <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1.5">Parking Clearance & Access</label>
+                <select
+                  value={parkingAccess}
+                  onChange={(e) => setParkingAccess(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                >
+                  <option value="DEDICATED_DRIVEWAY">Private Dedicated Driveway</option>
+                  <option value="GARAGE">Enclosed Private Garage</option>
+                  <option value="STREET_FRONT">Street-facing Bungalow Gate</option>
+                  <option value="SOCIETY_PARKING">Apartment Society Visitor Bay</option>
+                  <option value="COMMERCIAL_LOT">Commercial Office / Business Lot</option>
+                </select>
               </div>
             </div>
 
-            <div>
-              <label className="block font-medium text-slate-700 mb-1">Connector Types</label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {[
-                  { id: 'TYPE2', label: 'Type 2 AC' },
-                  { id: 'CCS2', label: 'CCS 2 DC' },
-                  { id: '15A_3PIN', label: '15A 3-Pin Socket' },
-                  { id: 'CHADEMO', label: 'CHAdeMO DC' },
-                ].map((c) => {
-                  const active = connectorTypes.includes(c.id);
+            {/* Section 3: Pricing Structure */}
+            <div className="p-5 bg-slate-50 border border-slate-100 rounded-3xl space-y-4">
+              <h3 className="font-extrabold text-slate-900 text-sm flex items-center space-x-2">
+                <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">3</span>
+                <span>Pricing Structure (INR)</span>
+              </h3>
+
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPricingModel('PER_KWH')}
+                  className={`py-2.5 px-3 rounded-xl border text-center transition ${
+                    pricingModel === 'PER_KWH'
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-extrabold'
+                      : 'border-slate-200 bg-white text-slate-600'
+                  }`}
+                >
+                  Per kWh
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPricingModel('FIXED_SESSION')}
+                  className={`py-2.5 px-3 rounded-xl border text-center transition ${
+                    pricingModel === 'FIXED_SESSION'
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-extrabold'
+                      : 'border-slate-200 bg-white text-slate-600'
+                  }`}
+                >
+                  Fixed Session
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPricingModel('PER_MINUTE')}
+                  className={`py-2.5 px-3 rounded-xl border text-center transition ${
+                    pricingModel === 'PER_MINUTE'
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-extrabold'
+                      : 'border-slate-200 bg-white text-slate-600'
+                  }`}
+                >
+                  Per Minute
+                </button>
+              </div>
+
+              {pricingModel === 'PER_KWH' && (
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Price per kWh (₹)</label>
+                  <input
+                    type="number"
+                    step="0.5"
+                    required
+                    value={pricePerKwh}
+                    onChange={(e) => setPricePerKwh(e.target.value)}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-bold"
+                  />
+                </div>
+              )}
+
+              {pricingModel === 'FIXED_SESSION' && (
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Fixed Flat Price per Session (₹)</label>
+                  <input
+                    type="number"
+                    step="1"
+                    required
+                    value={sessionPrice}
+                    onChange={(e) => setSessionPrice(e.target.value)}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-bold"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Section 4: Location & Confidential Instructions */}
+            <div className="p-5 bg-slate-50 border border-slate-100 rounded-3xl space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <h3 className="font-extrabold text-slate-900 text-sm flex items-center space-x-2">
+                  <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">4</span>
+                  <span>Pune Geolocation & Access Safeguards</span>
+                </h3>
+
+                <button
+                  type="button"
+                  onClick={handleAutoDetectLocation}
+                  disabled={detectingLocation}
+                  className="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-slate-950 rounded-xl text-xs font-extrabold shadow-sm transition disabled:opacity-60"
+                >
+                  {detectingLocation ? (
+                    <RotateCw className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Navigation className="w-3.5 h-3.5" />
+                  )}
+                  <span>{detectingLocation ? 'Detecting GPS...' : 'Auto-detect My Location'}</span>
+                </button>
+              </div>
+
+              {locationSuccessMsg && (
+                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-start space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span className="font-semibold">{locationSuccessMsg}</span>
+                </div>
+              )}
+
+              {locationErrorMsg && (
+                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-start space-x-2">
+                  <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                  <span className="font-semibold">{locationErrorMsg}</span>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Public Locality / Zone</label>
+                  <input
+                    type="text"
+                    required
+                    value={locality}
+                    onChange={(e) => setLocality(e.target.value)}
+                    placeholder="e.g. Koregaon Park, Pune"
+                    className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Latitude</label>
+                  <input
+                    type="number"
+                    step="0.0001"
+                    required
+                    value={latitude}
+                    onChange={(e) => setLatitude(e.target.value)}
+                    className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-mono text-xs"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Longitude</label>
+                  <input
+                    type="number"
+                    step="0.0001"
+                    required
+                    value={longitude}
+                    onChange={(e) => setLongitude(e.target.value)}
+                    className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-mono text-xs"
+                  />
+                </div>
+              </div>
+
+              {/* Confidential Address */}
+              <div className="space-y-3 pt-3 border-t border-slate-200">
+                <div className="flex items-center space-x-1.5 text-xs text-amber-800 font-bold">
+                  <Lock className="w-3.5 h-3.5 text-amber-600" />
+                  <span>Confidential Address Fields (Encrypted until you accept driver request)</span>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Exact Street / Bungalow / Flat Address</label>
+                  <input
+                    type="text"
+                    required
+                    value={exactAddress}
+                    onChange={(e) => setExactAddress(e.target.value)}
+                    placeholder="e.g. Bungalow 14, Lane 7, Koregaon Park"
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-medium"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Driver Access & Gate Instructions</label>
+                  <textarea
+                    rows={2}
+                    value={accessInstructions}
+                    onChange={(e) => setAccessInstructions(e.target.value)}
+                    placeholder="e.g. Inform gate guard: visiting Bungalow 14. Charger on left wall..."
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 font-medium"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Action */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-slate-950 font-extrabold rounded-2xl shadow-lg shadow-emerald-500/20 transition text-sm flex items-center justify-center space-x-2"
+              >
+                <Zap className="w-4 h-4 fill-current" />
+                <span>{submitting ? 'Saving Listing...' : isEdit ? 'Save Changes' : 'Submit Listing for Admin Review'}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Section 5: Photo Verification Gallery (when in edit mode or created) */}
+        {isEdit && id && (
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <h2 className="text-lg font-extrabold text-slate-900 flex items-center space-x-2">
+                  <Camera className="w-5 h-5 text-emerald-600" />
+                  <span>Hardware & Installation Photos</span>
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Clear photos of your wallbox, parking clearance, and MCB breaker speed up verified host approval.
+                </p>
+              </div>
+              <Badge variant="slate">{photos.length} {photos.length === 1 ? 'Photo' : 'Photos'}</Badge>
+            </div>
+
+            {photoSuccess && (
+              <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center space-x-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{photoSuccess}</span>
+              </div>
+            )}
+
+            {photoError && (
+              <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-center space-x-2">
+                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>{photoError}</span>
+              </div>
+            )}
+
+            {/* Gallery Grid */}
+            {photos.length === 0 ? (
+              <div className="text-center py-8 px-4 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+                <ImageIcon className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+                <p className="text-xs font-bold text-slate-700">No verification photos uploaded yet</p>
+                <p className="text-[11px] text-slate-400 mt-1 max-w-sm mx-auto">
+                  Listings with verification photos are prioritized by admins and receive 3x more bookings.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {photos.map((p) => {
+                  const typeLabels: Record<string, string> = {
+                    CHARGER: 'Wallbox / Equipment',
+                    PARKING_BAY: 'Parking Bay Clearance',
+                    CIRCUIT_BREAKER: 'MCB / Earthing',
+                    OTHER: 'General Installation',
+                  };
                   return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => toggleConnector(c.id)}
-                      className={`p-2 rounded-xl border text-left flex items-center justify-between transition ${
-                        active
-                          ? 'border-emerald-500 bg-emerald-100/70 text-emerald-900 font-semibold'
-                          : 'border-slate-200 text-slate-600'
-                      }`}
+                    <div
+                      key={p.id}
+                      className="group relative bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden shadow-xs"
                     >
-                      <span className="text-[11px]">{c.label}</span>
-                      {active && <Check className="w-3.5 h-3.5 text-emerald-600" />}
-                    </button>
+                      <div className="aspect-16/10 bg-slate-100 relative">
+                        <img
+                          src={p.image_url || p.image}
+                          alt={p.caption || 'Equipment photo'}
+                          className="w-full h-full object-cover"
+                        />
+                        {p.is_primary && (
+                          <div className="absolute top-2 left-2 bg-emerald-500 text-slate-950 font-extrabold text-[10px] px-2 py-0.5 rounded-md flex items-center space-x-1 shadow-sm">
+                            <Star className="w-3 h-3 fill-current" />
+                            <span>Primary</span>
+                          </div>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => handlePhotoDelete(p.id)}
+                          className="absolute top-2 right-2 p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg opacity-0 group-hover:opacity-100 transition shadow-sm"
+                          title="Delete photo"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <div className="p-3 text-xs space-y-1">
+                        <Badge variant="slate">{typeLabels[p.photo_type] || p.photo_type}</Badge>
+                        {p.caption && <p className="text-slate-600 text-[11px] truncate">{p.caption}</p>}
+                      </div>
+                    </div>
                   );
                 })}
               </div>
-            </div>
-
-            <div>
-              <label className="block font-medium text-slate-700 mb-1">Parking & Access Type</label>
-              <select
-                value={parkingAccess}
-                onChange={(e) => setParkingAccess(e.target.value)}
-                className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-              >
-                <option value="DEDICATED_DRIVEWAY">Private Dedicated Driveway</option>
-                <option value="GARAGE">Enclosed Private Garage</option>
-                <option value="STREET_FRONT">Street-facing Bungalow Gate</option>
-                <option value="SOCIETY_PARKING">Apartment Society Visitor Bay</option>
-                <option value="COMMERCIAL_LOT">Commercial Office / Business Lot</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Pricing Model */}
-          <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-3">
-            <h3 className="font-bold text-slate-900 text-sm">Pricing Structure (INR)</h3>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => setPricingModel('PER_KWH')}
-                className={`py-2 px-3 rounded-xl border text-center transition ${
-                  pricingModel === 'PER_KWH'
-                    ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold'
-                    : 'border-slate-200 text-slate-600'
-                }`}
-              >
-                Per kWh
-              </button>
-              <button
-                type="button"
-                onClick={() => setPricingModel('FIXED_SESSION')}
-                className={`py-2 px-3 rounded-xl border text-center transition ${
-                  pricingModel === 'FIXED_SESSION'
-                    ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold'
-                    : 'border-slate-200 text-slate-600'
-                }`}
-              >
-                Fixed Session
-              </button>
-              <button
-                type="button"
-                onClick={() => setPricingModel('PER_MINUTE')}
-                className={`py-2 px-3 rounded-xl border text-center transition ${
-                  pricingModel === 'PER_MINUTE'
-                    ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold'
-                    : 'border-slate-200 text-slate-600'
-                }`}
-              >
-                Per Minute
-              </button>
-            </div>
-
-            {pricingModel === 'PER_KWH' && (
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Price per kWh (₹)</label>
-                <input
-                  type="number"
-                  step="0.5"
-                  required
-                  value={pricePerKwh}
-                  onChange={(e) => setPricePerKwh(e.target.value)}
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900"
-                />
-              </div>
             )}
 
-            {pricingModel === 'FIXED_SESSION' && (
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Fixed Flat Price per Session (₹)</label>
-                <input
-                  type="number"
-                  step="1"
-                  required
-                  value={sessionPrice}
-                  onChange={(e) => setSessionPrice(e.target.value)}
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900"
-                />
-              </div>
-            )}
-          </div>
+            {/* Upload New Photo Form */}
+            <form onSubmit={handlePhotoUpload} className="p-5 bg-slate-50 border border-slate-200 rounded-2xl space-y-4 text-xs">
+              <h4 className="font-extrabold text-slate-900 text-xs flex items-center space-x-1.5">
+                <Upload className="w-4 h-4 text-emerald-600" />
+                <span>Upload New Verification Photo</span>
+              </h4>
 
-          {/* Location & Privacy Fields */}
-          <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
-                <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-1.5">
-                  <MapPin className="w-4 h-4 text-emerald-600" />
-                  <span>Location & Secure Access Instructions</span>
-                </h3>
-                <p className="text-[11px] text-slate-500 mt-0.5">
-                  Use your device GPS to fetch coordinates automatically or enter them manually.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleAutoDetectLocation}
-                disabled={detectingLocation}
-                className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-sm transition disabled:opacity-60 cursor-pointer"
-              >
-                {detectingLocation ? (
-                  <RotateCw className="w-3.5 h-3.5 animate-spin" />
-                ) : (
-                  <Navigation className="w-3.5 h-3.5" />
-                )}
-                <span>{detectingLocation ? 'Detecting Location...' : 'Auto-detect My Location'}</span>
-              </button>
-            </div>
-
-            {/* Auto-detect Location Alerts */}
-            {locationSuccessMsg && (
-              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-start space-x-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span className="font-medium">{locationSuccessMsg}</span>
-              </div>
-            )}
-
-            {locationErrorMsg && (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-start space-x-2">
-                <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                <span className="font-medium">{locationErrorMsg}</span>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="sm:col-span-1">
-                <label className="block font-medium text-slate-700 mb-1">Public Locality / Area</label>
-                <input
-                  type="text"
-                  required
-                  value={locality}
-                  onChange={(e) => setLocality(e.target.value)}
-                  placeholder="e.g. Koregaon Park, Pune"
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900"
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Latitude</label>
-                <input
-                  type="number"
-                  step="0.0001"
-                  required
-                  value={latitude}
-                  onChange={(e) => setLatitude(e.target.value)}
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Longitude</label>
-                <input
-                  type="number"
-                  step="0.0001"
-                  required
-                  value={longitude}
-                  onChange={(e) => setLongitude(e.target.value)}
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900 font-mono"
-                />
-              </div>
-            </div>
-
-            {/* Confidential Address */}
-            <div className="space-y-3 pt-2 border-t border-slate-200">
-              <div className="flex items-center space-x-1.5 text-xs text-amber-800 font-semibold">
-                <Lock className="w-3.5 h-3.5 text-amber-600" />
-                <span>Protected Fields (Only revealed to confirmed drivers after you accept)</span>
-              </div>
-
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Exact Street / Bungalow / Flat Address</label>
-                <input
-                  type="text"
-                  required
-                  value={exactAddress}
-                  onChange={(e) => setExactAddress(e.target.value)}
-                  placeholder="e.g. Bungalow 14, Lane 7, Koregaon Park"
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900"
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Access Instructions for Driver</label>
-                <textarea
-                  rows={2}
-                  value={accessInstructions}
-                  onChange={(e) => setAccessInstructions(e.target.value)}
-                  placeholder="e.g. Inform gate guard: visiting Bungalow 14. Charger is on left pillar."
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-slate-900"
-                />
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl shadow-lg transition text-sm flex items-center justify-center space-x-2"
-          >
-            <Zap className="w-4 h-4 fill-current" />
-            <span>{submitting ? 'Submitting...' : isEdit ? 'Save Changes' : 'Submit Listing for Review'}</span>
-          </button>
-        </form>
-      </div>
-
-      {/* Photo Verification & Equipment Management */}
-      {isEdit && id ? (
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
-                <Camera className="w-5 h-5 text-emerald-600" />
-                <span>Charger & Installation Photos</span>
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Upload clear photos of your charging wallbox/socket, parking spot clearance, and MCB circuit breaker to expedite admin approval.
-              </p>
-            </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
-              {photos.length} {photos.length === 1 ? 'Photo' : 'Photos'}
-            </span>
-          </div>
-
-          {photoSuccess && (
-            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center space-x-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>{photoSuccess}</span>
-            </div>
-          )}
-
-          {photoError && (
-            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-center space-x-2">
-              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-              <span>{photoError}</span>
-            </div>
-          )}
-
-          {/* Photo Gallery Grid */}
-          {photos.length === 0 ? (
-            <div className="text-center py-8 px-4 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
-              <ImageIcon className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-              <p className="text-xs font-semibold text-slate-600">No verification photos uploaded yet</p>
-              <p className="text-[11px] text-slate-400 mt-1 max-w-sm mx-auto">
-                Listings with photos are prioritized by admins and receive 3x more bookings from emergency EV drivers.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {photos.map((p) => {
-                const typeLabels: Record<string, string> = {
-                  CHARGER: 'Wallbox / Equipment',
-                  PARKING_BAY: 'Parking Bay Clearance',
-                  CIRCUIT_BREAKER: 'MCB / Earthing',
-                  OTHER: 'Other',
-                };
-                return (
-                  <div
-                    key={p.id}
-                    className="group relative border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 flex flex-col shadow-xs"
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Photo Classification</label>
+                  <select
+                    value={photoType}
+                    onChange={(e) => setPhotoType(e.target.value as PhotoType)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl bg-white text-slate-900 font-semibold"
                   >
-                    <div className="aspect-4/3 relative overflow-hidden bg-slate-100">
-                      <img
-                        src={p.image_url || p.image}
-                        alt={p.caption || 'Charger photo'}
-                        className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
-                      />
-                      {p.is_primary && (
-                        <div className="absolute top-2 left-2 px-2 py-0.5 bg-emerald-500 text-slate-950 font-bold text-[10px] rounded-full shadow-sm flex items-center space-x-1">
-                          <Star className="w-3 h-3 fill-current" />
-                          <span>Primary Cover</span>
-                        </div>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => handlePhotoDelete(p.id)}
-                        className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-rose-50 text-slate-500 hover:text-rose-600 rounded-full shadow-sm transition"
-                        title="Delete photo"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                    <div className="p-3 text-xs space-y-1 bg-white flex-1">
-                      <span className="inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
-                        {typeLabels[p.photo_type] || p.photo_type}
-                      </span>
-                      {p.caption ? (
-                        <p className="font-medium text-slate-800 line-clamp-1">{p.caption}</p>
-                      ) : (
-                        <p className="text-slate-400 italic text-[11px]">No caption provided</p>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                    <option value="CHARGER">Wallbox / Charging Socket</option>
+                    <option value="PARKING_BAY">Parking Bay Clearance</option>
+                    <option value="CIRCUIT_BREAKER">MCB Circuit Breaker / Earthing</option>
+                    <option value="OTHER">Other Installation Detail</option>
+                  </select>
+                </div>
 
-          {/* Upload Form */}
-          <form onSubmit={handlePhotoUpload} className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
-            <h3 className="font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center space-x-1.5">
-              <Upload className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Upload New Photo</span>
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Select Photo File (JPG, PNG, WEBP &lt; 5MB)</label>
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  required
-                  onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
-                  className="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer"
-                />
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Caption / Note</label>
+                  <input
+                    type="text"
+                    value={photoCaption}
+                    onChange={(e) => setPhotoCaption(e.target.value)}
+                    placeholder="e.g. Dedicated 32A MCB switchboard"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-xl bg-white text-slate-900"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Photo Category</label>
-                <select
-                  value={photoType}
-                  onChange={(e) => setPhotoType(e.target.value as PhotoType)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-xl text-slate-900 bg-white"
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
+                    className="text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer"
+                  />
+                  <label className="inline-flex items-center space-x-1.5 text-slate-700 font-medium cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isPrimaryPhoto}
+                      onChange={(e) => setIsPrimaryPhoto(e.target.checked)}
+                      className="rounded text-emerald-600 accent-emerald-500"
+                    />
+                    <span className="text-[11px]">Set as Primary Cover</span>
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={!photoFile || uploadingPhoto}
+                  className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 shadow-sm"
                 >
-                  <option value="CHARGER">Charging Equipment / Wallbox Plug</option>
-                  <option value="PARKING_BAY">Parking Bay / Driveway Access</option>
-                  <option value="CIRCUIT_BREAKER">MCB / Electrical Switchboard</option>
-                  <option value="OTHER">Other Installation Detail</option>
-                </select>
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>{uploadingPhoto ? 'Uploading...' : 'Upload Photo'}</span>
+                </button>
               </div>
-
-              <div>
-                <label className="block font-medium text-slate-700 mb-1">Caption (Optional)</label>
-                <input
-                  type="text"
-                  value={photoCaption}
-                  onChange={(e) => setPhotoCaption(e.target.value)}
-                  placeholder="e.g. 7.4 kW Wallbox on driveway wall"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-xl text-slate-900"
-                />
-              </div>
-
-              <div className="flex items-center space-x-2 pt-6">
-                <input
-                  type="checkbox"
-                  id="primary_checkbox"
-                  checked={isPrimaryPhoto}
-                  onChange={(e) => setIsPrimaryPhoto(e.target.checked)}
-                  className="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
-                />
-                <label htmlFor="primary_checkbox" className="font-medium text-slate-700 text-xs cursor-pointer">
-                  Set as primary cover photo for listing
-                </label>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={uploadingPhoto || !photoFile}
-              className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 text-white font-bold rounded-xl text-xs transition flex items-center space-x-2"
-            >
-              <Upload className="w-3.5 h-3.5" />
-              <span>{uploadingPhoto ? 'Uploading Photo...' : 'Upload Photo'}</span>
-            </button>
-          </form>
-        </div>
-      ) : (
-        <div className="p-4 bg-emerald-50/60 border border-emerald-200/60 rounded-2xl text-xs text-emerald-900 flex items-start space-x-2.5">
-          <Camera className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-          <div>
-            <span className="font-bold">Next Step: Verification Photos</span>
-            <p className="text-emerald-800 mt-0.5 leading-relaxed">
-              Once you submit this listing, you will be able to upload photos of your wallbox, parking clearance, and switchboard to verify your charger.
-            </p>
+            </form>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </PageTransition>
   );
 };

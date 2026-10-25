@@ -1,6 +1,6 @@
 import { ApiError } from '../types';
 
-const API_BASE = '/api/v1';
+const API_BASE = (import.meta as any).env?.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
 
 export class ApiException extends Error {
   code: string;
@@ -50,19 +50,33 @@ export async function request<T>(
 
   const url = `${API_BASE}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 12000);
+
   let response: Response;
   try {
     response = await fetch(url, {
       ...options,
       headers,
+      signal: options.signal || controller.signal,
     });
   } catch (networkError: any) {
+    if (networkError.name === 'AbortError') {
+      throw new ApiException(
+        'TIMEOUT_ERROR',
+        'Request to ChargeNearby server timed out. Please ensure backend is running at http://127.0.0.1:8000.',
+        {},
+        0
+      );
+    }
     throw new ApiException(
       'NETWORK_ERROR',
       'Cannot connect to the ChargeNearby server. Please check your internet or local server.',
       { original: networkError.message },
       0
     );
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (!response.ok) {
