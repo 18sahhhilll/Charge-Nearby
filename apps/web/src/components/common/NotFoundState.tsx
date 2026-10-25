@@ -59,25 +59,25 @@ export const NotFoundState: React.FC<NotFoundStateProps> = ({
           )}
 
           {/* Center Card with Low Battery Motif */}
-          <div className="relative z-10 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xl space-y-3 max-w-[260px] mx-auto">
+          <div className="relative z-10 bg-[#111C19] border border-[#1E2F2A] rounded-3xl p-6 shadow-xl space-y-3 max-w-[260px] mx-auto">
             {code && (
-              <span className="text-4xl font-extrabold tracking-tight text-slate-900 block font-mono">
+              <span className="text-4xl font-extrabold tracking-tight text-[#E8F1EE] block font-mono">
                 {code}
               </span>
             )}
 
             {/* Low Battery Graphic (4% level) */}
             <div className="space-y-1.5">
-              <div className="relative w-36 h-12 mx-auto border-2 border-slate-800 rounded-xl p-1 flex items-center">
+              <div className="relative w-36 h-12 mx-auto border-2 border-[#1E2F2A] bg-[#16241F] rounded-xl p-1 flex items-center">
                 {/* Battery terminal nipple */}
-                <div className="absolute -right-2 w-1.5 h-4 bg-slate-800 rounded-r-xs" />
+                <div className="absolute -right-2 w-1.5 h-4 bg-[#1E2F2A] rounded-r-xs" />
                 {/* 4% charge level bar with subtle pulsing rose/amber indicator */}
-                <div className="w-[10%] h-full bg-rose-500 rounded-lg animate-pulse flex items-center justify-center" />
-                <div className="flex-1 text-center font-mono text-[11px] font-bold text-rose-600">
+                <div className="w-[10%] h-full bg-[#FF5A5F] rounded-lg animate-pulse flex items-center justify-center" />
+                <div className="flex-1 text-center font-mono text-[11px] font-bold text-[#FF5A5F]">
                   4% Remaining
                 </div>
               </div>
-              <div className="flex items-center justify-center space-x-1 text-[11px] text-amber-600 font-semibold">
+              <div className="flex items-center justify-center space-x-1 text-[11px] text-[#FCD34D] font-semibold">
                 <BatteryWarning className="w-3.5 h-3.5" />
                 <span>Station Range Depleted</span>
               </div>
@@ -87,15 +87,15 @@ export const NotFoundState: React.FC<NotFoundStateProps> = ({
 
         {/* Copy */}
         <div className="space-y-3">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#E8F1EE] tracking-tight">
             {title}
           </h1>
-          <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+          <p className="text-sm text-[#C5D5CF] max-w-md mx-auto leading-relaxed">
             {description}
           </p>
           {pathToShow && (
             <div className="pt-1">
-              <span className="inline-block font-mono text-xs px-3 py-1 bg-slate-100 border border-slate-200 rounded-lg text-slate-600 max-w-xs truncate">
+              <span className="inline-block font-mono text-xs px-3 py-1 bg-[#16241F] border border-[#1E2F2A] rounded-lg text-[#8DA39B] max-w-xs truncate">
                 {pathToShow}
               </span>
             </div>
@@ -107,7 +107,7 @@ export const NotFoundState: React.FC<NotFoundStateProps> = ({
           {primaryAction && (
             <Link
               to={primaryAction.to}
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-3 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.97] text-slate-950 font-extrabold text-xs rounded-xl shadow-md hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition duration-150"
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-3 bg-[#22E58B] hover:bg-[#1BC878] active:scale-[0.97] text-[#04130C] font-extrabold text-xs rounded-xl shadow-md transition duration-150"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>{primaryAction.label}</span>
@@ -117,9 +117,9 @@ export const NotFoundState: React.FC<NotFoundStateProps> = ({
           {secondaryAction && (
             <Link
               to={secondaryAction.to}
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-3 bg-white hover:bg-slate-50 active:scale-[0.97] border border-slate-300 text-slate-800 font-bold text-xs rounded-xl shadow-xs transition duration-150"
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-3 bg-[#16241F] hover:bg-[#1E2F2A] active:scale-[0.97] border border-[#1E2F2A] text-[#E8F1EE] font-bold text-xs rounded-xl shadow-xs transition duration-150"
             >
-              <Search className="w-4 h-4 text-emerald-600" />
+              <Search className="w-4 h-4 text-[#22E58B]" />
               <span>{secondaryAction.label}</span>
             </Link>
           )}

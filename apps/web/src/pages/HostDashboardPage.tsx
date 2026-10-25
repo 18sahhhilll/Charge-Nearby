@@ -67,37 +67,45 @@ export const HostDashboardPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="max-w-6xl mx-auto py-6 space-y-8">
+      <div className="max-w-6xl mx-auto py-6 space-y-8 relative">
+        {/* Ambient Glow behind Page Header only */}
+        <div
+          aria-hidden="true"
+          className="absolute -top-10 left-1/4 w-96 h-64 bg-[#22E58B]/10 blur-3xl pointer-events-none"
+        />
+
         {/* Dashboard Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               <Badge variant="emerald" pulse>HOST CONSOLE</Badge>
-              <span className="text-xs text-slate-400 font-semibold">Pune Community Network</span>
+              <span className="text-xs text-[#8DA39B] font-semibold">Pune Community Network</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
-              <span className="p-2 bg-emerald-500 text-slate-950 rounded-xl">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#E8F1EE] tracking-tight flex items-center space-x-2.5">
+              <span className="p-2 bg-[#22E58B] text-[#04130C] rounded-xl shadow-xs">
                 <Zap className="w-5 h-5 fill-current" />
               </span>
               <span>Host Management Console</span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400">
+            <p className="text-xs sm:text-sm text-[#8DA39B]">
               Control live station availability, update session rates, and oversee verified private charging equipment.
             </p>
           </div>
 
           <div className="flex items-center space-x-3 shrink-0">
+            {/* Secondary button: GHOST style with brand border */}
             <Link
               to="/host/bookings"
-              className="px-4 py-2.5 bg-white hover:bg-slate-50 active:scale-[0.98] border border-slate-200 text-slate-700 text-xs font-bold rounded-xl transition shadow-sm flex items-center space-x-1.5"
+              className="px-4 py-2.5 bg-transparent border border-[rgba(34,229,139,0.4)] hover:bg-[rgba(34,229,139,0.12)] text-[#22E58B] active:scale-[0.98] text-xs font-bold rounded-xl transition flex items-center space-x-1.5"
             >
-              <Clock className="w-4 h-4 text-emerald-600" />
+              <Clock className="w-4 h-4 text-[#22E58B]" />
               <span>Incoming Requests</span>
             </Link>
 
+            {/* Primary button: brand button */}
             <Link
               to="/host/chargers/new"
-              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-slate-950 text-xs font-extrabold rounded-xl shadow-lg shadow-emerald-500/20 transition flex items-center space-x-1.5"
+              className="px-4 py-2.5 bg-[#22E58B] hover:bg-[#1BC878] active:scale-[0.98] text-[#04130C] text-xs font-extrabold rounded-xl shadow-lg shadow-[#22E58B]/20 transition flex items-center space-x-1.5"
             >
               <Plus className="w-4 h-4" />
               <span>Add Charger</span>
@@ -107,50 +115,52 @@ export const HostDashboardPage: React.FC = () => {
 
         {/* Host Stats Strip */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-1.5">
+          <div className="bg-[#111C19] border border-[#1E2F2A] rounded-2xl p-5 shadow-sm space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-400">Total Listed Equipment</span>
-              <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+              <span className="text-xs font-semibold text-[#8DA39B]">Total Listed Equipment</span>
+              <div className="w-8 h-8 rounded-xl bg-[rgba(34,229,139,0.12)] text-[#22E58B] flex items-center justify-center">
                 <Zap className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-slate-900">{chargers.length}</div>
-            <div className="text-[11px] text-slate-500">
-              <span className="text-emerald-600 font-bold">{availableCount} online</span> accepting drivers
+            <div className="text-2xl font-extrabold text-[#E8F1EE]">{chargers.length}</div>
+            <div className="text-[11px] text-[#8DA39B]">
+              <span className="text-[#34D399] font-bold">{availableCount} online</span> accepting drivers
             </div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-1.5">
+          <div className="bg-[#111C19] border border-[#1E2F2A] rounded-2xl p-5 shadow-sm space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-400">Pilot Dispatch Rate</span>
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <span className="text-xs font-semibold text-[#8DA39B]">Pilot Dispatch Rate</span>
+              <div className="w-8 h-8 rounded-xl bg-[rgba(34,229,139,0.12)] text-[#22E58B] flex items-center justify-center">
                 <TrendingUp className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-slate-900">₹150 - ₹180</div>
-            <div className="text-[11px] text-slate-500">Avg. standard session in Pune</div>
+            <div className="text-2xl font-extrabold text-[#E8F1EE]">₹150 - ₹180</div>
+            <div className="text-[11px] text-[#8DA39B]">Avg. standard session in Pune</div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-1.5">
+          <div className="bg-[#111C19] border border-[#1E2F2A] rounded-2xl p-5 shadow-sm space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-400">Host Protection</span>
-              <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <span className="text-xs font-semibold text-[#8DA39B]">Host Protection</span>
+              <div className="w-8 h-8 rounded-xl bg-[rgba(56,189,248,0.12)] text-[#38BDF8] flex items-center justify-center">
                 <ShieldCheck className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-slate-900">Protected</div>
-            <div className="text-[11px] text-slate-500">Address encrypted until request accept</div>
+            <div className="text-2xl font-extrabold text-[#E8F1EE]">Protected</div>
+            <div className="text-[11px] text-[#8DA39B]">Address encrypted until request accept</div>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-1.5">
+          <div className="bg-[#111C19] border border-[#1E2F2A] rounded-2xl p-5 shadow-sm space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-400">Roadside Backup</span>
-              <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <span className="text-xs font-semibold text-[#8DA39B]">Roadside Backup</span>
+              <div className="w-8 h-8 rounded-xl bg-[rgba(255,90,95,0.12)] text-[#FF5A5F] flex items-center justify-center">
                 <Clock className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-extrabold text-slate-900">24/7 Live</div>
-            <div className="text-[11px] text-slate-500">1800-209-7979 Emergency Towing</div>
+            <div className="text-2xl font-extrabold text-[#E8F1EE]">24/7 Live</div>
+            <div className="text-[11px] text-[#8DA39B]">
+              <span className="text-[#FF5A5F] font-mono font-bold">1800-209-7979</span> Emergency Towing
+            </div>
           </div>
         </div>
 
@@ -158,18 +168,18 @@ export const HostDashboardPage: React.FC = () => {
         {loading ? (
           <DashboardCardSkeleton />
         ) : chargers.length === 0 ? (
-          <div className="bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4 max-w-lg mx-auto shadow-sm">
-            <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto">
+          <div className="bg-[#111C19] border border-[#1E2F2A] rounded-3xl p-12 text-center space-y-4 max-w-lg mx-auto shadow-sm">
+            <div className="w-16 h-16 bg-[rgba(34,229,139,0.12)] text-[#22E58B] rounded-2xl flex items-center justify-center mx-auto">
               <Zap className="w-8 h-8" />
             </div>
-            <h3 className="text-lg font-extrabold text-slate-900">No Charger Listings Yet</h3>
-            <p className="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">
+            <h3 className="text-lg font-extrabold text-[#E8F1EE]">No Charger Listings Yet</h3>
+            <p className="text-xs text-[#8DA39B] leading-relaxed max-w-sm mx-auto">
               Own an EV Wallbox, 15A socket, or commercial parking socket in Pune? List it to assist low-battery EV drivers
               and earn recurring session payouts.
             </p>
             <Link
               to="/host/chargers/new"
-              className="inline-flex items-center space-x-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-2xl text-xs shadow-lg shadow-emerald-500/20 transition"
+              className="inline-flex items-center space-x-2 px-6 py-3 bg-[#22E58B] hover:bg-[#1BC878] text-[#04130C] font-extrabold rounded-2xl text-xs shadow-lg shadow-[#22E58B]/20 transition"
             >
               <Plus className="w-4 h-4" />
               <span>Create Your First Listing</span>
@@ -178,106 +188,141 @@ export const HostDashboardPage: React.FC = () => {
         ) : (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-base font-extrabold text-white">Your Equipment Listings ({chargers.length})</h2>
-              <span className="text-xs text-slate-400">Click toggle to change live discovery status</span>
+              <h2 className="text-base font-extrabold text-[#E8F1EE]">Your Equipment Listings ({chargers.length})</h2>
+              <span className="text-xs text-[#8DA39B]">Click toggle to change live discovery status</span>
             </div>
 
             <Stagger className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {chargers.map((ch) => (
-                <StaggerItem key={ch.id}>
-                  <HoverLift>
-                    <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4 transition hover:border-slate-300">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="space-y-1">
-                          <div className="flex items-center space-x-2">
-                            <Badge
-                              variant={
-                                ch.verification_status === 'APPROVED'
-                                  ? 'emerald'
-                                  : ch.verification_status === 'PENDING'
-                                  ? 'amber'
-                                  : 'rose'
-                              }
-                            >
-                              {ch.verification_status}
-                            </Badge>
-                            <span className="text-[11px] font-semibold text-slate-400">
-                              {ch.parking_access.replace('_', ' ')}
+              {chargers.map((ch) => {
+                const isOnline = ch.availability_status === 'AVAILABLE';
+                return (
+                  <StaggerItem key={ch.id}>
+                    <HoverLift>
+                      <div
+                        className={`bg-[#111C19] border rounded-3xl p-6 shadow-sm space-y-4 transition ${
+                          isOnline
+                            ? 'border-[#22E58B]/40 ws-online-glow'
+                            : 'border-[#1E2F2A] hover:border-[#1E2F2A]/80'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="space-y-1">
+                            <div className="flex items-center space-x-2">
+                              {/* Status Pill with pulsating dot for online */}
+                              {isOnline ? (
+                                <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[rgba(52,211,153,0.12)] text-[#34D399] border border-[rgba(52,211,153,0.3)]">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse" />
+                                  <span>Online</span>
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[rgba(141,163,155,0.12)] text-[#8DA39B] border border-[#1E2F2A]">
+                                  <span>Offline</span>
+                                </span>
+                              )}
+
+                              {ch.verification_status === 'APPROVED' ? (
+                                <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[rgba(52,211,153,0.12)] text-[#34D399] border border-[rgba(52,211,153,0.3)]">
+                                  <span>APPROVED</span>
+                                </span>
+                              ) : ch.verification_status === 'PENDING' ? (
+                                <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[rgba(252,211,77,0.12)] text-[#FCD34D] border border-[rgba(252,211,77,0.3)]">
+                                  <span>PENDING</span>
+                                </span>
+                              ) : null}
+
+                              {/* Listing type tag (no fill, muted text) */}
+                              <span className="text-[11px] font-semibold text-[#8DA39B] uppercase">
+                                {ch.parking_access.replace('_', ' ')}
+                              </span>
+                            </div>
+                            <h3 className="text-base font-extrabold text-[#E8F1EE] leading-snug">{ch.title}</h3>
+                          </div>
+
+                          {/* Price & Specs */}
+                          <div className="text-right shrink-0">
+                            <div className="font-extrabold text-base text-[#FFD60A]">
+                              {ch.pricing_model === 'FIXED_SESSION'
+                                ? `₹${ch.session_price} `
+                                : `₹${ch.price_per_kwh} `}
+                              <span className="text-xs font-normal text-[#8DA39B]">
+                                {ch.pricing_model === 'FIXED_SESSION' ? '/ sess' : '/ kWh'}
+                              </span>
+                            </div>
+                            <div className="text-[10px] text-[#8DA39B] font-mono">
+                              {ch.max_power_kw} kW {ch.charger_type}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Nested Block: Location & Connector Chips */}
+                        <div className="text-xs text-[#C5D5CF] space-y-2 bg-[#16241F] p-4 rounded-2xl border border-[#1E2F2A]">
+                          <div className="flex items-center text-[#E8F1EE]">
+                            <MapPin className="w-3.5 h-3.5 text-[#8DA39B] mr-1.5 shrink-0" />
+                            <span><strong className="text-[#8DA39B]">Public Zone:</strong> {ch.locality}</span>
+                          </div>
+                          <div className="text-[11px] text-[#8DA39B] pl-5">
+                            <strong className="text-[#C5D5CF]">Private Address:</strong> {ch.exact_address || 'Encrypted until dispatch'}
+                          </div>
+                          <div className="text-[11px] flex items-center flex-wrap gap-1.5 pl-5 pt-0.5">
+                            <strong className="text-[#8DA39B] mr-1">Connectors:</strong>
+                            {(ch.connector_types || []).map((conn) => (
+                              <span
+                                key={conn}
+                                className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[rgba(56,189,248,0.12)] text-[#38BDF8] border border-[rgba(56,189,248,0.3)]"
+                              >
+                                {conn}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Action Bar */}
+                        <div className="pt-3 border-t border-[#1E2F2A] flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() => handleToggleAvailability(ch)}
+                            disabled={updatingId === ch.id}
+                            className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition active:scale-[0.98] cursor-pointer ${
+                              isOnline
+                                ? 'bg-[rgba(52,211,153,0.12)] text-[#34D399] border border-[rgba(52,211,153,0.3)] hover:bg-[rgba(52,211,153,0.2)]'
+                                : 'bg-[#16241F] text-[#8DA39B] border border-[#1E2F2A] hover:text-[#E8F1EE]'
+                            }`}
+                          >
+                            <Power className={`w-3.5 h-3.5 ${updatingId === ch.id ? 'animate-spin' : ''}`} />
+                            <span>
+                              {updatingId === ch.id
+                                ? 'Updating...'
+                                : isOnline
+                                ? 'Online (Available)'
+                                : 'Offline (Paused)'}
                             </span>
-                          </div>
-                          <h3 className="text-base font-extrabold text-slate-900 leading-snug">{ch.title}</h3>
-                        </div>
+                          </button>
 
-                        <div className="text-right shrink-0">
-                          <div className="font-extrabold text-base text-emerald-600">
-                            {ch.pricing_model === 'FIXED_SESSION'
-                              ? `₹${ch.session_price} / sess`
-                              : `₹${ch.price_per_kwh} / kWh`}
-                          </div>
-                          <div className="text-[10px] text-slate-400 font-medium">
-                            {ch.max_power_kw} kW {ch.charger_type}
+                          <div className="flex items-center space-x-2">
+                            {/* External link button: ghost style */}
+                            <Link
+                              to={`/chargers/${ch.id}`}
+                              target="_blank"
+                              className="p-2 text-[#8DA39B] hover:text-[#E8F1EE] rounded-xl border border-[#1E2F2A] hover:border-[rgba(34,229,139,0.3)] bg-transparent transition"
+                              title="Preview public listing"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </Link>
+                            {/* Edit Listing: ghost style */}
+                            <Link
+                              to={`/host/chargers/${ch.id}/edit`}
+                              className="flex items-center space-x-1.5 px-3.5 py-2 bg-transparent hover:bg-[#16241F] border border-[#1E2F2A] hover:border-[rgba(34,229,139,0.3)] text-[#8DA39B] hover:text-[#E8F1EE] rounded-xl text-xs font-bold transition"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                              <span>Edit Listing</span>
+                            </Link>
                           </div>
                         </div>
                       </div>
-
-                      {/* Location & Connector Details */}
-                      <div className="text-xs text-slate-600 space-y-1.5 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <div className="flex items-center text-slate-700">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400 mr-1.5 shrink-0" />
-                          <span><strong>Public Zone:</strong> {ch.locality}</span>
-                        </div>
-                        <div className="text-[11px] text-slate-500 pl-5">
-                          <strong>Private Address:</strong> {ch.exact_address || 'Encrypted until dispatch'}
-                        </div>
-                        <div className="text-[11px] text-slate-500 pl-5">
-                          <strong>Connectors:</strong> {(ch.connector_types || []).join(', ')}
-                        </div>
-                      </div>
-
-                      {/* Action Bar */}
-                      <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                        <button
-                          type="button"
-                          onClick={() => handleToggleAvailability(ch)}
-                          disabled={updatingId === ch.id}
-                          className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition active:scale-[0.98] ${
-                            ch.availability_status === 'AVAILABLE'
-                              ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-sm'
-                              : 'bg-slate-200 hover:bg-slate-300 text-slate-700'
-                          }`}
-                        >
-                          <Power className={`w-3.5 h-3.5 ${updatingId === ch.id ? 'animate-spin' : ''}`} />
-                          <span>
-                            {updatingId === ch.id
-                              ? 'Updating...'
-                              : ch.availability_status === 'AVAILABLE'
-                              ? 'Online (Available)'
-                              : 'Offline (Paused)'}
-                          </span>
-                        </button>
-
-                        <div className="flex items-center space-x-2">
-                          <Link
-                            to={`/chargers/${ch.id}`}
-                            target="_blank"
-                            className="p-2 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition"
-                            title="Preview public listing"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </Link>
-                          <Link
-                            to={`/host/chargers/${ch.id}/edit`}
-                            className="flex items-center space-x-1.5 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition"
-                          >
-                            <Edit3 className="w-3.5 h-3.5" />
-                            <span>Edit Listing</span>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </HoverLift>
-                </StaggerItem>
-              ))}
+                    </HoverLift>
+                  </StaggerItem>
+                );
+              })}
             </Stagger>
           </div>
         )}

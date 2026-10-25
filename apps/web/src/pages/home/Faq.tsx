@@ -56,17 +56,17 @@ export const Faq: React.FC = () => {
   };
 
   return (
-    <section id="faq" aria-labelledby="faq-heading" className="py-20 bg-white border-t border-slate-200">
+    <section id="faq" aria-labelledby="faq-heading" className="py-20 bg-[#0A1210] border-t border-[#1E2F2A]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#22E58B] bg-[#22E58B]/10 px-3 py-1 rounded-full border border-[#22E58B]/30">
               Got Questions?
             </span>
-            <h2 id="faq-heading" className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+            <h2 id="faq-heading" className="text-3xl sm:text-4xl font-extrabold text-[#E8F1EE] mt-3">
               Frequently Asked Questions
             </h2>
-            <p className="text-slate-600 text-sm sm:text-base mt-2">
+            <p className="text-[#C5D5CF] text-sm sm:text-base mt-2">
               Everything you need to know about community charging, host security, and Pune EV rescue.
             </p>
           </div>
@@ -77,19 +77,19 @@ export const Faq: React.FC = () => {
             const isOpen = openIndex === index;
             return (
               <FadeIn key={faq.id} delay={0.05 * index}>
-                <div className="border border-slate-200 rounded-2xl overflow-hidden transition-colors bg-slate-50/50">
+                <div className="border border-[#1E2F2A] rounded-2xl overflow-hidden transition-colors bg-[#111C19]">
                   <button
                     type="button"
                     onClick={() => toggle(index)}
                     aria-expanded={isOpen}
                     aria-controls={faq.id}
-                    className="w-full p-5 text-left font-bold text-slate-900 flex items-center justify-between gap-4 hover:bg-slate-50 transition cursor-pointer"
+                    className="w-full p-5 text-left font-bold text-[#E8F1EE] flex items-center justify-between gap-4 hover:bg-[#16241F] transition cursor-pointer"
                   >
                     <span className="text-sm sm:text-base">{faq.question}</span>
                     <motion.div
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
-                      className="shrink-0 text-slate-400"
+                      className="shrink-0 text-[#8DA39B]"
                     >
                       <ChevronDown className="w-5 h-5" />
                     </motion.div>
@@ -105,7 +105,7 @@ export const Faq: React.FC = () => {
                         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
-                        <div className="px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                        <div className="px-5 pb-5 text-xs sm:text-sm text-[#C5D5CF] leading-relaxed border-t border-[#1E2F2A] pt-3">
                           {faq.answer}
                         </div>
                       </motion.div>

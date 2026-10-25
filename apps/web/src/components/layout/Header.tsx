@@ -44,22 +44,22 @@ export const Header: React.FC = () => {
     <header
       className={`sticky top-0 z-50 transition-all duration-200 ${
         isScrolled
-          ? 'bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 shadow-lg'
-          : 'bg-slate-900 border-b border-slate-800 text-white shadow-md'
+          ? 'bg-[#0A1210]/90 backdrop-blur-md border-b border-[#1E2F2A] shadow-lg shadow-black/40'
+          : 'bg-[#0A1210]/85 backdrop-blur-md border-b border-[#1E2F2A] text-[#E8F1EE]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div className="p-2 bg-emerald-500 rounded-xl text-slate-950 font-bold flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm">
+          <Link to="/" className="flex items-center space-x-2.5 group">
+            <div className="p-2 bg-[#22E58B] rounded-xl text-[#04130C] font-bold flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm">
               <Zap className="w-5 h-5 fill-current" />
             </div>
             <div>
-              <span className="font-extrabold text-xl tracking-tight text-white">
-                Charge<span className="text-emerald-400">Nearby</span>
+              <span className="font-extrabold text-xl tracking-tight text-[#E8F1EE]">
+                Charge<span className="text-[#22E58B]">Nearby</span>
               </span>
-              <span className="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800">
+              <span className="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-[#22E58B]/10 text-[#22E58B] border border-[#22E58B]/30">
                 Pune Pilot
               </span>
             </div>
@@ -72,28 +72,28 @@ export const Header: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => scrollToSection('how-it-works')}
-                  className="text-slate-300 hover:text-white transition-colors cursor-pointer py-1"
+                  className="text-[#C5D5CF] hover:text-[#E8F1EE] transition-colors cursor-pointer py-1"
                 >
                   How it works
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection('for-hosts')}
-                  className="text-slate-300 hover:text-white transition-colors cursor-pointer py-1"
+                  className="text-[#C5D5CF] hover:text-[#E8F1EE] transition-colors cursor-pointer py-1"
                 >
                   For hosts
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection('safety')}
-                  className="text-slate-300 hover:text-white transition-colors cursor-pointer py-1"
+                  className="text-[#C5D5CF] hover:text-[#E8F1EE] transition-colors cursor-pointer py-1"
                 >
                   Safety
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection('faq')}
-                  className="text-slate-300 hover:text-white transition-colors cursor-pointer py-1"
+                  className="text-[#C5D5CF] hover:text-[#E8F1EE] transition-colors cursor-pointer py-1"
                 >
                   FAQ
                 </button>
@@ -103,15 +103,15 @@ export const Header: React.FC = () => {
                 <Link
                   to="/find"
                   className={`relative py-1 flex items-center space-x-1.5 transition-colors ${
-                    isActive('/find') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'
+                    isActive('/find') ? 'text-[#22E58B] font-semibold' : 'text-[#C5D5CF] hover:text-[#E8F1EE]'
                   }`}
                 >
-                  <Zap className="w-4 h-4 text-emerald-400" />
+                  <Zap className="w-4 h-4 text-[#22E58B]" />
                   <span>Find Chargers</span>
                   {isActive('/find') && (
                     <motion.div
                       layoutId="navbar-active-underline"
-                      className="absolute -bottom-1 inset-x-0 h-0.5 bg-emerald-400 rounded-full"
+                      className="absolute -bottom-1 inset-x-0 h-0.5 bg-[#22E58B] rounded-full"
                       transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                     />
                   )}
@@ -122,7 +122,7 @@ export const Header: React.FC = () => {
                     <Link
                       to="/host/dashboard"
                       className={`relative py-1 flex items-center space-x-1 transition-colors ${
-                        isActive('/host/dashboard') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'
+                        isActive('/host/dashboard') ? 'text-[#22E58B] font-semibold' : 'text-[#C5D5CF] hover:text-[#E8F1EE]'
                       }`}
                     >
                       <Home className="w-4 h-4" />
@@ -130,7 +130,7 @@ export const Header: React.FC = () => {
                       {isActive('/host/dashboard') && (
                         <motion.div
                           layoutId="navbar-active-underline"
-                          className="absolute -bottom-1 inset-x-0 h-0.5 bg-emerald-400 rounded-full"
+                          className="absolute -bottom-1 inset-x-0 h-0.5 bg-[#22E58B] rounded-full"
                           transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                         />
                       )}
@@ -138,14 +138,14 @@ export const Header: React.FC = () => {
                     <Link
                       to="/host/bookings"
                       className={`relative py-1 transition-colors ${
-                        isActive('/host/bookings') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'
+                        isActive('/host/bookings') ? 'text-[#22E58B] font-semibold' : 'text-[#C5D5CF] hover:text-[#E8F1EE]'
                       }`}
                     >
                       <span>Host Requests</span>
                       {isActive('/host/bookings') && (
                         <motion.div
                           layoutId="navbar-active-underline"
-                          className="absolute -bottom-1 inset-x-0 h-0.5 bg-emerald-400 rounded-full"
+                          className="absolute -bottom-1 inset-x-0 h-0.5 bg-[#22E58B] rounded-full"
                           transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                         />
                       )}
@@ -157,7 +157,7 @@ export const Header: React.FC = () => {
                   <Link
                     to="/driver/bookings"
                     className={`relative py-1 flex items-center space-x-1 transition-colors ${
-                      isActive('/driver/bookings') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'
+                      isActive('/driver/bookings') ? 'text-[#22E58B] font-semibold' : 'text-[#C5D5CF] hover:text-[#E8F1EE]'
                     }`}
                   >
                     <Car className="w-4 h-4" />
@@ -165,7 +165,7 @@ export const Header: React.FC = () => {
                     {isActive('/driver/bookings') && (
                       <motion.div
                         layoutId="navbar-active-underline"
-                        className="absolute -bottom-1 inset-x-0 h-0.5 bg-emerald-400 rounded-full"
+                        className="absolute -bottom-1 inset-x-0 h-0.5 bg-[#22E58B] rounded-full"
                         transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                       />
                     )}
@@ -175,14 +175,14 @@ export const Header: React.FC = () => {
                 <Link
                   to="/help"
                   className={`relative py-1 transition-colors ${
-                    isActive('/help') ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'
+                    isActive('/help') ? 'text-[#22E58B] font-semibold' : 'text-[#C5D5CF] hover:text-[#E8F1EE]'
                   }`}
                 >
                   <span>Help & Safety</span>
                   {isActive('/help') && (
                     <motion.div
                       layoutId="navbar-active-underline"
-                      className="absolute -bottom-1 inset-x-0 h-0.5 bg-emerald-400 rounded-full"
+                      className="absolute -bottom-1 inset-x-0 h-0.5 bg-[#22E58B] rounded-full"
                       transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                     />
                   )}
@@ -197,9 +197,9 @@ export const Header: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/profile"
-                  className="flex items-center space-x-2 text-sm text-slate-200 hover:text-emerald-400 transition"
+                  className="flex items-center space-x-2 text-sm text-[#E8F1EE] hover:text-[#22E58B] transition"
                 >
-                  <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-emerald-400">
+                  <div className="w-8 h-8 rounded-full bg-[#16241F] border border-[#1E2F2A] flex items-center justify-center text-xs font-bold text-[#22E58B]">
                     {user.full_name.charAt(0)}
                   </div>
                   <span className="font-medium max-w-[120px] truncate">{user.full_name}</span>
@@ -210,7 +210,7 @@ export const Header: React.FC = () => {
                     href="http://127.0.0.1:8000/admin/"
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-600/40 rounded flex items-center space-x-1"
+                    className="text-xs px-2.5 py-1 bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 rounded flex items-center space-x-1"
                   >
                     <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Admin</span>
@@ -220,7 +220,7 @@ export const Header: React.FC = () => {
                 <button
                   onClick={handleLogout}
                   title="Logout"
-                  className="p-1.5 text-slate-400 hover:text-rose-400 transition"
+                  className="p-1.5 text-[#8DA39B] hover:text-[#FF5A5F] transition"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -229,13 +229,13 @@ export const Header: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Link
                   to="/login"
-                  className="text-sm font-semibold text-slate-300 hover:text-white transition px-3.5 py-2 rounded-xl hover:bg-slate-800/60"
+                  className="text-sm font-semibold text-[#C5D5CF] hover:text-[#E8F1EE] transition px-3.5 py-2 rounded-xl hover:bg-[#16241F]"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/find"
-                  className="text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-xl shadow-md transition flex items-center space-x-1.5"
+                  className="text-sm font-bold bg-[#22E58B] hover:bg-[#1BC878] text-[#04130C] px-4 py-2 rounded-xl shadow-md transition flex items-center space-x-1.5"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current" />
                   <span>Find a charger</span>
@@ -248,7 +248,7 @@ export const Header: React.FC = () => {
           <div className="flex md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-slate-300 hover:text-white p-2"
+              className="text-[#C5D5CF] hover:text-[#E8F1EE] p-2"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -265,35 +265,35 @@ export const Header: React.FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3"
+            className="overflow-hidden md:hidden bg-[#0A1210] border-b border-[#1E2F2A] px-4 pt-3 pb-6 space-y-3"
           >
             {isHomePage && !isAuthenticated ? (
               <div className="space-y-2 pb-2">
                 <button
                   type="button"
                   onClick={() => scrollToSection('how-it-works')}
-                  className="block w-full text-left text-base text-slate-200 hover:text-emerald-400 py-1"
+                  className="block w-full text-left text-base text-[#C5D5CF] hover:text-[#22E58B] py-1"
                 >
                   How it works
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection('for-hosts')}
-                  className="block w-full text-left text-base text-slate-200 hover:text-emerald-400 py-1"
+                  className="block w-full text-left text-base text-[#C5D5CF] hover:text-[#22E58B] py-1"
                 >
                   For hosts
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection('safety')}
-                  className="block w-full text-left text-base text-slate-200 hover:text-emerald-400 py-1"
+                  className="block w-full text-left text-base text-[#C5D5CF] hover:text-[#22E58B] py-1"
                 >
                   Safety
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToSection('faq')}
-                  className="block w-full text-left text-base text-slate-200 hover:text-emerald-400 py-1"
+                  className="block w-full text-left text-base text-[#C5D5CF] hover:text-[#22E58B] py-1"
                 >
                   FAQ
                 </button>
@@ -303,7 +303,7 @@ export const Header: React.FC = () => {
             <Link
               to="/find"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-base font-medium text-emerald-400 py-1"
+              className="block text-base font-medium text-[#22E58B] py-1"
             >
               Find Chargers
             </Link>
@@ -312,7 +312,7 @@ export const Header: React.FC = () => {
                 <Link
                   to="/driver/bookings"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block text-base text-slate-300 hover:text-white py-1"
+                  className="block text-base text-[#C5D5CF] hover:text-[#E8F1EE] py-1"
                 >
                   My Bookings
                 </Link>
@@ -321,14 +321,14 @@ export const Header: React.FC = () => {
                     <Link
                       to="/host/dashboard"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-base text-slate-300 hover:text-white py-1"
+                      className="block text-base text-[#C5D5CF] hover:text-[#E8F1EE] py-1"
                     >
                       Host Dashboard
                     </Link>
                     <Link
                       to="/host/bookings"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-base text-slate-300 hover:text-white py-1"
+                      className="block text-base text-[#C5D5CF] hover:text-[#E8F1EE] py-1"
                     >
                       Incoming Requests
                     </Link>
@@ -337,14 +337,14 @@ export const Header: React.FC = () => {
                 <Link
                   to="/help"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block text-base text-slate-300 hover:text-white py-1"
+                  className="block text-base text-[#C5D5CF] hover:text-[#E8F1EE] py-1"
                 >
                   Help & Safety
                 </Link>
                 <Link
                   to="/profile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block text-base text-slate-300 hover:text-white py-1"
+                  className="block text-base text-[#C5D5CF] hover:text-[#E8F1EE] py-1"
                 >
                   Profile & Vehicles
                 </Link>
@@ -353,25 +353,25 @@ export const Header: React.FC = () => {
                     setMobileMenuOpen(false);
                     handleLogout();
                   }}
-                  className="block text-base text-rose-400 py-1"
+                  className="block text-base text-[#FF5A5F] py-1"
                 >
                   Logout
                 </button>
               </>
             )}
             {!isAuthenticated && (
-              <div className="pt-3 border-t border-slate-800 flex flex-col space-y-2">
+              <div className="pt-3 border-t border-[#1E2F2A] flex flex-col space-y-2">
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block text-center text-sm font-medium text-slate-200 border border-slate-700 py-2 rounded-xl"
+                  className="block text-center text-sm font-medium text-[#C5D5CF] hover:text-[#E8F1EE] border border-[#1E2F2A] py-2 rounded-xl bg-[#111C19]"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/find"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block text-center text-sm font-bold bg-emerald-500 text-slate-950 py-2 rounded-xl"
+                  className="block text-center text-sm font-bold bg-[#22E58B] hover:bg-[#1BC878] text-[#04130C] py-2 rounded-xl"
                 >
                   Find a charger
                 </Link>

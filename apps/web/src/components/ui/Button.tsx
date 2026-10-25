@@ -35,15 +35,15 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles: Record<ButtonVariant, string> = {
     primary:
-      'bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-md shadow-emerald-500/20 border border-emerald-400/30',
+      'bg-[#22E58B] hover:bg-[#1BC878] text-[#04130C] shadow-md shadow-[#22E58B]/20 border border-[#22E58B]/30',
     secondary:
-      'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700/80 shadow-sm',
+      'bg-transparent hover:bg-[rgba(34,229,139,0.12)] text-[#22E58B] border border-[rgba(34,229,139,0.4)] shadow-xs',
     outline:
-      'bg-transparent hover:bg-slate-800/60 text-slate-200 border border-slate-700 hover:border-slate-600',
+      'bg-transparent hover:bg-[#16241F] text-[#8DA39B] hover:text-[#E8F1EE] border border-[#1E2F2A] hover:border-[rgba(34,229,139,0.3)]',
     ghost:
-      'bg-transparent hover:bg-slate-800/50 text-slate-300 hover:text-white',
+      'bg-transparent hover:bg-[rgba(34,229,139,0.12)] text-[#8DA39B] hover:text-[#22E58B]',
     danger:
-      'bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30',
+      'bg-[rgba(255,90,95,0.12)] hover:bg-[rgba(255,90,95,0.2)] text-[#FF5A5F] border border-[rgba(255,90,95,0.3)]',
   };
 
   return (

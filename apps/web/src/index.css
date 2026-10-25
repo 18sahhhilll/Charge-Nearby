@@ -1,80 +1,190 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   SEMANTIC SURFACE & TEXT COLOR SYSTEM
+   THEME TOKENS: CHARGENEARBY DUAL-CONTEXT ARCHITECTURE
    ========================================================================== */
+@theme {
+  --color-ws-canvas: var(--ws-canvas);
+  --color-ws-surface: var(--ws-surface);
+  --color-ws-surface-2: var(--ws-surface-2);
+  --color-ws-border: var(--ws-border);
+  --color-ws-text: var(--ws-text);
+  --color-ws-text-body: var(--ws-text-body);
+  --color-ws-text-muted: var(--ws-text-muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-on: var(--brand-on);
+  --color-brand-muted: var(--brand-muted);
+  --color-price: var(--price);
+  --color-info: var(--info);
+  --color-info-muted: var(--info-muted);
+
+  --color-pub-canvas: var(--pub-canvas);
+  --color-pub-surface: var(--pub-surface);
+  --color-pub-border: var(--pub-border);
+  --color-pub-text: var(--pub-text);
+  --color-pub-body: var(--pub-body);
+  --color-brand-light: var(--brand-light);
+}
+
 :root {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color-scheme: light;
 
-  /* Semantic Light Surface Tokens (Default on white/slate-50 backgrounds) */
-  --surface-bg: #f8fafc;        /* slate-50 */
-  --surface-card: #ffffff;      /* white */
-  --surface-border: #e2e8f0;    /* slate-200 */
-  --text-heading: #0f172a;      /* slate-900 (High contrast heading) */
-  --text-primary: #0f172a;      /* slate-900 (Primary text) */
-  --text-secondary: #334155;    /* slate-700 (Body & labels) */
-  --text-muted: #64748b;        /* slate-500 (Descriptions, metadata) */
-  --text-subtle: #94a3b8;       /* slate-400 (Low-priority text) */
-  --text-inverse: #ffffff;
-  --border-muted: #e2e8f0;      /* slate-200 */
+  /* Public (Light) context: green-tinted neutrals */
+  --pub-canvas:  #F3F8F6;
+  --pub-surface: #FFFFFF;
+  --pub-border:  #DDE9E4;
+  --pub-text:    #0E1F1A;
+  --pub-body:    #3F5A51;
+  --brand-light: #0FA968;
+
+  /* Shared Brand Tokens */
+  --brand:            #22E58B;   /* primary brand, buttons, active nav, online */
+  --brand-hover:      #1BC878;
+  --brand-on:         #04130C;   /* text on top of brand-colored buttons */
+  --brand-muted:      rgba(34, 229, 139, 0.12);  /* pill and chip backgrounds */
+  --price:            #FFD60A;   /* volt yellow, used ONLY for prices / kWh rates */
+  --info:             #38BDF8;   /* connector chips, DC fast charging */
+  --info-muted:       rgba(56, 189, 248, 0.12);
+
+  /* Semantic status colors (dark surface variants) */
+  --status-reachable:       #34D399;
+  --status-reachable-bg:    rgba(52, 211, 153, 0.12);
+  --status-caution:         #FCD34D;
+  --status-caution-bg:      rgba(252, 211, 77, 0.12);
+  --status-critical:        #FF5A5F;
+  --status-critical-bg:     rgba(255, 90, 95, 0.12);
+  --status-public-dc:       #38BDF8;
+  --status-public-dc-bg:    rgba(56, 189, 248, 0.12);
+  --status-offline:         #8DA39B;
+  --status-offline-bg:      rgba(141, 163, 155, 0.12);
+
+  /* Workspace (Dark, "Electric Night") Tokens */
+  --ws-canvas:        #0A1210;   /* deep green-black */
+  --ws-surface:       #111C19;   /* cards, modals, HUD */
+  --ws-surface-2:     #16241F;   /* nested panels, inputs, address blocks */
+  --ws-border:        #1E2F2A;   /* 1px hairline borders, dividers */
+  --ws-text:          #E8F1EE;   /* headings and primary text */
+  --ws-text-body:     #C5D5CF;   /* body copy */
+  --ws-text-muted:    #8DA39B;   /* labels, captions */
+
+  /* Legacy mappings */
+  --surface-bg: var(--pub-canvas);
+  --surface-card: var(--pub-surface);
+  --surface-border: var(--pub-border);
+  --text-heading: var(--pub-text);
+  --text-primary: var(--pub-text);
+  --text-secondary: var(--pub-body);
+  --text-muted: #52756A;
+  --text-subtle: #7A9B90;
+  --text-inverse: #FFFFFF;
+  --border-muted: var(--pub-border);
 }
 
 /* Dark Surface Context (Workspace canvas, dark sidebars, dark heroes, modals) */
 .surface-dark,
 [data-surface="dark"],
-.workspace-canvas {
+.workspace-canvas,
+.ws-canvas {
   color-scheme: dark;
-  --surface-bg: #020617;        /* slate-950 */
-  --surface-card: #0f172a;      /* slate-900 */
-  --surface-border: #1e293b;    /* slate-800 */
-  --text-heading: #ffffff;      /* Pure white heading on dark */
-  --text-primary: #f8fafc;      /* slate-50 */
-  --text-secondary: #cbd5e1;    /* slate-300 */
-  --text-muted: #94a3b8;        /* slate-400 */
-  --text-subtle: #64748b;       /* slate-500 */
-  --text-inverse: #0f172a;
-  --border-muted: #1e293b;      /* slate-800 */
-}
-
-/* Light Card Context (For white cards rendered inside dark surfaces) */
-.surface-card-light,
-.card-light {
-  color-scheme: light;
-  --surface-bg: #ffffff;
-  --surface-card: #ffffff;
-  --surface-border: #e2e8f0;
-  --text-heading: #0f172a;
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --text-subtle: #94a3b8;
-  --text-inverse: #ffffff;
-  --border-muted: #e2e8f0;
+  background-color: var(--ws-canvas);
+  color: var(--ws-text);
+  --surface-bg: var(--ws-canvas);
+  --surface-card: var(--ws-surface);
+  --surface-border: var(--ws-border);
+  --text-heading: var(--ws-text);
+  --text-primary: var(--ws-text);
+  --text-secondary: var(--ws-text-body);
+  --text-muted: var(--ws-text-muted);
+  --text-subtle: #5B736A;
+  --text-inverse: var(--ws-canvas);
+  --border-muted: var(--ws-border);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--surface-bg);
-  color: var(--text-primary);
+  background-color: var(--pub-canvas);
+  color: var(--pub-text);
 }
 
-/* Semantic helper classes */
-.text-canvas-heading {
-  color: var(--text-heading);
+/* ==========================================================================
+   REUSABLE WORKSPACE UTILITIES (STEP 2)
+   ========================================================================== */
+.ws-card {
+  background-color: var(--ws-surface);
+  border: 1px solid var(--ws-border);
+  color: var(--ws-text);
 }
 
-.text-canvas-desc {
-  color: var(--text-muted);
+.ws-card-nested {
+  background-color: var(--ws-surface-2);
+  border: 1px solid var(--ws-border);
 }
 
-.text-canvas-subtle {
-  color: var(--text-subtle);
+.ws-chip {
+  background-color: var(--brand-muted);
+  color: var(--brand);
+  border: 1px solid rgba(34, 229, 139, 0.25);
 }
 
-.border-canvas {
-  border-color: var(--border-muted);
+.ws-btn-primary {
+  background-color: var(--brand);
+  color: var(--brand-on);
+  font-weight: 700;
+  border: 1px solid transparent;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+.ws-btn-primary:hover {
+  background-color: var(--brand-hover);
+}
+.ws-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.ws-btn-ghost {
+  background-color: transparent;
+  border: 1px solid rgba(34, 229, 139, 0.4);
+  color: var(--brand);
+  font-weight: 700;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+.ws-btn-ghost:hover {
+  background-color: var(--brand-muted);
+}
+.ws-btn-ghost:active {
+  transform: scale(0.98);
+}
+
+.ws-btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--ws-border);
+  color: var(--ws-text-muted);
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+.ws-btn-secondary:hover {
+  color: var(--ws-text);
+  border-color: rgba(34, 229, 139, 0.3);
+  background-color: rgba(22, 36, 31, 0.6);
+}
+
+/* Online Listing Glow rule */
+.ws-online-glow {
+  box-shadow: 0 0 32px rgba(34, 229, 139, 0.07);
+  transition: box-shadow 200ms ease, border-color 200ms ease;
+}
+.ws-online-glow:hover {
+  box-shadow: 0 0 32px rgba(34, 229, 139, 0.12);
+}
+
+/* Visible 2px focus ring with offset */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }
 
 /* Global button and input polish */
@@ -85,7 +195,7 @@ button, [role="button"] {
 }
 
 button:active:not(:disabled), [role="button"]:active:not(:disabled) {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 input, select, textarea {

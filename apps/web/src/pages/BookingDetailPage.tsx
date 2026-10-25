@@ -1,55 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
-  Zap,
   MapPin,
-  Lock,
-  Unlock,
-  CheckCircle2,
   Clock,
-  Navigation,
+  Zap,
+  Phone,
+  CheckCircle2,
   AlertTriangle,
   Play,
   Check,
   ChevronLeft,
-  Phone,
-  BatteryCharging,
-  ShieldCheck,
+  Navigation,
   ExternalLink,
-  Car,
-  FileText
+  Lock,
+  Unlock,
+  Battery
 } from 'lucide-react';
 import { bookingService } from '../services';
 import { Booking } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { PageTransition } from '../components/motion';
-import { NotFoundState } from '../components/common/NotFoundState';
-import { Skeleton } from '../components/common/Skeleton';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
+import { NotFoundState } from '../components/common/NotFoundState';
 
 export const BookingDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
-
+  const { user } = useAuth();
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
-  const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [actionLoading, setActionLoading] = useState(false);
 
-  // Session start inputs
-  const [startBattery, setStartBattery] = useState('18');
-  // Session completion inputs
-  const [deliveredKwh, setDeliveredKwh] = useState('9.5');
-  const [endBattery, setEndBattery] = useState('42');
+  // Charging telemetry inputs
+  const [startBattery, setStartBattery] = useState('15');
+  const [endBattery, setEndBattery] = useState('80');
+  const [deliveredKwh, setDeliveredKwh] = useState('18.5');
 
-  const loadBooking = async () => {
-    if (!id) return;
+  useEffect(() => {
+    if (id) {
+      loadBooking(id);
+    }
+  }, [id]);
+
+  const loadBooking = async (bookingId: string) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await bookingService.get(id);
+      const data = await bookingService.get(bookingId);
       setBooking(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load booking details.');
@@ -58,22 +56,13 @@ export const BookingDetailPage: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login?redirect=/driver/bookings/' + id);
-      return;
-    }
-    loadBooking();
-  }, [id, isAuthenticated, navigate]);
-
   const handleAction = async (actionFn: () => Promise<any>) => {
     setActionLoading(true);
-    setError(null);
     try {
       await actionFn();
-      loadBooking();
+      if (id) loadBooking(id);
     } catch (err: any) {
-      setError(err.message || 'Action failed.');
+      alert(err.message || 'Failed to update booking status.');
     } finally {
       setActionLoading(false);
     }
@@ -81,19 +70,9 @@ export const BookingDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <PageTransition>
-        <div className="max-w-4xl mx-auto py-8 space-y-6">
-          <Skeleton className="w-32 h-6" />
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 space-y-6">
-            <div className="flex justify-between items-center">
-              <Skeleton className="w-48 h-8" />
-              <Skeleton className="w-24 h-8" />
-            </div>
-            <Skeleton className="w-full h-8 rounded-full" />
-            <Skeleton className="w-full h-32 rounded-2xl" />
-          </div>
-        </div>
-      </PageTransition>
+      <div className="max-w-4xl mx-auto py-12 text-center text-[#8DA39B] text-sm animate-pulse">
+        Loading emergency dispatch HUD...
+      </div>
     );
   }
 
@@ -127,23 +106,23 @@ export const BookingDetailPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="max-w-4xl mx-auto py-6 space-y-6">
+      <div className="max-w-4xl mx-auto py-6 space-y-6 text-[#E8F1EE]">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between">
           <Link
             to={isDriver ? '/driver/bookings' : '/host/bookings'}
-            className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-400 hover:text-white transition"
+            className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#8DA39B] hover:text-[#E8F1EE] transition"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Back to {isDriver ? 'Driver Sessions' : 'Host Requests'}</span>
           </Link>
-          <span className="text-xs text-slate-400 font-mono">Session #{booking.id.slice(0, 8)}</span>
+          <span className="text-xs text-[#8DA39B] font-mono">Session #{booking.id.slice(0, 8)}</span>
         </div>
 
         {/* Main Session HUD Card */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="bg-[#111C19] border border-[#1E2F2A] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
           {/* Header Row */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1E2F2A] pb-5">
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
                 <Badge
@@ -162,20 +141,20 @@ export const BookingDetailPage: React.FC = () => {
                 >
                   {booking.status}
                 </Badge>
-                <span className="text-xs text-slate-400 font-semibold">{booking.booking_type} DISPATCH</span>
+                <span className="text-xs text-[#8DA39B] font-semibold">{booking.booking_type} DISPATCH</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-[#E8F1EE] tracking-tight">
                 {booking.charger_title}
               </h1>
-              <div className="flex items-center text-xs text-slate-500 space-x-1">
-                <MapPin className="w-3.5 h-3.5 text-emerald-500" />
+              <div className="flex items-center text-xs text-[#8DA39B] space-x-1">
+                <MapPin className="w-3.5 h-3.5 text-[#22E58B]" />
                 <span>{booking.charger_locality}</span>
               </div>
             </div>
 
             <div className="text-left sm:text-right">
-              <span className="font-extrabold text-3xl text-emerald-600">₹{booking.quoted_amount}</span>
-              <div className="text-[11px] text-slate-400 font-medium">Agreed rate snapshot</div>
+              <span className="font-extrabold text-3xl text-[#FFD60A]">₹{booking.quoted_amount}</span>
+              <div className="text-[11px] text-[#8DA39B] font-medium">Agreed rate snapshot</div>
             </div>
           </div>
 
@@ -190,15 +169,15 @@ export const BookingDetailPage: React.FC = () => {
                     <div
                       className={`h-2.5 rounded-full transition-all ${
                         isCurrent
-                          ? 'bg-emerald-500 ring-4 ring-emerald-500/20'
+                          ? 'bg-[#22E58B] ring-4 ring-[#22E58B]/20'
                           : isPast
-                          ? 'bg-emerald-400'
-                          : 'bg-slate-200'
+                          ? 'bg-[#34D399]'
+                          : 'bg-[#1E2F2A]'
                       }`}
                     />
                     <span
                       className={`text-[10px] sm:text-xs font-bold block leading-tight ${
-                        isCurrent ? 'text-emerald-700' : isPast ? 'text-slate-700' : 'text-slate-400'
+                        isCurrent ? 'text-[#22E58B]' : isPast ? 'text-[#C5D5CF]' : 'text-[#8DA39B]'
                       }`}
                     >
                       {st.label}
@@ -209,56 +188,56 @@ export const BookingDetailPage: React.FC = () => {
             </div>
 
             {booking.status === 'CANCELLED' && (
-              <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-700 font-bold text-center">
+              <div className="p-4 bg-[rgba(255,90,95,0.12)] border border-[rgba(255,90,95,0.3)] rounded-2xl text-xs text-[#FF5A5F] font-bold text-center">
                 This charging request was cancelled: {booking.cancellation_reason || 'Cancelled by user.'}
               </div>
             )}
             {booking.status === 'DECLINED' && (
-              <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-700 font-bold text-center">
+              <div className="p-4 bg-[rgba(255,90,95,0.12)] border border-[rgba(255,90,95,0.3)] rounded-2xl text-xs text-[#FF5A5F] font-bold text-center">
                 Host was unable to accept this request: {booking.cancellation_reason || 'Host unavailable.'}
               </div>
             )}
           </div>
 
           {/* Unlocked Host Address & Instructions */}
-          <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 space-y-4">
+          <div className="bg-[#16241F] border border-[#1E2F2A] rounded-3xl p-6 space-y-4">
             <div className="flex items-center space-x-2 text-xs font-extrabold">
               {isUnlocked ? (
                 <>
-                  <Unlock className="w-4 h-4 text-emerald-600" />
-                  <span className="text-emerald-800">Private Host Access Information (Unlocked)</span>
+                  <Unlock className="w-4 h-4 text-[#22E58B]" />
+                  <span className="text-[#34D399]">Private Host Access Information (Unlocked)</span>
                 </>
               ) : (
                 <>
-                  <Lock className="w-4 h-4 text-slate-400" />
-                  <span className="text-slate-500">Address Protected (Unlocks as soon as host accepts)</span>
+                  <Lock className="w-4 h-4 text-[#8DA39B]" />
+                  <span className="text-[#8DA39B]">Address Protected (Unlocks as soon as host accepts)</span>
                 </>
               )}
             </div>
 
             {isUnlocked ? (
-              <div className="space-y-3.5 text-xs text-slate-700">
+              <div className="space-y-3.5 text-xs text-[#C5D5CF]">
                 <div>
-                  <span className="text-slate-400 block text-[11px] font-semibold">Exact Residential Street Address:</span>
-                  <span className="font-extrabold text-slate-900 text-base">{booking.exact_address}</span>
+                  <span className="text-[#8DA39B] block text-[11px] font-semibold">Exact Residential Street Address:</span>
+                  <span className="font-extrabold text-[#E8F1EE] text-base">{booking.exact_address}</span>
                 </div>
 
                 {booking.access_instructions && (
                   <div>
-                    <span className="text-slate-400 block text-[11px] font-semibold">Gate & Security Instructions:</span>
-                    <div className="bg-white p-4 rounded-2xl border border-slate-200 text-slate-800 font-medium mt-1 shadow-xs">
+                    <span className="text-[#8DA39B] block text-[11px] font-semibold">Gate & Security Instructions:</span>
+                    <div className="bg-[#111C19] p-4 rounded-2xl border border-[#1E2F2A] text-[#E8F1EE] font-medium mt-1 shadow-xs">
                       {booking.access_instructions}
                     </div>
                   </div>
                 )}
 
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-200">
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#1E2F2A]">
                   <div className="flex items-center space-x-3">
-                    <span className="text-slate-500 text-xs">Host: <strong className="text-slate-900">{booking.host_name}</strong></span>
+                    <span className="text-[#8DA39B] text-xs">Host: <strong className="text-[#E8F1EE]">{booking.host_name}</strong></span>
                     {booking.host_phone && (
                       <a
                         href={`tel:${booking.host_phone}`}
-                        className="inline-flex items-center space-x-1.5 px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-lg font-bold text-xs transition"
+                        className="inline-flex items-center space-x-1.5 px-3 py-1 bg-[#111C19] hover:bg-[#1E2F2A] text-[#22E58B] border border-[#1E2F2A] rounded-lg font-bold text-xs transition"
                       >
                         <Phone className="w-3.5 h-3.5" />
                         <span>Call {booking.host_phone}</span>
@@ -270,7 +249,7 @@ export const BookingDetailPage: React.FC = () => {
                     href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(booking.exact_address || booking.charger_locality)}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center space-x-1.5 text-emerald-700 hover:text-emerald-800 font-extrabold text-xs"
+                    className="inline-flex items-center space-x-1.5 text-[#22E58B] hover:underline font-extrabold text-xs"
                   >
                     <Navigation className="w-3.5 h-3.5" />
                     <span>Navigate in Google Maps</span>
@@ -279,7 +258,7 @@ export const BookingDetailPage: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <p className="text-xs text-[#8DA39B] leading-relaxed">
                 The exact residential bungalow number, parking bay clearance, and gate instructions will automatically appear here as soon
                 as the host confirms and accepts your emergency request.
               </p>
@@ -288,20 +267,20 @@ export const BookingDetailPage: React.FC = () => {
 
           {/* Session Record Telemetry */}
           {booking.session && (
-            <div className="bg-emerald-50/70 border border-emerald-200 rounded-3xl p-5 text-xs text-emerald-950 space-y-3">
-              <span className="font-extrabold text-emerald-900 text-sm block">Session Telemetry Record</span>
+            <div className="bg-[#16241F] border border-[#1E2F2A] rounded-3xl p-5 text-xs text-[#C5D5CF] space-y-3">
+              <span className="font-extrabold text-[#E8F1EE] text-sm block">Session Telemetry Record</span>
               <div className="grid grid-cols-3 gap-4">
-                <div className="bg-white p-3 rounded-2xl border border-emerald-100">
-                  <span className="text-slate-500 text-[11px] block">Energy Delivered</span>
-                  <span className="font-extrabold text-base text-slate-900">{booking.session.energy_delivered_kwh || 'N/A'} kWh</span>
+                <div className="bg-[#111C19] p-3 rounded-2xl border border-[#1E2F2A]">
+                  <span className="text-[#8DA39B] text-[11px] block">Energy Delivered</span>
+                  <span className="font-extrabold text-base text-[#E8F1EE]">{booking.session.energy_delivered_kwh || 'N/A'} kWh</span>
                 </div>
-                <div className="bg-white p-3 rounded-2xl border border-emerald-100">
-                  <span className="text-slate-500 text-[11px] block">Start Battery</span>
-                  <span className="font-extrabold text-base text-slate-900">{booking.session.start_battery_percent != null ? `${booking.session.start_battery_percent}%` : 'N/A'}</span>
+                <div className="bg-[#111C19] p-3 rounded-2xl border border-[#1E2F2A]">
+                  <span className="text-[#8DA39B] text-[11px] block">Start Battery</span>
+                  <span className="font-extrabold text-base text-[#E8F1EE]">{booking.session.start_battery_percent != null ? `${booking.session.start_battery_percent}%` : 'N/A'}</span>
                 </div>
-                <div className="bg-white p-3 rounded-2xl border border-emerald-100">
-                  <span className="text-slate-500 text-[11px] block">End Battery</span>
-                  <span className="font-extrabold text-base text-emerald-600">{booking.session.end_battery_percent != null ? `${booking.session.end_battery_percent}%` : 'N/A'}</span>
+                <div className="bg-[#111C19] p-3 rounded-2xl border border-[#1E2F2A]">
+                  <span className="text-[#8DA39B] text-[11px] block">End Battery</span>
+                  <span className="font-extrabold text-base text-[#34D399]">{booking.session.end_battery_percent != null ? `${booking.session.end_battery_percent}%` : 'N/A'}</span>
                 </div>
               </div>
             </div>
@@ -314,7 +293,7 @@ export const BookingDetailPage: React.FC = () => {
                 type="button"
                 onClick={() => handleAction(() => bookingService.arrive(booking.id))}
                 disabled={actionLoading}
-                className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-slate-950 font-extrabold rounded-2xl text-sm transition shadow-lg shadow-emerald-500/20 flex items-center justify-center space-x-2"
+                className="w-full py-4 bg-[#22E58B] hover:bg-[#1BC878] active:scale-[0.98] text-[#04130C] font-extrabold rounded-2xl text-sm transition shadow-lg shadow-[#22E58B]/20 flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <MapPin className="w-4 h-4" />
                 <span>{actionLoading ? 'Updating Status...' : 'I Have Arrived at Host Gate'}</span>
@@ -322,21 +301,21 @@ export const BookingDetailPage: React.FC = () => {
             )}
 
             {booking.status === 'ARRIVED' && (
-              <div className="p-5 bg-slate-50 border border-slate-200 rounded-3xl space-y-4">
+              <div className="p-5 bg-[#16241F] border border-[#1E2F2A] rounded-3xl space-y-4">
                 <div>
-                  <h3 className="font-extrabold text-slate-900 text-sm">Start Charging Session</h3>
-                  <p className="text-xs text-slate-500">Confirm starting vehicle battery level to begin recording.</p>
+                  <h3 className="font-extrabold text-[#E8F1EE] text-sm">Start Charging Session</h3>
+                  <p className="text-xs text-[#8DA39B]">Confirm starting vehicle battery level to begin recording.</p>
                 </div>
 
                 <div className="flex items-center space-x-3">
-                  <label className="text-xs font-bold text-slate-700">Starting Battery SOC (%):</label>
+                  <label className="text-xs font-bold text-[#C5D5CF]">Starting Battery SOC (%):</label>
                   <input
                     type="number"
                     min="0"
                     max="100"
                     value={startBattery}
                     onChange={(e) => setStartBattery(e.target.value)}
-                    className="w-24 px-3 py-2 text-xs border border-slate-300 rounded-xl text-slate-900 font-bold bg-white"
+                    className="w-24 px-3 py-2 text-xs border border-[#1E2F2A] rounded-xl text-[#E8F1EE] font-bold bg-[#111C19] focus:outline-none focus:border-[#22E58B]"
                   />
                 </div>
 
@@ -344,7 +323,7 @@ export const BookingDetailPage: React.FC = () => {
                   type="button"
                   onClick={() => handleAction(() => bookingService.startSession(booking.id, { start_battery_percent: parseInt(startBattery) }))}
                   disabled={actionLoading}
-                  className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-slate-950 font-extrabold rounded-2xl text-sm transition shadow-lg shadow-emerald-500/20 flex items-center justify-center space-x-2"
+                  className="w-full py-4 bg-[#22E58B] hover:bg-[#1BC878] active:scale-[0.98] text-[#04130C] font-extrabold rounded-2xl text-sm transition shadow-lg shadow-[#22E58B]/20 flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <Play className="w-4 h-4 fill-current" />
                   <span>{actionLoading ? 'Connecting...' : 'Cable Plugged In - Start Charging Session'}</span>
@@ -353,30 +332,30 @@ export const BookingDetailPage: React.FC = () => {
             )}
 
             {booking.status === 'CHARGING' && (
-              <div className="p-5 bg-slate-50 border border-slate-200 rounded-3xl space-y-4">
+              <div className="p-5 bg-[#16241F] border border-[#1E2F2A] rounded-3xl space-y-4">
                 <div>
-                  <h3 className="font-extrabold text-slate-900 text-sm">Complete Charging Session</h3>
-                  <p className="text-xs text-slate-500">Record final energy delivered to complete payout and unlock gate clearance.</p>
+                  <h3 className="font-extrabold text-[#E8F1EE] text-sm">Complete Charging Session</h3>
+                  <p className="text-xs text-[#8DA39B]">Record final energy delivered to complete payout and unlock gate clearance.</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <label className="font-bold text-slate-700 block mb-1">Energy Delivered (kWh):</label>
+                    <label className="font-bold text-[#C5D5CF] block mb-1">Energy Delivered (kWh):</label>
                     <input
                       type="number"
                       step="0.1"
                       value={deliveredKwh}
                       onChange={(e) => setDeliveredKwh(e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-xl font-bold bg-white text-slate-900"
+                      className="w-full px-3 py-2 border border-[#1E2F2A] rounded-xl font-bold bg-[#111C19] text-[#E8F1EE] focus:outline-none focus:border-[#22E58B]"
                     />
                   </div>
                   <div>
-                    <label className="font-bold text-slate-700 block mb-1">Final Battery SOC (%):</label>
+                    <label className="font-bold text-[#C5D5CF] block mb-1">Final Battery SOC (%):</label>
                     <input
                       type="number"
                       value={endBattery}
                       onChange={(e) => setEndBattery(e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-xl font-bold bg-white text-slate-900"
+                      className="w-full px-3 py-2 border border-[#1E2F2A] rounded-xl font-bold bg-[#111C19] text-[#E8F1EE] focus:outline-none focus:border-[#22E58B]"
                     />
                   </div>
                 </div>
@@ -388,7 +367,7 @@ export const BookingDetailPage: React.FC = () => {
                     end_battery_percent: parseInt(endBattery)
                   }))}
                   disabled={actionLoading}
-                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-extrabold rounded-2xl text-sm transition shadow-md flex items-center justify-center space-x-2"
+                  className="w-full py-4 bg-[#22E58B] hover:bg-[#1BC878] active:scale-[0.98] text-[#04130C] font-extrabold rounded-2xl text-sm transition shadow-md flex items-center justify-center space-x-2 cursor-pointer"
                 >
                   <Check className="w-4 h-4" />
                   <span>{actionLoading ? 'Finalizing Receipt...' : 'Complete Session & Unplug Cable'}</span>
@@ -406,7 +385,7 @@ export const BookingDetailPage: React.FC = () => {
                       handleAction(() => bookingService.cancel(booking.id, reason));
                     }
                   }}
-                  className="text-xs text-rose-600 hover:text-rose-700 font-bold hover:underline"
+                  className="text-xs text-[#FF5A5F] hover:underline font-bold cursor-pointer"
                 >
                   Cancel Request
                 </button>

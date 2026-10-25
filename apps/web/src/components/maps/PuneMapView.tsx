@@ -64,31 +64,31 @@ export const PuneMapView: React.FC<PuneMapViewProps> = ({
   };
 
   return (
-    <div className="relative w-full h-[520px] bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-inner select-none">
+    <div className="relative w-full h-[520px] bg-[#0A1210] rounded-2xl overflow-hidden border border-[#1E2F2A] shadow-inner select-none">
       {/* Map Header Overlay */}
-      <div className="absolute top-4 left-4 z-20 bg-slate-950/85 backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-700/60 text-xs shadow-md flex items-center space-x-3">
+      <div className="absolute top-4 left-4 z-20 bg-[#0A1210]/90 backdrop-blur-md px-3.5 py-2 rounded-xl border border-[#1E2F2A] text-xs shadow-md flex items-center space-x-3">
         <div className="flex items-center space-x-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse" />
-          <span className="font-semibold text-slate-200">You ({centerLat.toFixed(4)}, {centerLng.toFixed(4)})</span>
+          <div className="w-2.5 h-2.5 rounded-full bg-[#38BDF8] animate-pulse" />
+          <span className="font-semibold text-[#E8F1EE]">You ({centerLat.toFixed(4)}, {centerLng.toFixed(4)})</span>
         </div>
-        <span className="text-slate-600">|</span>
+        <span className="text-[#1E2F2A]">|</span>
         <div className="flex items-center space-x-1">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-          <span className="text-slate-300">Available</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-          <span className="text-slate-300">Unconfirmed</span>
+          <div className="w-2.5 h-2.5 rounded-full bg-[#22E58B]" />
+          <span className="text-[#C5D5CF]">Available</span>
         </div>
         <div className="flex items-center space-x-1">
-          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
-          <span className="text-slate-300">Public Hub</span>
+          <div className="w-2.5 h-2.5 rounded-full bg-[#FCD34D]" />
+          <span className="text-[#C5D5CF]">Unconfirmed</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#38BDF8]" />
+          <span className="text-[#C5D5CF]">Public Hub</span>
         </div>
       </div>
 
       {/* Manual Pin Pointer Hint */}
-      <div className="absolute bottom-4 left-4 z-20 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[11px] text-slate-400 flex items-center space-x-1.5">
-        <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+      <div className="absolute bottom-4 left-4 z-20 bg-[#0A1210]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#1E2F2A] text-[11px] text-[#8DA39B] flex items-center space-x-1.5">
+        <MapPin className="w-3.5 h-3.5 text-[#22E58B]" />
         <span>Click anywhere on the map to set your search location manually.</span>
       </div>
 
@@ -220,40 +220,40 @@ export const PuneMapView: React.FC<PuneMapViewProps> = ({
 
       {/* Selected Pin Details Modal / Card */}
       {activePin && (
-        <div className="absolute bottom-4 right-4 z-30 w-80 bg-slate-950/95 backdrop-blur-lg border border-slate-700 p-4 rounded-xl shadow-2xl text-white">
+        <div className="absolute bottom-4 right-4 z-30 w-80 bg-[#111C19]/95 backdrop-blur-lg border border-[#1E2F2A] p-4 rounded-2xl shadow-2xl text-[#E8F1EE]">
           <div className="flex justify-between items-start mb-2">
             <div>
               <span
-                className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
                   'is_public_hub' in activePin
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                    ? 'bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30'
                     : activePin.availability_status === 'AVAILABLE'
-                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
-                    : 'bg-amber-950 text-amber-300 border border-amber-800'
+                    ? 'bg-[#22E58B]/10 text-[#22E58B] border border-[#22E58B]/30'
+                    : 'bg-[#FCD34D]/10 text-[#FCD34D] border border-[#FCD34D]/30'
                 }`}
               >
                 {'is_public_hub' in activePin ? 'Public DC Fast Hub' : `${activePin.availability_status} Private`}
               </span>
-              <h4 className="font-bold text-sm text-slate-100 mt-1 line-clamp-1">
+              <h4 className="font-bold text-sm text-[#E8F1EE] mt-1 line-clamp-1">
                 {'is_public_hub' in activePin ? activePin.name : activePin.title}
               </h4>
             </div>
             <button
               onClick={() => setActivePin(null)}
-              className="text-slate-400 hover:text-white text-xs p-1"
+              className="text-[#8DA39B] hover:text-[#E8F1EE] text-xs p-1 cursor-pointer"
             >
               ✕
             </button>
           </div>
 
-          <div className="text-xs text-slate-300 space-y-1 mb-3">
-            <div className="flex items-center text-slate-400">
-              <MapPin className="w-3.5 h-3.5 mr-1 text-slate-500 shrink-0" />
+          <div className="text-xs text-[#C5D5CF] space-y-1 mb-3">
+            <div className="flex items-center text-[#8DA39B]">
+              <MapPin className="w-3.5 h-3.5 mr-1 text-[#22E58B] shrink-0" />
               <span>{activePin.locality}</span>
             </div>
-            <div className="flex items-center justify-between text-slate-200 pt-1 border-t border-slate-800">
+            <div className="flex items-center justify-between text-[#E8F1EE] pt-1 border-t border-[#1E2F2A]">
               <span>Power: {activePin.max_power_kw} kW ({activePin.charger_type})</span>
-              <span className="font-semibold text-emerald-400">
+              <span className="font-semibold text-[#FFD60A] font-mono">
                 {'is_public_hub' in activePin
                   ? activePin.pricing
                   : activePin.pricing_model === 'FIXED_SESSION'
@@ -262,7 +262,7 @@ export const PuneMapView: React.FC<PuneMapViewProps> = ({
               </span>
             </div>
             {activePin.distance_km !== undefined && (
-              <div className="text-[11px] text-slate-400">
+              <div className="text-[11px] text-[#8DA39B]">
                 Straight line: ~{activePin.distance_km} km | Est. road: ~{activePin.estimated_road_distance_km || Math.round(activePin.distance_km * 1.35)} km
               </div>
             )}
@@ -274,7 +274,7 @@ export const PuneMapView: React.FC<PuneMapViewProps> = ({
                 href={`https://www.google.com/maps/dir/?api=1&destination=${activePin.latitude},${activePin.longitude}`}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full flex items-center justify-center space-x-1.5 py-1.5 px-3 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg text-xs transition"
+                className="w-full flex items-center justify-center space-x-1.5 py-1.5 px-3 bg-[#38BDF8] hover:bg-[#38BDF8]/90 text-[#04130C] font-bold rounded-lg text-xs transition"
               >
                 <Navigation className="w-3.5 h-3.5" />
                 <span>Navigate</span>
@@ -283,7 +283,7 @@ export const PuneMapView: React.FC<PuneMapViewProps> = ({
               <>
                 <Link
                   to={`/chargers/${activePin.id}`}
-                  className="flex-1 text-center py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-lg text-xs transition"
+                  className="flex-1 text-center py-1.5 px-3 bg-[#22E58B] hover:bg-[#1BC878] text-[#04130C] font-bold rounded-lg text-xs transition"
                 >
                   View Details & Book
                 </Link>
@@ -292,7 +292,7 @@ export const PuneMapView: React.FC<PuneMapViewProps> = ({
                   target="_blank"
                   rel="noreferrer"
                   title="Google Maps Navigation"
-                  className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs flex items-center justify-center transition"
+                  className="p-2 bg-[#16241F] hover:bg-[#1E2F2A] text-[#E8F1EE] border border-[#1E2F2A] rounded-lg text-xs flex items-center justify-center transition"
                 >
                   <Navigation className="w-3.5 h-3.5" />
                 </a>

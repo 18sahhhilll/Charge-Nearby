@@ -36,7 +36,7 @@ const SectionSkeleton: React.FC<{ heightClass?: string }> = ({ heightClass = 'h-
     className={`w-full ${heightClass} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center`}
     aria-hidden="true"
   >
-    <div className="w-full h-full bg-slate-100 animate-pulse rounded-3xl" />
+    <div className="w-full h-full bg-[#16241F] border border-[#1E2F2A] animate-pulse rounded-3xl" />
   </div>
 );
 
@@ -47,7 +47,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="w-full flex flex-col overflow-x-hidden">
+      <div className="w-full flex flex-col overflow-x-hidden bg-[#0A1210] text-[#E8F1EE]">
         {/* 1. Hero (Above the fold, rendered eagerly) */}
         <Hero />
 

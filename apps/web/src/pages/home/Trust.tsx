@@ -35,17 +35,17 @@ export const Trust: React.FC = () => {
   ];
 
   return (
-    <section id="safety" aria-labelledby="privacy-trust-heading" className="py-20 bg-white">
+    <section id="safety" aria-labelledby="privacy-trust-heading" className="py-20 bg-[#0A1210]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#38BDF8] bg-[#38BDF8]/10 px-3 py-1 rounded-full border border-[#38BDF8]/30">
               Security & Safety First
             </span>
-            <h2 id="privacy-trust-heading" className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+            <h2 id="privacy-trust-heading" className="text-3xl sm:text-4xl font-extrabold text-[#E8F1EE] mt-3">
               Built for homeowner safety and driver peace of mind
             </h2>
-            <p className="text-slate-600 text-sm sm:text-base mt-2">
+            <p className="text-[#C5D5CF] text-sm sm:text-base mt-2">
               We understand opening your driveway to neighbours requires ironclad privacy controls.
             </p>
           </div>
@@ -55,15 +55,15 @@ export const Trust: React.FC = () => {
           {/* Left Column: Interactive Privacy Lock Visual */}
           <div className="lg:col-span-6">
             <FadeIn delay={0.1}>
-              <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl relative overflow-hidden">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div className="bg-[#111C19] text-[#E8F1EE] rounded-3xl p-6 sm:p-8 border border-[#1E2F2A] shadow-xl relative overflow-hidden">
+                <div className="flex items-center justify-between pb-4 border-b border-[#1E2F2A]">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs font-mono text-emerald-400 font-semibold">CONFIDENTIALITY ENGINE</span>
+                    <span className="text-xs font-mono text-[#22E58B] font-semibold">CONFIDENTIALITY ENGINE</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setIsUnlocked(!isUnlocked)}
-                    className="text-xs font-bold px-3 py-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 rounded-lg transition cursor-pointer"
+                    className="text-xs font-bold px-3 py-1 bg-[#16241F] hover:bg-[#1E2F2A] text-[#22E58B] border border-[#1E2F2A] rounded-lg transition cursor-pointer"
                   >
                     Click to test {isUnlocked ? 'Lock' : 'Acceptance'}
                   </button>
@@ -74,7 +74,7 @@ export const Trust: React.FC = () => {
                   <div className="relative mx-auto w-20 h-20 flex items-center justify-center">
                     <motion.div
                       className={`w-20 h-20 rounded-2xl flex items-center justify-center transition-colors duration-300 ${
-                        isUnlocked ? 'bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/30' : 'bg-slate-800 text-amber-400 border border-slate-700'
+                        isUnlocked ? 'bg-[#22E58B] text-[#04130C] shadow-lg shadow-[#22E58B]/30' : 'bg-[#16241F] text-[#FCD34D] border border-[#1E2F2A]'
                       }`}
                       animate={
                         shouldReduceMotion
@@ -90,10 +90,10 @@ export const Trust: React.FC = () => {
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-extrabold text-white">
+                    <h3 className="text-xl font-extrabold text-[#E8F1EE]">
                       {isUnlocked ? 'Booking Accepted: Address Revealed' : 'Exact address stays private until accepted'}
                     </h3>
-                    <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1">
+                    <p className="text-xs text-[#8DA39B] max-w-sm mx-auto mt-1">
                       {isUnlocked
                         ? 'Confidential gate code, society security instructions, and driveway bay are now unlocked.'
                         : 'Public search displays only the broad neighborhood (e.g. Koregaon Park). Exact street location is masked.'}
@@ -101,24 +101,24 @@ export const Trust: React.FC = () => {
                   </div>
 
                   {/* Address State Display */}
-                  <div className="bg-slate-950/90 rounded-2xl p-4 border border-slate-800 text-left font-mono text-xs space-y-2 max-w-md mx-auto">
-                    <div className="flex justify-between items-center text-[11px] text-slate-500 pb-1 border-b border-slate-800">
+                  <div className="bg-[#16241F] rounded-2xl p-4 border border-[#1E2F2A] text-left font-mono text-xs space-y-2 max-w-md mx-auto">
+                    <div className="flex justify-between items-center text-[11px] text-[#8DA39B] pb-1 border-b border-[#1E2F2A]">
                       <span>Public Search View:</span>
-                      <span className="text-emerald-400 font-bold">Koregaon Park, Pune</span>
+                      <span className="text-[#22E58B] font-bold">Koregaon Park, Pune</span>
                     </div>
 
                     <div className="pt-1">
-                      <span className="text-[10px] text-slate-400 block uppercase">Confidential Bungalow Address:</span>
+                      <span className="text-[10px] text-[#8DA39B] block uppercase">Confidential Bungalow Address:</span>
                       {isUnlocked ? (
                         <motion.div
                           initial={{ opacity: 0, y: 4 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="text-emerald-300 font-bold mt-0.5"
+                          className="text-[#22E58B] font-bold mt-0.5"
                         >
                           Bungalow #14, Lane 7, Near South Main Rd, Koregaon Park
                         </motion.div>
                       ) : (
-                        <div className="flex items-center space-x-2 text-slate-500 italic mt-0.5">
+                        <div className="flex items-center space-x-2 text-[#8DA39B] italic mt-0.5">
                           <Eye className="w-3.5 h-3.5" />
                           <span>•••••••••••••••••••••••••••••••••••••••• (Encrypted)</span>
                         </div>
@@ -126,13 +126,13 @@ export const Trust: React.FC = () => {
                     </div>
 
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Gate Access Protocol:</span>
+                      <span className="text-[10px] text-[#8DA39B] block uppercase">Gate Access Protocol:</span>
                       {isUnlocked ? (
-                        <div className="text-slate-300 text-[11px] mt-0.5">
+                        <div className="text-[#C5D5CF] text-[11px] mt-0.5">
                           "Tell guard: visiting Kulkarni residence. Charger is on driveway pillar left of portico."
                         </div>
                       ) : (
-                        <div className="text-slate-500 italic text-[11px] mt-0.5">
+                        <div className="text-[#8DA39B] italic text-[11px] mt-0.5">
                           Hidden until host confirms booking
                         </div>
                       )}
@@ -146,8 +146,8 @@ export const Trust: React.FC = () => {
           {/* Right Column: Verification Checklist */}
           <div className="lg:col-span-6 space-y-4">
             <FadeIn delay={0.2}>
-              <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
-                <ShieldCheck className="w-7 h-7 text-blue-600" />
+              <h3 className="text-2xl font-bold text-[#E8F1EE] mb-6 flex items-center space-x-2">
+                <ShieldCheck className="w-7 h-7 text-[#38BDF8]" />
                 <span>Our 4-Point Host Safety Verification</span>
               </h3>
             </FadeIn>
@@ -155,18 +155,18 @@ export const Trust: React.FC = () => {
             <div className="space-y-3">
               {verificationItems.map((item, index) => (
                 <FadeIn key={item.title} delay={0.15 + index * 0.08}>
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-xs transition duration-200">
+                  <div className="p-4 rounded-2xl bg-[#111C19] border border-[#1E2F2A] hover:border-[#22E58B]/40 transition duration-200">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-start space-x-3">
-                        <div className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-6 h-6 rounded-full bg-[#16241F] text-[#38BDF8] flex items-center justify-center shrink-0 mt-0.5">
                           <CheckCircle2 className="w-4 h-4" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-sm text-slate-900">{item.title}</h4>
-                          <p className="text-slate-600 text-xs mt-1 leading-relaxed">{item.description}</p>
+                          <h4 className="font-bold text-sm text-[#E8F1EE]">{item.title}</h4>
+                          <p className="text-[#C5D5CF] text-xs mt-1 leading-relaxed">{item.description}</p>
                         </div>
                       </div>
-                      <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 whitespace-nowrap">
+                      <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/30 whitespace-nowrap">
                         {item.badge}
                       </span>
                     </div>

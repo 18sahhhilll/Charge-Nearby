@@ -24,14 +24,14 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className="w-full space-y-1.5 text-xs">
       {label && (
-        <label htmlFor={inputId} className="block font-semibold text-slate-200">
+        <label htmlFor={inputId} className="block font-semibold text-[#C5D5CF]">
           {label}
         </label>
       )}
 
       <div className="relative rounded-xl shadow-xs">
         {leftIcon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8DA39B]">
             {leftIcon}
           </div>
         )}
@@ -39,12 +39,12 @@ export const Input: React.FC<InputProps> = ({
         <input
           id={inputId}
           disabled={disabled}
-          className={`w-full py-2.5 sm:py-3 bg-slate-950/80 border rounded-xl text-white text-sm placeholder:text-slate-500 transition duration-150 focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed ${
+          className={`w-full py-2.5 sm:py-3 bg-[#16241F] border rounded-xl text-[#E8F1EE] text-sm placeholder:text-[#8DA39B] transition duration-150 focus:outline-none focus:border-[#22E58B] disabled:opacity-50 disabled:cursor-not-allowed ${
             leftIcon ? 'pl-10' : 'pl-3.5'
           } ${rightIcon ? 'pr-10' : 'pr-3.5'} ${
             error
-              ? 'border-rose-500/80 focus:ring-rose-500/30 focus:border-rose-500'
-              : 'border-slate-800 hover:border-slate-700 focus:ring-emerald-500/30 focus:border-emerald-500'
+              ? 'border-[rgba(255,90,95,0.8)] focus:border-[#FF5A5F]'
+              : 'border-[#1E2F2A] hover:border-[#1E2F2A]/80'
           } ${className}`}
           {...props}
         />
@@ -57,9 +57,9 @@ export const Input: React.FC<InputProps> = ({
       </div>
 
       {error ? (
-        <p className="text-[11px] text-rose-400 font-medium">{error}</p>
+        <p className="text-[11px] text-[#FF5A5F] font-medium">{error}</p>
       ) : helperText ? (
-        <p className="text-[11px] text-slate-500">{helperText}</p>
+        <p className="text-[11px] text-[#8DA39B]">{helperText}</p>
       ) : null}
     </div>
   );

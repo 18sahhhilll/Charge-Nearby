@@ -126,25 +126,25 @@ export const ChargerDetailPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="max-w-6xl mx-auto py-6 space-y-6">
+      <div className="max-w-6xl mx-auto py-6 space-y-6 text-[#E8F1EE]">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between">
           <Link
             to="/find"
-            className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition"
+            className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#8DA39B] hover:text-[#22E58B] transition"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Back to Discovery Map</span>
           </Link>
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-slate-400 font-mono">ID: {charger.id.slice(0, 8)}</span>
+            <span className="text-xs text-[#8DA39B] font-mono">ID: {charger.id.slice(0, 8)}</span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Main Details Column (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
+            <div className="bg-[#111C19] border border-[#1E2F2A] rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
               {/* Badges & Meta */}
               <div className="flex flex-wrap items-center gap-2">
                 <Badge
@@ -166,26 +166,26 @@ export const ChargerDetailPage: React.FC = () => {
 
               {/* Title & Locality */}
               <div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-[#E8F1EE] tracking-tight">
                   {charger.title}
                 </h1>
-                <div className="flex items-center text-sm text-slate-500 mt-1">
-                  <MapPin className="w-4 h-4 text-emerald-500 mr-1.5 shrink-0" />
-                  <span className="font-semibold text-slate-700">{charger.locality}</span>
+                <div className="flex items-center text-sm text-[#8DA39B] mt-1">
+                  <MapPin className="w-4 h-4 text-[#22E58B] mr-1.5 shrink-0" />
+                  <span className="font-semibold text-[#C5D5CF]">{charger.locality}</span>
                 </div>
               </div>
 
               {/* Photos Gallery */}
               {charger.photos && charger.photos.length > 0 && (
                 <div className="space-y-3 pt-1">
-                  <div className="relative aspect-16/9 rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm">
+                  <div className="relative aspect-16/9 rounded-3xl overflow-hidden bg-[#16241F] border border-[#1E2F2A] shadow-sm">
                     <img
                       src={charger.photos[activePhotoIndex]?.image_url || charger.photos[activePhotoIndex]?.image}
                       alt={charger.photos[activePhotoIndex]?.caption || charger.title}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-                      <span className="px-3 py-1 bg-slate-950/80 backdrop-blur-md text-white text-[11px] font-bold rounded-xl shadow-sm">
+                      <span className="px-3 py-1 bg-[#0A1210]/90 backdrop-blur-md text-[#E8F1EE] text-[11px] font-bold rounded-xl shadow-sm border border-[#1E2F2A]">
                         {charger.photos[activePhotoIndex]?.photo_type === 'CHARGER'
                           ? 'Wallbox / Charging Hardware'
                           : charger.photos[activePhotoIndex]?.photo_type === 'PARKING_BAY'
@@ -195,14 +195,14 @@ export const ChargerDetailPage: React.FC = () => {
                           : 'Installation View'}
                       </span>
                       {charger.photos[activePhotoIndex]?.is_primary && (
-                        <span className="px-2.5 py-1 bg-emerald-500 text-slate-950 text-[11px] font-extrabold rounded-xl shadow-sm flex items-center space-x-1">
+                        <span className="px-2.5 py-1 bg-[#22E58B] text-[#04130C] text-[11px] font-extrabold rounded-xl shadow-sm flex items-center space-x-1">
                           <Star className="w-3 h-3 fill-current" />
                           <span>Primary Cover</span>
                         </span>
                       )}
                     </div>
                     {charger.photos[activePhotoIndex]?.caption && (
-                      <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-slate-950/85 via-slate-950/50 to-transparent text-white text-xs">
+                      <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-[#0A1210]/95 via-[#0A1210]/60 to-transparent text-[#E8F1EE] text-xs">
                         {charger.photos[activePhotoIndex]?.caption}
                       </div>
                     )}
@@ -218,8 +218,8 @@ export const ChargerDetailPage: React.FC = () => {
                           onClick={() => setActivePhotoIndex(idx)}
                           className={`relative w-20 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition ${
                             idx === activePhotoIndex
-                              ? 'border-emerald-500 ring-2 ring-emerald-500/20'
-                              : 'border-transparent opacity-70 hover:opacity-100'
+                              ? 'border-[#22E58B] ring-2 ring-[#22E58B]/20'
+                              : 'border-transparent opacity-60 hover:opacity-100'
                           }`}
                         >
                           <img
@@ -235,50 +235,50 @@ export const ChargerDetailPage: React.FC = () => {
               )}
 
               {/* Description */}
-              <div className="border-t border-slate-100 pt-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Host Overview</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
+              <div className="border-t border-[#1E2F2A] pt-4">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#8DA39B] mb-2">Host Overview</h3>
+                <p className="text-[#C5D5CF] text-sm leading-relaxed">
                   {charger.description || 'Verified private community charger sharing point hosted by a Pune EV enthusiast.'}
                 </p>
               </div>
 
               {/* Hardware Specs Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-4 border-t border-slate-100">
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                  <span className="text-[11px] font-semibold text-slate-400 block mb-0.5">Maximum Output</span>
-                  <span className="font-extrabold text-xl text-slate-900">{charger.max_power_kw} kW</span>
-                  <span className="text-xs text-slate-500 block mt-0.5">{charger.charger_type} Fast AC</span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-4 border-t border-[#1E2F2A]">
+                <div className="bg-[#16241F] p-4 rounded-2xl border border-[#1E2F2A]">
+                  <span className="text-[11px] font-semibold text-[#8DA39B] block mb-0.5">Maximum Output</span>
+                  <span className="font-extrabold text-xl text-[#E8F1EE]">{charger.max_power_kw} kW</span>
+                  <span className="text-xs text-[#8DA39B] block mt-0.5">{charger.charger_type} Fast AC</span>
                 </div>
 
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                  <span className="text-[11px] font-semibold text-slate-400 block mb-0.5">Connector Type</span>
-                  <span className="font-extrabold text-sm text-slate-900 block truncate">
+                <div className="bg-[#16241F] p-4 rounded-2xl border border-[#1E2F2A]">
+                  <span className="text-[11px] font-semibold text-[#8DA39B] block mb-0.5">Connector Type</span>
+                  <span className="font-extrabold text-sm text-[#38BDF8] block truncate">
                     {(charger.connector_types || []).join(', ')}
                   </span>
-                  <span className="text-xs text-emerald-600 font-semibold mt-0.5 block">Standard Indian EV</span>
+                  <span className="text-xs text-[#22E58B] font-semibold mt-0.5 block">Standard Indian EV</span>
                 </div>
 
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 col-span-2 sm:col-span-1">
-                  <span className="text-[11px] font-semibold text-slate-400 block mb-0.5">Pricing Model</span>
-                  <span className="font-extrabold text-xl text-emerald-600">
+                <div className="bg-[#16241F] p-4 rounded-2xl border border-[#1E2F2A] col-span-2 sm:col-span-1">
+                  <span className="text-[11px] font-semibold text-[#8DA39B] block mb-0.5">Pricing Model</span>
+                  <span className="font-extrabold text-xl text-[#FFD60A] font-mono">
                     {charger.pricing_model === 'FIXED_SESSION'
                       ? `₹${charger.session_price}`
                       : `₹${charger.price_per_kwh}`}
                   </span>
-                  <span className="text-xs text-slate-500 block mt-0.5">
+                  <span className="text-xs text-[#8DA39B] block mt-0.5">
                     {charger.pricing_model === 'FIXED_SESSION' ? 'per session' : 'per kWh'}
                   </span>
                 </div>
               </div>
 
               {/* Host Privacy & Protection Safeguard */}
-              <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 text-xs text-amber-900 flex items-start space-x-3.5">
-                <div className="p-2 bg-amber-100 rounded-xl text-amber-700 shrink-0">
+              <div className="bg-[#FCD34D]/10 border border-[#FCD34D]/30 rounded-2xl p-4 text-xs text-[#FCD34D] flex items-start space-x-3.5">
+                <div className="p-2 bg-[#FCD34D]/20 rounded-xl text-[#FCD34D] shrink-0">
                   <Lock className="w-4 h-4" />
                 </div>
                 <div className="space-y-1">
-                  <span className="font-extrabold text-slate-900">Host Address Privacy Protection</span>
-                  <p className="text-amber-800 leading-relaxed text-[11px]">
+                  <span className="font-extrabold text-[#E8F1EE]">Host Address Privacy Protection</span>
+                  <p className="text-[#C5D5CF] leading-relaxed text-[11px]">
                     To maintain privacy and prevent unannounced arrivals, the exact bungalow/apartment number and private gate code
                     remain encrypted. They unlock automatically the moment the host accepts your request.
                   </p>
@@ -289,26 +289,26 @@ export const ChargerDetailPage: React.FC = () => {
 
           {/* Booking Action Column (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm space-y-6 sticky top-20">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="bg-[#111C19] border border-[#1E2F2A] rounded-3xl p-6 sm:p-7 shadow-sm space-y-6 sticky top-20">
+              <div className="flex items-center justify-between pb-4 border-b border-[#1E2F2A]">
                 <div>
-                  <h2 className="font-extrabold text-slate-900 text-lg">Request Access</h2>
-                  <p className="text-xs text-slate-400">Direct dispatch to host</p>
+                  <h2 className="font-extrabold text-[#E8F1EE] text-lg">Request Access</h2>
+                  <p className="text-xs text-[#8DA39B]">Direct dispatch to host</p>
                 </div>
-                <div className="flex items-center space-x-1.5 text-xs text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                <div className="flex items-center space-x-1.5 text-xs text-[#22E58B] font-bold bg-[#22E58B]/10 px-2.5 py-1 rounded-full border border-[#22E58B]/30">
                   <Clock className="w-3.5 h-3.5" />
                   <span>Host Responsive</span>
                 </div>
               </div>
 
               {isOwnCharger ? (
-                <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl text-center text-xs text-slate-600 space-y-2">
-                  <Info className="w-5 h-5 text-slate-400 mx-auto" />
-                  <p className="font-semibold text-slate-800">You are the host of this charger.</p>
-                  <p className="text-slate-500">You cannot create a booking on your own equipment.</p>
+                <div className="bg-[#16241F] border border-[#1E2F2A] p-5 rounded-2xl text-center text-xs text-[#8DA39B] space-y-2">
+                  <Info className="w-5 h-5 text-[#8DA39B] mx-auto" />
+                  <p className="font-semibold text-[#E8F1EE]">You are the host of this charger.</p>
+                  <p className="text-[#8DA39B]">You cannot create a booking on your own equipment.</p>
                   <Link
                     to="/host/dashboard"
-                    className="inline-block mt-2 px-4 py-2 bg-slate-900 text-white font-bold rounded-xl text-xs"
+                    className="inline-block mt-2 px-4 py-2 bg-[#22E58B] hover:bg-[#1BC878] text-[#04130C] font-bold rounded-xl text-xs transition"
                   >
                     Go to Host Dashboard
                   </Link>
@@ -318,8 +318,8 @@ export const ChargerDetailPage: React.FC = () => {
                   {/* Select Vehicle */}
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="font-bold text-slate-700">Select Your EV</label>
-                      <Link to="/onboarding/vehicle" className="text-emerald-600 font-bold hover:underline">
+                      <label className="font-bold text-[#C5D5CF]">Select Your EV</label>
+                      <Link to="/onboarding/vehicle" className="text-[#22E58B] font-bold hover:underline">
                         + Add New
                       </Link>
                     </div>
@@ -327,20 +327,20 @@ export const ChargerDetailPage: React.FC = () => {
                       <select
                         value={selectedVehicleId}
                         onChange={(e) => setSelectedVehicleId(e.target.value)}
-                        className="w-full p-3 border border-slate-300 rounded-2xl bg-white text-slate-900 font-semibold focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 focus:outline-none transition"
+                        className="w-full p-3 border border-[#1E2F2A] rounded-2xl bg-[#16241F] text-[#E8F1EE] font-semibold focus:ring-1 focus:ring-[#22E58B] focus:border-[#22E58B] focus:outline-none transition"
                       >
                         {vehicles.map((v) => (
-                          <option key={v.id} value={v.id}>
+                          <option key={v.id} value={v.id} className="bg-[#16241F] text-[#E8F1EE]">
                             {v.make} {v.model} ({v.connector_types.join(', ')})
                           </option>
                         ))}
                       </select>
                     ) : (
-                      <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-600 space-y-2.5">
-                        <p className="text-slate-600">No vehicles registered on your profile yet.</p>
+                      <div className="p-4 bg-[#16241F] border border-[#1E2F2A] rounded-2xl text-[#8DA39B] space-y-2.5">
+                        <p className="text-[#C5D5CF]">No vehicles registered on your profile yet.</p>
                         <Link
                           to="/onboarding/vehicle"
-                          className="inline-block py-2 px-4 bg-emerald-500 text-slate-950 font-extrabold rounded-xl text-xs shadow-sm hover:bg-emerald-400 transition"
+                          className="inline-block py-2 px-4 bg-[#22E58B] text-[#04130C] font-extrabold rounded-xl text-xs shadow-sm hover:bg-[#1BC878] transition"
                         >
                           Add Vehicle First
                         </Link>
@@ -350,42 +350,42 @@ export const ChargerDetailPage: React.FC = () => {
 
                   {/* Request Type Toggle */}
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1.5">Request Type</label>
+                    <label className="block font-bold text-[#C5D5CF] mb-1.5">Request Type</label>
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         type="button"
                         onClick={() => setBookingType('EMERGENCY')}
-                        className={`p-3 rounded-2xl border text-center transition ${
+                        className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
                           bookingType === 'EMERGENCY'
-                            ? 'border-emerald-500 bg-emerald-50/70 text-emerald-950 font-extrabold shadow-sm'
-                            : 'border-slate-200 text-slate-600 hover:border-slate-300 bg-slate-50/50'
+                            ? 'border-[#22E58B] bg-[#22E58B]/10 text-[#E8F1EE] font-extrabold shadow-sm'
+                            : 'border-[#1E2F2A] text-[#8DA39B] hover:border-[#22E58B]/30 bg-[#16241F]'
                         }`}
                       >
-                        <span className="block font-bold text-xs">Emergency (Now)</span>
-                        <span className="block text-[10px] text-slate-400 mt-0.5">Priority dispatch</span>
+                        <span className="block font-bold text-xs text-[#E8F1EE]">Emergency (Now)</span>
+                        <span className="block text-[10px] text-[#22E58B] mt-0.5">Priority dispatch</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setBookingType('SCHEDULED')}
-                        className={`p-3 rounded-2xl border text-center transition ${
+                        className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
                           bookingType === 'SCHEDULED'
-                            ? 'border-emerald-500 bg-emerald-50/70 text-emerald-950 font-extrabold shadow-sm'
-                            : 'border-slate-200 text-slate-600 hover:border-slate-300 bg-slate-50/50'
+                            ? 'border-[#22E58B] bg-[#22E58B]/10 text-[#E8F1EE] font-extrabold shadow-sm'
+                            : 'border-[#1E2F2A] text-[#8DA39B] hover:border-[#22E58B]/30 bg-[#16241F]'
                         }`}
                       >
-                        <span className="block font-bold text-xs">Scheduled</span>
-                        <span className="block text-[10px] text-slate-400 mt-0.5">Planned visit</span>
+                        <span className="block font-bold text-xs text-[#E8F1EE]">Scheduled</span>
+                        <span className="block text-[10px] text-[#8DA39B] mt-0.5">Planned visit</span>
                       </button>
                     </div>
                   </div>
 
                   {/* Rate Summary Card */}
-                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-2xl flex items-center justify-between">
+                  <div className="bg-[#16241F] border border-[#1E2F2A] p-4 rounded-2xl flex items-center justify-between">
                     <div>
-                      <span className="text-slate-500 block text-[11px]">Agreed Rate Snapshot:</span>
-                      <span className="text-[10px] text-slate-400">Fixed rate before connection</span>
+                      <span className="text-[#8DA39B] block text-[11px]">Agreed Rate Snapshot:</span>
+                      <span className="text-[10px] text-[#8DA39B]">Fixed rate before connection</span>
                     </div>
-                    <span className="font-extrabold text-base text-slate-900">
+                    <span className="font-extrabold text-base text-[#FFD60A] font-mono">
                       {charger.pricing_model === 'FIXED_SESSION'
                         ? `₹${charger.session_price} flat`
                         : `₹${charger.price_per_kwh} / kWh`}
@@ -396,29 +396,29 @@ export const ChargerDetailPage: React.FC = () => {
                   <button
                     type="submit"
                     disabled={bookingLoading || vehicles.length === 0}
-                    className="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 text-slate-950 font-extrabold rounded-2xl shadow-lg shadow-emerald-500/20 transition flex items-center justify-center space-x-2"
+                    className="w-full py-3.5 bg-[#22E58B] hover:bg-[#1BC878] active:scale-[0.98] disabled:bg-[#16241F] disabled:text-[#8DA39B] text-[#04130C] font-extrabold rounded-2xl shadow-lg shadow-[#22E58B]/20 transition flex items-center justify-center space-x-2 cursor-pointer"
                   >
                     <Zap className="w-4 h-4 fill-current" />
                     <span>{bookingLoading ? 'Sending Dispatch Alert...' : 'Send Access Request'}</span>
                   </button>
 
-                  <p className="text-[11px] text-slate-400 text-center leading-normal">
+                  <p className="text-[11px] text-[#8DA39B] text-center leading-normal">
                     The host receives an instant notification. Zero fee if cancelled before host acceptance.
                   </p>
                 </form>
               )}
 
               {/* External Maps Link */}
-              <div className="pt-3 border-t border-slate-100">
+              <div className="pt-3 border-t border-[#1E2F2A]">
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${charger.latitude},${charger.longitude}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center space-x-2 py-3 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-2xl transition text-xs"
+                  className="w-full flex items-center justify-center space-x-2 py-3 border border-[#1E2F2A] hover:bg-[#16241F] text-[#C5D5CF] hover:text-[#E8F1EE] font-bold rounded-2xl transition text-xs"
                 >
-                  <Navigation className="w-4 h-4 text-blue-500" />
+                  <Navigation className="w-4 h-4 text-[#38BDF8]" />
                   <span>Preview Route in Google Maps</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 ml-1" />
+                  <ExternalLink className="w-3.5 h-3.5 text-[#8DA39B] ml-1" />
                 </a>
               </div>
             </div>

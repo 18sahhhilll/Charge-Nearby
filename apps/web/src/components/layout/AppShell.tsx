@@ -111,28 +111,28 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   ];
 
   return (
-    <div className="min-h-screen flex bg-slate-950 text-slate-100 font-sans surface-dark">
+    <div className="min-h-screen flex bg-[#0A1210] text-[#E8F1EE] font-sans surface-dark ws-canvas">
       {/* ---------------------------------------------------- */}
       {/* DESKTOP SIDEBAR (Persistent, 260px)                 */}
       {/* ---------------------------------------------------- */}
-      <aside className="hidden lg:flex flex-col w-64 xl:w-72 border-r border-slate-800/80 bg-slate-950/95 sticky top-0 h-screen p-5 justify-between select-none">
+      <aside className="hidden lg:flex flex-col w-64 xl:w-72 border-r border-[#1E2F2A] bg-[#0A1210] sticky top-0 h-screen p-5 justify-between select-none">
         <div className="space-y-6">
           {/* Brand Logo */}
           <Link to="/" className="flex items-center space-x-2.5 px-2 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-slate-950 font-black flex items-center justify-center shadow-lg shadow-emerald-500/20 transition-transform group-hover:scale-105">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#22E58B] to-[#1BC878] text-[#04130C] font-black flex items-center justify-center shadow-lg shadow-[#22E58B]/20 transition-transform group-hover:scale-105">
               <Zap className="w-5 h-5 fill-current" />
             </div>
             <div>
-              <span className="font-extrabold text-lg tracking-tight text-white block">
-                Charge<span className="text-emerald-400">Nearby</span>
+              <span className="font-extrabold text-lg tracking-tight text-[#E8F1EE] block">
+                Charge<span className="text-[#22E58B]">Nearby</span>
               </span>
-              <span className="text-[10px] font-mono text-emerald-400/80 block">Pune Community Pilot</span>
+              <span className="text-[10px] font-mono text-[#22E58B]/80 block">Pune Community Pilot</span>
             </div>
           </Link>
 
           {/* Navigation Links */}
           <nav className="space-y-1">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[#8DA39B] px-3 py-1">
               Workspace
             </div>
 
@@ -144,18 +144,18 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                   to={item.to}
                   className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 ${
                     active
-                      ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-xs'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent'
+                      ? 'bg-[rgba(34,229,139,0.12)] text-[#22E58B] border-l-2 border-[#22E58B] pl-2.5 font-bold shadow-xs'
+                      : 'text-[#8DA39B] hover:text-[#E8F1EE] hover:bg-[#16241F] border border-transparent'
                   }`}
                 >
                   <div className="flex items-center space-x-2.5">
-                    <span className={active ? 'text-emerald-400' : 'text-slate-400'}>
+                    <span className={active ? 'text-[#22E58B]' : 'text-[#8DA39B]'}>
                       {item.icon}
                     </span>
                     <span>{item.label}</span>
                   </div>
                   {item.badge && (
-                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
+                    <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[rgba(34,229,139,0.12)] text-[#34D399] border border-[rgba(52,211,153,0.3)]">
                       {item.badge}
                     </span>
                   )}
@@ -181,19 +181,19 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
         </div>
 
         {/* Bottom Helper & User Card */}
-        <div className="space-y-4 pt-4 border-t border-slate-800/80">
+        <div className="space-y-4 pt-4 border-t border-[#1E2F2A]">
           {/* Emergency Helpline Card */}
-          <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 space-y-1.5">
-            <div className="flex items-center justify-between text-slate-400 text-[10px]">
+          <div className="p-3.5 rounded-2xl bg-[#111C19] border border-[#1E2F2A] space-y-1.5">
+            <div className="flex items-center justify-between text-[#8DA39B] text-[10px]">
               <span className="flex items-center space-x-1">
-                <Phone className="w-3 h-3 text-emerald-400" />
+                <Phone className="w-3 h-3 text-[#FF5A5F]" />
                 <span>24/7 Roadside Assistance</span>
               </span>
-              <span className="text-emerald-400 font-bold">Pune</span>
+              <span className="text-[#34D399] font-bold">Pune</span>
             </div>
             <a
               href="tel:18002097979"
-              className="font-mono font-bold text-xs text-white hover:text-emerald-400 transition block"
+              className="font-mono font-bold text-xs text-[#FF5A5F] hover:underline transition block"
             >
               1800-209-7979 (Toll-Free)
             </a>
@@ -201,16 +201,16 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
           {/* User Profile Bar */}
           {user && (
-            <div className="p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+            <div className="p-2.5 rounded-2xl bg-[#111C19] border border-[#1E2F2A] flex items-center justify-between">
               <Link to="/profile" className="flex items-center space-x-2.5 truncate group">
-                <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center border border-emerald-500/30 shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-[rgba(34,229,139,0.12)] text-[#22E58B] font-bold text-xs flex items-center justify-center border border-[rgba(34,229,139,0.3)] shrink-0">
                   {user.full_name.charAt(0)}
                 </div>
                 <div className="truncate text-left">
-                  <span className="text-xs font-bold text-white block truncate group-hover:text-emerald-300 transition">
+                  <span className="text-xs font-bold text-[#E8F1EE] block truncate group-hover:text-[#22E58B] transition">
                     {user.full_name}
                   </span>
-                  <span className="text-[10px] text-slate-400 capitalize">{user.role.toLowerCase()}</span>
+                  <span className="text-[10px] text-[#8DA39B] capitalize">{user.role.toLowerCase()}</span>
                 </div>
               </Link>
 
@@ -218,7 +218,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                 type="button"
                 onClick={handleLogout}
                 title="Sign out"
-                className="p-1.5 text-slate-400 hover:text-rose-400 transition cursor-pointer"
+                className="p-1.5 text-[#8DA39B] hover:text-[#FF5A5F] transition cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -230,25 +230,25 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
       {/* ---------------------------------------------------- */}
       {/* MAIN VIEWPORT & MOBILE HEADER                       */}
       {/* ---------------------------------------------------- */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 bg-[#0A1210]">
         {/* Top Header Bar */}
-        <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+        <header className="sticky top-0 z-40 bg-[#0A1210] border-b border-[#1E2F2A] h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center space-x-3">
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="lg:hidden p-2 text-slate-300 hover:text-white"
+              className="lg:hidden p-2 text-[#8DA39B] hover:text-[#E8F1EE]"
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />
             </button>
 
-            <div className="hidden sm:flex items-center space-x-2 text-xs text-slate-400">
-              <span className="text-white font-bold capitalize">
+            <div className="hidden sm:flex items-center space-x-2 text-xs text-[#8DA39B]">
+              <span className="text-[#E8F1EE] font-bold capitalize">
                 {user?.role ? `${user.role.toLowerCase()} Workspace` : 'ChargeNearby'}
               </span>
               <span>/</span>
-              <span className="text-emerald-400 font-medium">Pune Emergency Pilot</span>
+              <span className="text-[#22E58B] font-medium">Pune Emergency Pilot</span>
             </div>
           </div>
 
@@ -260,7 +260,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
             {isHost && (
               <Link
                 to="/host/chargers/new"
-                className="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-xl transition shadow-sm"
+                className="hidden sm:inline-flex items-center space-x-1.5 px-3.5 py-1.5 bg-[#22E58B] hover:bg-[#1BC878] active:scale-[0.98] text-[#04130C] text-xs font-bold rounded-xl transition shadow-sm"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Charger</span>
@@ -269,16 +269,16 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
             <Link
               to="/find"
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-slate-700 transition"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#16241F] hover:bg-[#111C19] text-[#E8F1EE] text-xs font-semibold rounded-xl border border-[#1E2F2A] transition"
             >
-              <Search className="w-3.5 h-3.5 text-emerald-400" />
+              <Search className="w-3.5 h-3.5 text-[#22E58B]" />
               <span>Find</span>
             </Link>
           </div>
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto surface-dark text-slate-100">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto surface-dark ws-canvas text-[#E8F1EE]">
           {children}
         </main>
       </div>
@@ -295,7 +295,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"
+              className="fixed inset-0 bg-[#0A1210]/80 backdrop-blur-sm"
             />
 
             {/* Drawer */}
@@ -304,20 +304,20 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-72 bg-slate-950 border-r border-slate-800 p-6 flex flex-col justify-between z-10"
+              className="relative w-72 bg-[#0A1210] border-r border-[#1E2F2A] p-6 flex flex-col justify-between z-10"
             >
               <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div className="flex items-center justify-between border-b border-[#1E2F2A] pb-4">
                   <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500 text-slate-950 font-bold flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-[#22E58B] text-[#04130C] font-bold flex items-center justify-center">
                       <Zap className="w-4 h-4 fill-current" />
                     </div>
-                    <span className="font-extrabold text-base text-white">ChargeNearby</span>
+                    <span className="font-extrabold text-base text-[#E8F1EE]">ChargeNearby</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setMobileOpen(false)}
-                    className="p-1.5 text-slate-400 hover:text-white"
+                    className="p-1.5 text-[#8DA39B] hover:text-[#E8F1EE]"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -329,26 +329,26 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
                       key={item.to}
                       to={item.to}
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-900 hover:text-white"
+                      className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-[#C5D5CF] hover:bg-[#16241F] hover:text-[#E8F1EE]"
                     >
                       <div className="flex items-center space-x-2.5">
-                        <span className="text-emerald-400">{item.icon}</span>
+                        <span className="text-[#22E58B]">{item.icon}</span>
                         <span>{item.label}</span>
                       </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#8DA39B]" />
                     </Link>
                   ))}
                 </nav>
               </div>
 
-              <div className="pt-4 border-t border-slate-800 space-y-3">
+              <div className="pt-4 border-t border-[#1E2F2A] space-y-3">
                 <button
                   type="button"
                   onClick={() => {
                     setMobileOpen(false);
                     handleLogout();
                   }}
-                  className="w-full py-2.5 px-3 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs font-bold transition flex items-center justify-center space-x-2"
+                  className="w-full py-2.5 px-3 rounded-xl bg-[rgba(255,90,95,0.12)] text-[#FF5A5F] hover:bg-[rgba(255,90,95,0.2)] text-xs font-bold transition flex items-center justify-center space-x-2"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Sign out</span>
