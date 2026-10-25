@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ShieldCheck, Lock, MapPin, Database, Eye, Server, Phone, ChevronLeft, AlertTriangle } from 'lucide-react';
 import { PageTransition } from '../components/motion';
 import { Badge } from '../components/ui/Badge';
-import { Card } from '../components/ui/Card';
 
 export const PrivacyPage: React.FC = () => {
   useEffect(() => {
