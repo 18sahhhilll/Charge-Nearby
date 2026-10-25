@@ -111,7 +111,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   ];
 
   return (
-    <div className="min-h-screen flex bg-slate-950 text-slate-100 font-sans">
+    <div className="min-h-screen flex bg-slate-950 text-slate-100 font-sans surface-dark">
       {/* ---------------------------------------------------- */}
       {/* DESKTOP SIDEBAR (Persistent, 260px)                 */}
       {/* ---------------------------------------------------- */}
@@ -278,7 +278,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto surface-dark text-slate-100">
           {children}
         </main>
       </div>

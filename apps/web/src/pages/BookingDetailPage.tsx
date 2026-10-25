@@ -132,7 +132,7 @@ export const BookingDetailPage: React.FC = () => {
         <div className="flex items-center justify-between">
           <Link
             to={isDriver ? '/driver/bookings' : '/host/bookings'}
-            className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition"
+            className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-400 hover:text-white transition"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Back to {isDriver ? 'Driver Sessions' : 'Host Requests'}</span>

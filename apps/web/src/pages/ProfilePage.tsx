@@ -53,13 +53,13 @@ export const ProfilePage: React.FC = () => {
             <Badge variant="emerald">ACCOUNT CONSOLE</Badge>
             <span className="text-xs text-slate-400 font-semibold">User Credentials & Security</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-2.5">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
             <span className="p-2 bg-emerald-500 text-slate-950 rounded-xl">
               <User className="w-5 h-5" />
             </span>
             <span>Profile & Account Settings</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-slate-400">
             Manage your personal credentials, user roles, security preferences, and registered EV garage.
           </p>
         </div>

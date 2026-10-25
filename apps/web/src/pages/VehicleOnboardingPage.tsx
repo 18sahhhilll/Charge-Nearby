@@ -135,13 +135,13 @@ export const VehicleOnboardingPage: React.FC = () => {
             <Badge variant="emerald">EV GARAGE</Badge>
             <span className="text-xs text-slate-400 font-semibold">Triage & Reachability Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-2.5">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
             <span className="p-2 bg-emerald-500 text-slate-950 rounded-xl">
               <Car className="w-5 h-5" />
             </span>
             <span>Vehicle Profiles & Compatibility</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-slate-400">
             Configure your electric vehicles so ChargeNearby can calculate reachability detour physics and match compatible plugs.
           </p>
         </div>
@@ -309,7 +309,7 @@ export const VehicleOnboardingPage: React.FC = () => {
           {/* Saved Vehicles List (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-base font-extrabold text-slate-900">Your Vehicles ({vehicles.length})</h2>
+              <h2 className="text-base font-extrabold text-white">Your Vehicles ({vehicles.length})</h2>
               <span className="text-xs text-slate-400 font-medium">Auto-synced</span>
             </div>
 

@@ -97,13 +97,13 @@ export const HostBookingsPage: React.FC = () => {
               </Badge>
               <span className="text-xs text-slate-400 font-semibold">Live Host Dispatch</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-2.5">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
               <span className="p-2 bg-emerald-500 text-slate-950 rounded-xl">
                 <Clock className="w-5 h-5" />
               </span>
               <span>Incoming Driver Booking Requests</span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-400">
               Review and authorize EV charging requests from stranded drivers in Pune.
             </p>
           </div>
@@ -111,7 +111,7 @@ export const HostBookingsPage: React.FC = () => {
           <div className="flex items-center space-x-2">
             <Link
               to="/host/dashboard"
-              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 active:scale-[0.98] text-slate-700 text-xs font-bold rounded-xl transition"
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 active:scale-[0.98] text-slate-200 border border-slate-700 text-xs font-bold rounded-xl transition shadow-sm"
             >
               Back to Dashboard
             </Link>
@@ -119,14 +119,14 @@ export const HostBookingsPage: React.FC = () => {
         </div>
 
         {/* Filter Navigation Tabs */}
-        <div className="flex items-center space-x-1 border-b border-slate-200 pb-2 text-xs font-semibold overflow-x-auto">
+        <div className="flex items-center space-x-1 border-b border-slate-800 pb-2 text-xs font-semibold overflow-x-auto">
           <button
             type="button"
             onClick={() => setFilter('ALL')}
             className={`px-3.5 py-1.5 rounded-lg transition ${
               filter === 'ALL'
-                ? 'bg-slate-900 text-white font-bold'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-slate-800 text-white font-bold border border-slate-700'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
             }`}
           >
             All Requests ({bookings.length})
@@ -137,7 +137,7 @@ export const HostBookingsPage: React.FC = () => {
             className={`px-3.5 py-1.5 rounded-lg transition ${
               filter === 'REQUESTED'
                 ? 'bg-amber-500 text-slate-950 font-bold'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
             }`}
           >
             Needs Action ({pendingCount})
@@ -148,7 +148,7 @@ export const HostBookingsPage: React.FC = () => {
             className={`px-3.5 py-1.5 rounded-lg transition ${
               filter === 'ACTIVE'
                 ? 'bg-emerald-500 text-slate-950 font-bold'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
             }`}
           >
             Active Sessions
@@ -158,8 +158,8 @@ export const HostBookingsPage: React.FC = () => {
             onClick={() => setFilter('RESOLVED')}
             className={`px-3.5 py-1.5 rounded-lg transition ${
               filter === 'RESOLVED'
-                ? 'bg-slate-900 text-white font-bold'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-slate-800 text-white font-bold border border-slate-700'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
             }`}
           >
             Resolved

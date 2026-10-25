@@ -75,13 +75,13 @@ export const HostDashboardPage: React.FC = () => {
               <Badge variant="emerald" pulse>HOST CONSOLE</Badge>
               <span className="text-xs text-slate-400 font-semibold">Pune Community Network</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-2.5">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
               <span className="p-2 bg-emerald-500 text-slate-950 rounded-xl">
                 <Zap className="w-5 h-5 fill-current" />
               </span>
               <span>Host Management Console</span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-400">
               Control live station availability, update session rates, and oversee verified private charging equipment.
             </p>
           </div>
@@ -178,7 +178,7 @@ export const HostDashboardPage: React.FC = () => {
         ) : (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-base font-extrabold text-slate-900">Your Equipment Listings ({chargers.length})</h2>
+              <h2 className="text-base font-extrabold text-white">Your Equipment Listings ({chargers.length})</h2>
               <span className="text-xs text-slate-400">Click toggle to change live discovery status</span>
             </div>
 

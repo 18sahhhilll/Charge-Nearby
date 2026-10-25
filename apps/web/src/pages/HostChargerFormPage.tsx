@@ -270,7 +270,7 @@ export const HostChargerFormPage: React.FC = () => {
         {/* Navigation Breadcrumb */}
         <Link
           to="/host/dashboard"
-          className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition"
+          className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-400 hover:text-white transition"
         >
           <ChevronLeft className="w-4 h-4" />
           <span>Back to Host Console</span>
